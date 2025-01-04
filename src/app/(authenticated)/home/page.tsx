@@ -1,55 +1,30 @@
 'use client'
 
-import { useState } from "react";
-import { Button, TextField, Box, Typography, Container } from "@mui/material";
+import React from "react";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 
-export default function Component() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
+const DashboardPage = () => {
 
     return (
-        <Container maxWidth="xs">
-            <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-            >
-                <Typography variant="h4" gutterBottom>
-                    Login
-                </Typography>
-                <form onSubmit={() => { console.log("click") }} style={{ width: "100%" }}>
-                    <TextField
-                        label="Email"
-                        type="email"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        sx={{ mt: 2 }}
-                    >
-                        Login
-                    </Button>
-                </form>
-            </Box>
-        </Container>
+        <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h5">Total Users</Typography>
+                        <Typography variant="h4">1,200</Typography>
+                    </CardContent>
+                </Card>
+            </Grid>
+            <Grid item xs={12}>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h5">Sales Trend</Typography>
+                    </CardContent>
+                </Card>
+            </Grid>
+        </Grid>
     );
-}
+};
+
+export default DashboardPage;

@@ -13,7 +13,9 @@ export default function RootLayout({
       <body>
       <SessionProvider>
           <CssBaseline/>
-          {children}
+          <DashboardLayout>
+              {children}
+          </DashboardLayout>
       </SessionProvider>
       </body>
     </html>
