@@ -9,17 +9,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             issuer: process.env.NEXT_AUTH_AUTH0_ISSUER
         })
     ],
-    // callbacks: {
-    //
-    //     async session({ session, trigger, newSession }) {
-    //         // Note, that `rest.session` can be any arbitrary object, remember to validate it!
-    //         if (trigger === "update" && newSession?.name) {
-    //
-    //         }
-    //         return session
-    //     }
-    // },
-    // session: {
-    //
-    // }
+    callbacks: {
+        async session({ session, trigger, newSession }) {
+            // Note, that `rest.session` can be any arbitrary object, remember to validate it!
+            console.log(session, trigger, newSession)
+            if (trigger === "update" && newSession?.name) {
+
+            }
+            return session
+        }
+    },
+    session: {
+        strategy: "jwt",
+        maxAge: 3600
+    }
 })

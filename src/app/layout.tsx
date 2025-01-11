@@ -1,7 +1,6 @@
 import { SessionProvider } from "next-auth/react";
 import {CssBaseline} from "@mui/material";
-import DashboardLayout from "@/components/DashboardLayout";
-
+import AuthHandler from "@/app/AuthHandler";
 
 export default function RootLayout({
   children,
@@ -13,7 +12,9 @@ export default function RootLayout({
       <body>
       <SessionProvider>
           <CssBaseline/>
-          {children}
+          <AuthHandler>
+              {children}
+          </AuthHandler>
       </SessionProvider>
       </body>
     </html>
