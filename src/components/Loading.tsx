@@ -1,6 +1,6 @@
 import {Backdrop, Box,　CircularProgress　} from "@mui/material";
 import {useEffect} from "react";
-import { sleep } from "@/libs/sleep";
+import { sleep } from "@/functions/sleep";
 
 export const Loading = () => {
 

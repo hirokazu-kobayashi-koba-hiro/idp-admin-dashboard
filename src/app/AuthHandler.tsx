@@ -4,7 +4,7 @@ import { signIn, useSession } from "next-auth/react"
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {Loading} from "@/components/Loading";
-import {sleep} from "@/libs/sleep";
+import {sleep} from "@/functions/sleep";
 
 export default function AuthHandler({
     children,
