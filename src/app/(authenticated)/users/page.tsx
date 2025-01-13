@@ -3,21 +3,22 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
 import { useQuery } from '@tanstack/react-query';
-import {User} from "@/app/api/admin/users/route";
+import { User } from "@/app/api/admin/users/route";
+import {Loading} from "@/components/Loading";
 
-const fetchData = async () => {
-  const response = await fetch('/api/admin/users');
-  if (!response.ok) throw new Error('Network response was not ok');
-  return response.json();
-};
 
 const UsersPage = () => {
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["users"],
-    queryFn: fetchData,
+    queryFn: async () => {
+      const response = await fetch('/api/admin/users');
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    },
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
   const users: User[] = data
 

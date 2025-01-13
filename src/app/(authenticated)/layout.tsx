@@ -2,7 +2,6 @@
 
 import DashboardLayout from "@/components/DashboardLayout";
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
