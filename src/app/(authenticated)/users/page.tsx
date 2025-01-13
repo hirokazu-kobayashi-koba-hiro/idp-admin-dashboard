@@ -1,12 +1,26 @@
+'use client'
+
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
+import { useQuery } from '@tanstack/react-query';
+import { User } from "@/app/api/admin/users/route";
+import {Loading} from "@/components/Loading";
+
 
 const UsersPage = () => {
-  const users = [
-    { id: 1, name: "Alice", email: "alice@example.com" },
-    { id: 2, name: "Bob", email: "bob@example.com" },
-    { id: 3, name: "Charlie", email: "charlie@example.com" },
-  ];
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const response = await fetch('/api/admin/users');
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    },
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
+  const users: User[] = data
 
   return (
     <TableContainer component={Paper} sx={{ maxWidth: 600, margin: "auto", mt: 4 }}>
