@@ -1,3 +1,5 @@
+'use client'
+
 import { SessionProvider } from "next-auth/react";
 import {CssBaseline} from "@mui/material";
 import DashboardLayout from "@/components/DashboardLayout";
