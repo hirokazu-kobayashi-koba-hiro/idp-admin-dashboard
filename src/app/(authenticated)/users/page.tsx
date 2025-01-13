@@ -19,10 +19,7 @@ const UsersPage = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (typeof data !== "string") return <div>error</div>
-
-  const users: User[] = JSON.parse(data)
-
+  const users: User[] = data
 
   return (
     <TableContainer component={Paper} sx={{ maxWidth: 600, margin: "auto", mt: 4 }}>
