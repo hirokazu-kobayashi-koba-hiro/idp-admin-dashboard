@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Box, Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
@@ -31,10 +30,10 @@ const Sidebar = () => {
         <List>
           {menuItems.map((item, index) => (
             <ListItem
-              button
               key={index}
-              component={Link}
-              href={item.path}
+              onClick={() => {
+                  router.push(item.path)
+              }}
               sx={{
                 backgroundColor: "inherit",
                 color: "inherit",
