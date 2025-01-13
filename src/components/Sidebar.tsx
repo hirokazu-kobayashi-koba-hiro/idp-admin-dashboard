@@ -36,12 +36,12 @@ const Sidebar = () => {
               component={Link}
               href={item.path}
               sx={{
-                backgroundColor: router.pathname === item.path ? "primary.main" : "inherit",
-                color: router.pathname === item.path ? "white" : "inherit",
+                backgroundColor: "inherit",
+                color: "inherit",
               }}
             >
               <ListItemIcon
-                sx={{ color: router.pathname === item.path ? "white" : "inherit" }}
+                sx={{ color: "inherit" }}
               >
                 {item.icon}
               </ListItemIcon>

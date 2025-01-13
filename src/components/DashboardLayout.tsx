@@ -4,7 +4,7 @@ import React from "react";
 import { Box, CssBaseline, AppBar, Toolbar, Typography } from "@mui/material";
 import Sidebar from "./Sidebar";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode}) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
