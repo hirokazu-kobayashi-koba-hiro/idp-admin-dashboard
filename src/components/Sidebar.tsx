@@ -3,22 +3,27 @@
 import React from "react";
 import { Box, Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { useRouter } from "next/navigation";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from "@mui/icons-material/Settings";
 
-const Sidebar = () => {
+export type MenuItem = {
+    text: string;
+    icon: React.ReactNode;
+    path: string;
+};
+
+export type SidebarProps = {
+    menuItems: MenuItem[];
+    open: boolean;
+    onClose?: () => void;
+};
+
+export const Sidebar = ({ menuItems, open, onClose }: SidebarProps) => {
   const router = useRouter();
-
-  const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/home" },
-    { text: "Users", icon: <PeopleIcon />, path: "/users" },
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
-  ];
 
   return (
     <Drawer
       variant="permanent"
+      open={open}
+      onClose={onClose}
       sx={{
         width: 240,
         flexShrink: 0,
@@ -52,5 +57,3 @@ const Sidebar = () => {
     </Drawer>
   );
 };
-
-export default Sidebar;
