@@ -14,11 +14,10 @@ export type SidebarProps = {
     menuItems: MenuItem[];
     open: boolean;
     onClose: () => void;
+    width: number;
 };
 
-const DRAWER_WIDTH = 240;
-
-export const Sidebar = ({menuItems, open, onClose}: SidebarProps) => {
+export const Sidebar = ({ menuItems, open, onClose, width = 240 }: SidebarProps) => {
     const router = useRouter();
 
     return (
@@ -26,9 +25,9 @@ export const Sidebar = ({menuItems, open, onClose}: SidebarProps) => {
             variant={ open ? "permanent": "temporary"}
             onClose={onClose}
             sx={{
-                width: DRAWER_WIDTH,
+                width: width,
                 flexShrink: 0,
-                [`& .MuiDrawer-paper`]: {width: DRAWER_WIDTH, boxSizing: "border-box"},
+                [`& .MuiDrawer-paper`]: {width: width, boxSizing: "border-box"},
             }}
             ModalProps={{
                 keepMounted: true,
