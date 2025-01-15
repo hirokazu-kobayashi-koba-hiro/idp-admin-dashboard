@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers } = NextAuth({
   providers: [
     Auth0Provider({
       clientId: process.env.NEXT_AUTH_AUTH0_CLIENT_ID,
@@ -13,8 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, trigger, newSession }) {
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, trigger, newSession);
-      if (trigger === "update" && newSession?.name) {
-      }
+      if (trigger === "update" && newSession?.name) { /* empty */ }
       return session;
     },
   },

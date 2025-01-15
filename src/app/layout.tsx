@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { CssBaseline } from "@mui/material";
 import AuthHandler from "@/app/AuthHandler";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 
 const queryClient = new QueryClient();
 
