@@ -10,7 +10,7 @@ import {Loading} from "@/components/Loading";
 const UsersPage = () => {
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["admin-users"],
     queryFn: async () => {
       const response = await fetch('/api/admin/users');
       if (!response.ok) throw new Error('Network response was not ok');
