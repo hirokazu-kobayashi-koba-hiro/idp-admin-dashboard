@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
@@ -20,7 +20,12 @@ const SettingsPage = () => {
       <Typography variant="h5">Settings</Typography>
       <TextField label="Username" variant="outlined" fullWidth />
       <TextField label="Email" variant="outlined" fullWidth />
-      <TextField label="Password" type="password" variant="outlined" fullWidth />
+      <TextField
+        label="Password"
+        type="password"
+        variant="outlined"
+        fullWidth
+      />
       <Button variant="contained" color="primary" type="submit">
         Save Changes
       </Button>
