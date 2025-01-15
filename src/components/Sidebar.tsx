@@ -22,7 +22,8 @@ export const Sidebar = ({ menuItems, open, onClose, width = 240 }: SidebarProps)
 
     return (
         <Drawer
-            variant={ open ? "permanent": "temporary"}
+            variant="persistent"
+            open={open}
             onClose={onClose}
             sx={{
                 width: width,
