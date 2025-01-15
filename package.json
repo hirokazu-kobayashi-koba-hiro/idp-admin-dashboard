@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
@@ -23,8 +25,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^8",
-    "eslint-config-next": "15.0.4",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.0.4",
+    "prettier": "^3.4.2",
     "typescript": "^5"
   }
 }

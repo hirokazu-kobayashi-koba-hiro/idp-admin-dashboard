@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
 import { Loading } from "@/components/Loading";
 
 const Login = () => {
-    return (
-        <>
-            <Loading />
-        </>
-    )
-}
+  return (
+    <>
+      <Loading />
+    </>
+  );
+};
 
 export default Login;
