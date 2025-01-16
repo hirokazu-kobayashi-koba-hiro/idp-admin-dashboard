@@ -22,7 +22,7 @@ export type SidebarProps = {
   menuItems: MenuItem[];
   open: boolean;
   onClose: () => void;
-  width: number;
+  width?: number;
 };
 
 export const Sidebar = ({

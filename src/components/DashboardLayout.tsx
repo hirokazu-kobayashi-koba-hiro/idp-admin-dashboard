@@ -9,20 +9,11 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { Sidebar } from "./Sidebar";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from "@mui/icons-material/Settings";
+import { MenuItem, Sidebar} from "./Sidebar";
 import { Menu } from "@mui/icons-material";
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = ({ menuItems, children }: { menuItems: MenuItem[]; children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(true);
-
-  const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/home" },
-    { text: "Users", icon: <PeopleIcon />, path: "/users" },
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
-  ];
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -52,6 +43,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         onClose={() => {
           // setIsOpen(false)
         }}
+        width={240}
       />
       <Box
         component="main"
