@@ -11,7 +11,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const menuItems = [
     { text: "Dashboard", icon: <DashboardIcon />, path: "/home" },
     { text: "Users", icon: <PeopleIcon />, path: "/users" },

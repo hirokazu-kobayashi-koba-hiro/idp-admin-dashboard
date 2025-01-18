@@ -9,10 +9,16 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { MenuItem, Sidebar} from "./Sidebar";
+import { MenuItem, Sidebar } from "./Sidebar";
 import { Menu } from "@mui/icons-material";
 
-const DashboardLayout = ({ menuItems, children }: { menuItems: MenuItem[]; children: React.ReactNode }) => {
+const DashboardLayout = ({
+  menuItems,
+  children,
+}: {
+  menuItems: MenuItem[];
+  children: React.ReactNode;
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (

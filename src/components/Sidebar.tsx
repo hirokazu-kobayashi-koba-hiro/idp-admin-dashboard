@@ -35,7 +35,7 @@ export const Sidebar = ({
 
   return (
     <Drawer
-      variant={open ? "permanent": "temporary"}
+      variant={open ? "permanent" : "temporary"}
       onClose={onClose}
       sx={{
         width: width,
