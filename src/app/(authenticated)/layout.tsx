@@ -20,6 +20,15 @@ export default function RootLayout({
     { text: "Users", icon: <PeopleIcon />, path: "/users" },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
   ];
+  const resetSystemAlertState = () => {
+    setSystemAlert({
+      open: false,
+      title: "",
+      body: null,
+      onClickPositiveButton: () => {},
+      onClickNegativeButton: () => {},
+    });
+  };
 
   return (
     <>
@@ -31,23 +40,11 @@ export default function RootLayout({
           body={systemAlert.body}
           onClickPositiveButton={() => {
             systemAlert.onClickPositiveButton();
-            setSystemAlert({
-              open: false,
-              title: "",
-              body: null,
-              onClickPositiveButton: () => {},
-              onClickNegativeButton: () => {},
-            });
+            resetSystemAlertState();
           }}
           onClickNegativeButton={() => {
             systemAlert.onClickNegativeButton();
-            setSystemAlert({
-              open: false,
-              title: "",
-              body: null,
-              onClickPositiveButton: () => {},
-              onClickNegativeButton: () => {},
-            });
+            resetSystemAlertState();
           }}
         />
       )}
