@@ -10,10 +10,13 @@ import {
   TableRow,
   Paper,
   Typography,
+  IconButton,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "@/app/api/admin/users/route";
 import { Loading } from "@/components/Loading";
+import { Delete } from "@mui/icons-material";
+import { sleep } from "@/functions/sleep";
 
 const UsersPage = () => {
   const { data, isLoading, error } = useQuery({
@@ -25,8 +28,23 @@ const UsersPage = () => {
     },
   });
 
-  if (isLoading) return <Loading />;
+  const {
+    mutate,
+    isPending,
+    error: deletionError,
+  } = useMutation({
+    mutationFn: async (userId: string) => {
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: "DELETE",
+      });
+      console.log(response);
+      if (!response.ok) throw new Error("Network response was not ok");
+    },
+  });
+
+  if (isLoading || isPending) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
+  if (deletionError) return <div>Error: {deletionError.message}</div>;
   const users: User[] = data;
 
   return (
@@ -43,6 +61,7 @@ const UsersPage = () => {
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,6 +70,15 @@ const UsersPage = () => {
               <TableCell>{user.id}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
+              <TableCell>
+                <IconButton
+                  onClick={() => {
+                    mutate(user.id);
+                  }}
+                >
+                  <Delete />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
