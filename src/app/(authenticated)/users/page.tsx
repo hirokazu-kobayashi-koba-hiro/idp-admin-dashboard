@@ -16,10 +16,12 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "@/app/api/admin/users/route";
 import { Loading } from "@/components/Loading";
-import { Delete } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { ConfirmationDialog } from "@/components/ConfirmationDialog";
+import { useRouter } from "next/navigation";
 
 const UsersPage = () => {
+  const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
 
@@ -75,14 +77,23 @@ const UsersPage = () => {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  <IconButton
-                    onClick={() => {
-                      setSelectedUser(user.id);
-                      setShowDialog(true);
-                    }}
-                  >
-                    <Delete />
-                  </IconButton>
+                  <Box display="flex" justifyContent={"space-between"}>
+                    <IconButton
+                      onClick={() => {
+                        router.push(`/users/${user.id}`);
+                      }}
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        setSelectedUser(user.id);
+                        setShowDialog(true);
+                      }}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}
