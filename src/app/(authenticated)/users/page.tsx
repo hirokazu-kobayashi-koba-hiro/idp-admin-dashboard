@@ -19,9 +19,12 @@ import { Loading } from "@/components/Loading";
 import { Delete, Edit } from "@mui/icons-material";
 import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 import { useRouter } from "next/navigation";
+import { systemAlertAtom } from "@/state/SystemState";
+import { useAtom } from "jotai";
 
 const UsersPage = () => {
   const router = useRouter();
+  const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
 
@@ -29,7 +32,20 @@ const UsersPage = () => {
     queryKey: ["admin-users"],
     queryFn: async () => {
       const response = await fetch("/api/admin/users");
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) {
+        setSystemAlert({
+          open: true,
+          title: "error",
+          body: null,
+          onClickPositiveButton: () => {
+            console.log("onClickPositiveButton");
+          },
+          onClickNegativeButton: () => {
+            console.log("onClickNegativeButton");
+          },
+        });
+        throw new Error("Network response was not ok");
+      }
       return response.json();
     },
   });
