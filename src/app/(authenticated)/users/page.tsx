@@ -78,10 +78,10 @@ const UsersPage = () => {
       sortable: false,
       width: 90,
       disableClickEventBubbling: true,
-      renderCell: (params: any) => (
+      renderCell: (user: User) => (
         <IconButton
           onClick={() => {
-            router.push(`/users/${params.id}`);
+            router.push(`/users/${user.id}`);
           }}
         >
           <Edit />
@@ -94,10 +94,10 @@ const UsersPage = () => {
       sortable: false,
       width: 90,
       disableClickEventBubbling: true,
-      renderCell: (params: any) => (
+      renderCell: (user: User) => (
         <IconButton
           onClick={() => {
-            setSelectedUser(params.id);
+            setSelectedUser(user.id);
             setShowDialog(true);
           }}
         >
