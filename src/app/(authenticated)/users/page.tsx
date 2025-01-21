@@ -21,6 +21,7 @@ import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 import { useRouter } from "next/navigation";
 import { systemAlertAtom } from "@/state/SystemState";
 import { useAtom } from "jotai";
+import { DataGrid } from "@mui/x-data-grid";
 
 const UsersPage = () => {
   const router = useRouter();
@@ -67,55 +68,55 @@ const UsersPage = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (deletionError) return <div>Error: {deletionError.message}</div>;
   const users: User[] = data;
+  const columns = [
+    { field: "id", headerName: "ID", width: 200 },
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "email", headerName: "Email", width: 200 },
+    {
+      field: "edit",
+      headerName: "edit",
+      sortable: false,
+      width: 90,
+      disableClickEventBubbling: true,
+      renderCell: (user: User) => (
+        <IconButton
+          onClick={() => {
+            router.push(`/users/${user.id}`);
+          }}
+        >
+          <Edit />
+        </IconButton>
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "delete",
+      sortable: false,
+      width: 90,
+      disableClickEventBubbling: true,
+      renderCell: (user: User) => (
+        <IconButton
+          onClick={() => {
+            setSelectedUser(user.id);
+            setShowDialog(true);
+          }}
+        >
+          <Delete />
+        </IconButton>
+      ),
+    },
+  ];
 
   return (
     <>
-      <TableContainer
-        component={Paper}
-        sx={{ maxWidth: 600, margin: "auto", mt: 4 }}
-      >
-        <Typography variant="h6" sx={{ p: 2 }}>
-          User List
-        </Typography>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.id}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <Box display="flex" justifyContent={"space-between"}>
-                    <IconButton
-                      onClick={() => {
-                        router.push(`/users/${user.id}`);
-                      }}
-                    >
-                      <Edit />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {
-                        setSelectedUser(user.id);
-                        setShowDialog(true);
-                      }}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Typography variant="h6" sx={{ m: 2 }}>
+        User List
+      </Typography>
+      <DataGrid
+        sx={{ maxWidth: 800, margin: "auto", mt: 4 }}
+        columns={columns}
+        rows={users}
+      />
       {showDialog && (
         <ConfirmationDialog
           open={showDialog}
