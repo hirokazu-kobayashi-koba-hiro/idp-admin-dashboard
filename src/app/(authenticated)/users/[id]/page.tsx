@@ -6,8 +6,8 @@ import { systemAlertAtom } from "@/state/SystemState";
 import { User } from "@/app/api/admin/users/route";
 import { Box, TextField, Typography } from "@mui/material";
 import { Loading } from "@/components/Loading";
-import {TabPanels} from "@/components/TabPanels";
-import {UserDetails} from "@/components/users/UserDetails";
+import { TabPanels } from "@/components/TabPanels";
+import { UserDetails } from "@/components/users/UserDetails";
 
 const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [, setSystemAlert] = useAtom(systemAlertAtom);
@@ -46,22 +46,25 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const elements = [
     {
       label: "details",
-      node: <UserDetails user={user} />
+      node: <UserDetails user={user} />,
     },
     {
       label: "devices",
-      node: <Box sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        maxWidth: 400,
-        margin: "0 auto",
-      }}>
-        <TextField label={"id"} value={user.id} />
-      </Box>
-    }
-  ]
-
+      node: (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            maxWidth: 400,
+            margin: "0 auto",
+          }}
+        >
+          <TextField variant="standard" value={user.id} />
+        </Box>
+      ),
+    },
+  ];
 
   return (
     <>
