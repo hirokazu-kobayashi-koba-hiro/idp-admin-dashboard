@@ -8,17 +8,17 @@ import { Subscription } from "@/components/settings/Subscription";
 const SettingsPage = () => {
   const productItems = [
     {
-      priceId: "price_1QkCpqGMWT3oqlRF0bhFRN9I",
+      priceId: "price_1QkDavGLT3LvnebjiYKsYlOb",
       name: "Basic",
       description: "$100.00 / month",
     },
     {
-      priceId: "price_1QkCr1GMWT3oqlRFluoKtlNP",
+      priceId: "price_1QkDboGLT3Lvnebj64tVBrOF",
       name: "Pro",
       description: "$200.00 / month",
     },
     {
-      priceId: "price_1QkDR1GMWT3oqlRFVwnSONJd",
+      priceId: "price_1QkDboGLT3LvnebjMN8oIyk3",
       name: "Enterprise",
       description: "$400.00 / month",
     },
@@ -60,8 +60,12 @@ const SettingsPage = () => {
       node: (
         <Subscription
           items={productItems}
-          successUrl={"http://localhost:3000/settings"}
-          cancelUrl={"http://localhost:3000/settings"}
+          successUrl={
+            "http://localhost:3000/settings/subscription?success=true&session_id={CHECKOUT_SESSION_ID}"
+          }
+          cancelUrl={
+            "http://localhost:3000/settings/subscription?canceled=true"
+          }
         />
       ),
     },
