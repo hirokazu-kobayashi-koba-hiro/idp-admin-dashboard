@@ -2,7 +2,7 @@
 
 import { signIn, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import {useRouter, useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Loading } from "@/components/Loading";
 import { sleep } from "@/functions/sleep";
 

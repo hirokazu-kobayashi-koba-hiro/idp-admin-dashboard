@@ -50,7 +50,13 @@ export const createCheckoutSession = async ({
   }
 };
 
-export const registerCheckout = async ({ sessionId, returnUrl }: { sessionId: string; returnUrl: string}) => {
+export const registerCheckout = async ({
+  sessionId,
+  returnUrl,
+}: {
+  sessionId: string;
+  returnUrl: string;
+}) => {
   try {
     const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -60,11 +66,11 @@ export const registerCheckout = async ({ sessionId, returnUrl }: { sessionId: st
     });
 
     return {
-      url: portalSession.url
+      url: portalSession.url,
     };
   } catch (e) {
     return {
-      error: e
-    }
+      error: e,
+    };
   }
-}
+};

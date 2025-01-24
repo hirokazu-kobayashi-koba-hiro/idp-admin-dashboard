@@ -1,41 +1,103 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Container,
+  Stack,
+  Card,
+  CardContent,
+} from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useRouter } from "next/navigation";
 
 const SubscriptionCompletePage = () => {
-  const [sessionId, setSessionId] = useState("");
+  const router = useRouter();
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
 
     if (query.get("success")) {
-      setSessionId(query.get("session_id") || "session_id");
+      setSessionId(query.get("session_id"));
     }
-  }, [sessionId]);
+  }, []);
 
-  const handleClick = async () => {
-    const { url } = await fetch(`/api/payments/subscription/session/${sessionId}`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            returnUrl: "http://localhost:3000/settings",
-          })
-        });
-
-    console.log(url);
-    // router.push(url);
-  }
+  const handleClick = () => {
+    router.push("/settings");
+  };
 
   return (
-    <>
-      <Box>
-          <Typography variant={"h3"}>Success Subscription</Typography>
-          <Typography>{sessionId}</Typography>
-        <Button onClick={handleClick}>submit</Button>
-      </Box>
-    </>
+    <Container
+      maxWidth="sm"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card
+        elevation={3}
+        sx={{
+          padding: 4,
+          borderRadius: 2,
+          width: "100%",
+        }}
+      >
+        <CardContent>
+          <Stack spacing={4} alignItems="center" textAlign="center">
+            {/* Success Icon */}
+            <CheckCircleIcon color="success" sx={{ fontSize: 80 }} />
+
+            {/* Success Message */}
+            <Typography variant="h5" fontWeight="bold" color="textPrimary">
+              Subscription Successful!
+            </Typography>
+            <Typography variant="body1" color="textSecondary">
+              Thank you for subscribing! Your subscription is now active.
+            </Typography>
+
+            {/* Session Details */}
+            {sessionId ? (
+                <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    sx={{
+                      padding: 2,
+                      backgroundColor: "#f5f5f5",
+                      borderRadius: 1,
+                      width: "100%",
+                      textAlign: "center",
+                      wordWrap: "break-word", // Ensures long words break to the next line
+                      overflowWrap: "break-word", // Alternative for better browser support
+                      whiteSpace: "normal", // Allows wrapping to the next line
+                    }}
+                >
+                  Session ID: {sessionId}
+                </Typography>
+
+            ) : (
+              <Typography variant="body2" color="textSecondary">
+                No session information available.
+              </Typography>
+            )}
+
+            {/* Back Button */}
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={handleClick}
+              sx={{ borderRadius: 2, paddingX: 3 }}
+            >
+              Go to Settings
+            </Button>
+          </Stack>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 

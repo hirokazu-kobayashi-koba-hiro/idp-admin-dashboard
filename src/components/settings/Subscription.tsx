@@ -94,14 +94,17 @@ export const Subscription = ({
               name={item.name}
               description={item.description}
               onClick={async (priceId) => {
-                const response = await fetch("/api/payments/subscription/session", {
-                  method: "POST",
-                  body: JSON.stringify({
-                    priceId,
-                    successUrl,
-                    cancelUrl,
-                  }),
-                });
+                const response = await fetch(
+                  "/api/payments/subscription/session",
+                  {
+                    method: "POST",
+                    body: JSON.stringify({
+                      priceId,
+                      successUrl,
+                      cancelUrl,
+                    }),
+                  },
+                );
                 const body = await response.json();
                 console.log(body);
                 router.push(body.url);
