@@ -1,18 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { Typography, IconButton, Box } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "@/app/api/admin/users/route";
 import { Loading } from "@/components/Loading";
@@ -25,7 +14,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const UsersPage = () => {
   const router = useRouter();
-  const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
+  const [, setSystemAlert] = useAtom(systemAlertAtom);
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
 
