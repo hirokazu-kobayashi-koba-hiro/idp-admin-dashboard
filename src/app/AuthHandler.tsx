@@ -2,7 +2,7 @@
 
 import { signIn, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import { Loading } from "@/components/Loading";
 import { sleep } from "@/functions/sleep";
 
@@ -11,13 +11,18 @@ export default function AuthHandler({
 }: Readonly<{ children: React.ReactNode }>) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  console.log(session, status);
+  const searchParams = useSearchParams();
+  console.log("AuthHandler", session, status, searchParams);
 
   useEffect(() => {
     const goToHome = async () => {
       await sleep(500);
       router.push("/home");
     };
+    //FIXME stripe
+    if (status === "authenticated" && searchParams.get("session_id")) {
+      return;
+    }
     if (status === "authenticated") {
       goToHome();
       return;

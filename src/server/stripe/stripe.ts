@@ -15,7 +15,7 @@ export const createCustomer = async () => {
   console.log(response);
 };
 
-export const createSession = async ({
+export const createCheckoutSession = async ({
   priceId,
   successUrl,
   cancelUrl,
@@ -49,3 +49,22 @@ export const createSession = async ({
     };
   }
 };
+
+export const registerCheckout = async ({ sessionId, returnUrl }: { sessionId: string; returnUrl: string}) => {
+  try {
+    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
+
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: checkoutSession.customer,
+      return_url: returnUrl,
+    });
+
+    return {
+      url: portalSession.url
+    };
+  } catch (e) {
+    return {
+      error: e
+    }
+  }
+}

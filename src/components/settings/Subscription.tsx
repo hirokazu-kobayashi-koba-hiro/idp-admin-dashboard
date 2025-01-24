@@ -94,7 +94,7 @@ export const Subscription = ({
               name={item.name}
               description={item.description}
               onClick={async (priceId) => {
-                const response = await fetch("/api/payments/subscription", {
+                const response = await fetch("/api/payments/subscription/session", {
                   method: "POST",
                   body: JSON.stringify({
                     priceId,

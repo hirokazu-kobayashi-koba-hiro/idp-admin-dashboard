@@ -61,10 +61,10 @@ const SettingsPage = () => {
         <Subscription
           items={productItems}
           successUrl={
-            "http://localhost:3000/settings/subscription?success=true&session_id={CHECKOUT_SESSION_ID}"
+            "http://localhost:3000/settings/subscription/complete?success=true&session_id={CHECKOUT_SESSION_ID}"
           }
           cancelUrl={
-            "http://localhost:3000/settings/subscription?canceled=true"
+            "http://localhost:3000/settings/subscription/cancel?canceled=true"
           }
         />
       ),
