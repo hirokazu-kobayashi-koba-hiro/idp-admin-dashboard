@@ -74,3 +74,21 @@ export const registerCheckout = async ({
     };
   }
 };
+
+export const fetchPrices = async ({ productId }: { productId: string;}) => {
+  try {
+
+    const prices = await stripe.prices.list({
+      product:productId,
+      active: true,
+    });
+
+    return {
+      prices
+    }
+  } catch (e) {
+    return {
+      error: e,
+    };
+  }
+}

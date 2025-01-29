@@ -73,12 +73,18 @@ const ProductItem = ({
   );
 };
 
+type PriceItem = {
+  priceId: string;
+  name: string;
+  description: string
+}
+
 export const Subscription = ({
   items,
   successUrl,
   cancelUrl,
 }: {
-  items: { priceId: string; name: string; description: string }[];
+  items: PriceItem[];
   successUrl: string;
   cancelUrl: string;
 }) => {
