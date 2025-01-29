@@ -75,20 +75,19 @@ export const registerCheckout = async ({
   }
 };
 
-export const fetchPrices = async ({ productId }: { productId: string;}) => {
+export const fetchPrices = async ({ productId }: { productId: string }) => {
   try {
-
     const prices = await stripe.prices.list({
-      product:productId,
+      product: productId,
       active: true,
     });
 
     return {
-      prices
-    }
+      prices,
+    };
   } catch (e) {
     return {
       error: e,
     };
   }
-}
+};

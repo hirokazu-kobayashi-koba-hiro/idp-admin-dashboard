@@ -8,6 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { usePayments } from "@/hooks/usePayments";
+import { useAtom } from "jotai/index";
+import { systemAlertAtom } from "@/state/SystemState";
 
 const Logo = () => (
   <svg
@@ -76,8 +79,8 @@ const ProductItem = ({
 type PriceItem = {
   priceId: string;
   name: string;
-  description: string
-}
+  description: string;
+};
 
 export const Subscription = ({
   items,
@@ -89,6 +92,8 @@ export const Subscription = ({
   cancelUrl: string;
 }) => {
   const router = useRouter();
+  const [, setSystemAlert] = useAtom(systemAlertAtom);
+  const { postSessionCreation } = usePayments();
 
   return (
     <Grid container spacing={3}>
@@ -100,20 +105,27 @@ export const Subscription = ({
               name={item.name}
               description={item.description}
               onClick={async (priceId) => {
-                const response = await fetch(
-                  "/api/payments/subscription/session",
-                  {
-                    method: "POST",
-                    body: JSON.stringify({
-                      priceId,
-                      successUrl,
-                      cancelUrl,
-                    }),
-                  },
-                );
-                const body = await response.json();
-                console.log(body);
-                router.push(body.url);
+                const { payload, error } = await postSessionCreation({
+                  priceId,
+                  successUrl,
+                  cancelUrl,
+                });
+                if (error) {
+                  setSystemAlert({
+                    open: true,
+                    title: "error",
+                    body: null,
+                    onClickPositiveButton: () => {
+                      console.log("onClickPositiveButton");
+                    },
+                    onClickNegativeButton: () => {
+                      console.log("onClickNegativeButton");
+                    },
+                  });
+                  return;
+                }
+                console.log(payload.url);
+                router.push(payload.url);
               }}
             />
           </Grid>

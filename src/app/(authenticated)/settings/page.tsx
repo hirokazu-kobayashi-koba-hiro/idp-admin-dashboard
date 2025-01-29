@@ -4,21 +4,21 @@ import React from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { TabPanels } from "@/components/TabPanels";
 import { Subscription } from "@/components/settings/Subscription";
-import {useQuery} from "@tanstack/react-query";
-import {useAtom} from "jotai/index";
-import {systemAlertAtom} from "@/state/SystemState";
-import {Loading} from "@/components/Loading";
-import {usePayments} from "@/hooks/usePayments";
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai/index";
+import { systemAlertAtom } from "@/state/SystemState";
+import { Loading } from "@/components/Loading";
+import { usePayments } from "@/hooks/usePayments";
 
 const SettingsPage = () => {
   const [, setSystemAlert] = useAtom(systemAlertAtom);
   const { fetchPrices } = usePayments();
 
-  const productId = "prod_RdUaxgZxpFkf6l"
+  const productId = "prod_RdUaxgZxpFkf6l";
   const { data, isPending, error } = useQuery({
     queryKey: ["fetchPrices"],
     queryFn: async () => {
-      const { payload, error } = await fetchPrices(productId)
+      const { payload, error } = await fetchPrices(productId);
       if (error) {
         setSystemAlert({
           open: true,
@@ -33,10 +33,10 @@ const SettingsPage = () => {
         });
         throw new Error("Network response was not ok");
       }
-      return payload
-    }
-  })
-  console.log(data)
+      return payload;
+    },
+  });
+  console.log(data);
 
   if (isPending) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
@@ -78,12 +78,8 @@ const SettingsPage = () => {
       node: (
         <Subscription
           items={productItems}
-          successUrl={
-            "http://localhost:3000/settings/subscription/complete"
-          }
-          cancelUrl={
-            "http://localhost:3000/settings/subscription/cancel"
-          }
+          successUrl={"http://localhost:3000/settings/subscription/complete"}
+          cancelUrl={"http://localhost:3000/settings/subscription/cancel"}
         />
       ),
     },
