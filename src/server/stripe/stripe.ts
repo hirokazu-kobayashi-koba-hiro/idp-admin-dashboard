@@ -86,6 +86,25 @@ export const fetchPrices = async ({ productId }: { productId: string }) => {
       prices,
     };
   } catch (e) {
+    console.error(e);
+    return {
+      error: e,
+    };
+  }
+};
+
+export const fetchSubscriptionDetail = async ({
+  subscriptionId,
+}: {
+  subscriptionId: string;
+}) => {
+  try {
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    return {
+      subscription,
+    };
+  } catch (e) {
+    console.error(e);
     return {
       error: e,
     };

@@ -103,6 +103,7 @@ const UsersPage = () => {
       </Typography>
       <DataGrid
         sx={{ maxWidth: 800, margin: "auto", mt: 4 }}
+        // @ts-ignore
         columns={columns}
         rows={users}
       />

@@ -1,3 +1,5 @@
+import { fetchSubscriptionDetail } from "@/server/stripe/stripe";
+
 export const usePayments = () => {
   const fetchPrices = async (productId: string) => {
     try {
@@ -67,8 +69,32 @@ export const usePayments = () => {
     }
   };
 
+  const fetchSubscriptionDetail = async (subscriptionId: string) => {
+    try {
+      const response = await fetch(
+        `/api/payments/subscription/${subscriptionId}`,
+      );
+      if (!response.ok) {
+        return {
+          error: "Network response was not ok",
+        };
+      }
+
+      const body = await response.json();
+      return {
+        payload: body,
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        error: e,
+      };
+    }
+  };
+
   return {
     fetchPrices,
     postSessionCreation,
+    fetchSubscriptionDetail,
   };
 };

@@ -5,6 +5,19 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  givenName?: string;
+  familyName?: string;
+  middleName?: string;
+  nickname?: string;
+  preferredUsername?: string;
+  profile?: string;
+  picture?: string;
+  website?: string;
+  gender?: string;
+  birthdate?: string;
+  zoneinfo?: string;
+  locale?: string;
+  phoneNumber?: string;
 };
 
 export const userList = [
