@@ -8,6 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { usePayments } from "@/hooks/usePayments";
+import { useAtom } from "jotai/index";
+import { systemAlertAtom } from "@/state/SystemState";
+import { useQuery } from "@tanstack/react-query";
+import { Loading } from "@/components/Loading";
 
 const Logo = () => (
   <svg
@@ -73,20 +78,52 @@ const ProductItem = ({
   );
 };
 
-export const Subscription = ({
-  items,
-  successUrl,
-  cancelUrl,
-}: {
-  items: { priceId: string; name: string; description: string }[];
-  successUrl: string;
-  cancelUrl: string;
-}) => {
+type PriceItem = {
+  priceId: string;
+  name: string;
+  description: string;
+};
+
+export const Subscription = () => {
   const router = useRouter();
+  const [, setSystemAlert] = useAtom(systemAlertAtom);
+  const { postSessionCreation } = usePayments();
+  const { fetchPrices } = usePayments();
+
+  const productId = "prod_RdUaxgZxpFkf6l";
+  const successUrl = "http://localhost:3000/settings/subscription/complete";
+  const cancelUrl = "http://localhost:3000/settings/subscription/cancel";
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["fetchPrices"],
+    queryFn: async () => {
+      const { payload, error } = await fetchPrices(productId);
+      if (error) {
+        setSystemAlert({
+          open: true,
+          title: "error",
+          body: null,
+          onClickPositiveButton: () => {
+            console.log("onClickPositiveButton");
+          },
+          onClickNegativeButton: () => {
+            console.log("onClickNegativeButton");
+          },
+        });
+        throw new Error("Network response was not ok");
+      }
+      return payload;
+    },
+  });
+  console.log(data);
+
+  if (isPending) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
+  const productItems: PriceItem[] = data;
 
   return (
     <Grid container spacing={3}>
-      {items.map((item, index) => {
+      {productItems.map((item, index) => {
         return (
           <Grid key={index} item xs={12} md={4}>
             <ProductItem
@@ -94,20 +131,27 @@ export const Subscription = ({
               name={item.name}
               description={item.description}
               onClick={async (priceId) => {
-                const response = await fetch(
-                  "/api/payments/subscription/session",
-                  {
-                    method: "POST",
-                    body: JSON.stringify({
-                      priceId,
-                      successUrl,
-                      cancelUrl,
-                    }),
-                  },
-                );
-                const body = await response.json();
-                console.log(body);
-                router.push(body.url);
+                const { payload, error } = await postSessionCreation({
+                  priceId,
+                  successUrl,
+                  cancelUrl,
+                });
+                if (error) {
+                  setSystemAlert({
+                    open: true,
+                    title: "error",
+                    body: null,
+                    onClickPositiveButton: () => {
+                      console.log("onClickPositiveButton");
+                    },
+                    onClickNegativeButton: () => {
+                      console.log("onClickNegativeButton");
+                    },
+                  });
+                  return;
+                }
+                console.log(payload.url);
+                router.push(payload.url);
               }}
             />
           </Grid>

@@ -20,50 +20,50 @@ const SubscriptionCancelPage = () => {
   };
 
   return (
-      <Container
-          maxWidth="sm"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+    <Container
+      maxWidth="sm"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card
+        elevation={3}
+        sx={{
+          padding: 4,
+          borderRadius: 2,
+          width: "100%",
+        }}
       >
-        <Card
-            elevation={3}
-            sx={{
-              padding: 4,
-              borderRadius: 2,
-              width: "100%",
-            }}
-        >
-          <CardContent>
-            <Stack spacing={4} alignItems="center" textAlign="center">
-              {/* Cancel Icon */}
-              <CancelIcon color="error" sx={{ fontSize: 80 }} />
+        <CardContent>
+          <Stack spacing={4} alignItems="center" textAlign="center">
+            {/* Cancel Icon */}
+            <CancelIcon color="error" sx={{ fontSize: 80 }} />
 
-              {/* Cancel Message */}
-              <Typography variant="h5" fontWeight="bold" color="textPrimary">
-                Subscription Cancelled
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                Your subscription has been cancelled. If this was a mistake, you
-                can resubscribe at any time.
-              </Typography>
+            {/* Cancel Message */}
+            <Typography variant="h5" fontWeight="bold" color="textPrimary">
+              Subscription Cancelled
+            </Typography>
+            <Typography variant="body1" color="textSecondary">
+              Your subscription has been cancelled. If this was a mistake, you
+              can resubscribe at any time.
+            </Typography>
 
-              {/* Back Button */}
-              <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  onClick={handleClick}
-                  sx={{ borderRadius: 2, paddingX: 3 }}
-              >
-                Go to Settings
-              </Button>
-            </Stack>
-          </CardContent>
-        </Card>
-      </Container>
+            {/* Back Button */}
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={handleClick}
+              sx={{ borderRadius: 2, paddingX: 3 }}
+            >
+              Go to Settings
+            </Button>
+          </Stack>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 

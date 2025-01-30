@@ -60,23 +60,22 @@ const SubscriptionCompletePage = () => {
 
             {/* Session Details */}
             {sessionId ? (
-                <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    sx={{
-                      padding: 2,
-                      backgroundColor: "#f5f5f5",
-                      borderRadius: 1,
-                      width: "100%",
-                      textAlign: "center",
-                      wordWrap: "break-word", // Ensures long words break to the next line
-                      overflowWrap: "break-word", // Alternative for better browser support
-                      whiteSpace: "normal", // Allows wrapping to the next line
-                    }}
-                >
-                  Session ID: {sessionId}
-                </Typography>
-
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                sx={{
+                  padding: 2,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 1,
+                  width: "100%",
+                  textAlign: "center",
+                  wordWrap: "break-word", // Ensures long words break to the next line
+                  overflowWrap: "break-word", // Alternative for better browser support
+                  whiteSpace: "normal", // Allows wrapping to the next line
+                }}
+              >
+                Session ID: {sessionId}
+              </Typography>
             ) : (
               <Typography variant="body2" color="textSecondary">
                 No session information available.

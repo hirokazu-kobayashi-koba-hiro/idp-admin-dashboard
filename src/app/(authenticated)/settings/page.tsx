@@ -4,26 +4,9 @@ import React from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { TabPanels } from "@/components/TabPanels";
 import { Subscription } from "@/components/settings/Subscription";
+import { SubscriptionDetail } from "@/components/settings/SubscriptionDetail";
 
 const SettingsPage = () => {
-  const productItems = [
-    {
-      priceId: "price_1QkDavGLT3LvnebjiYKsYlOb",
-      name: "Basic",
-      description: "$100.00 / month",
-    },
-    {
-      priceId: "price_1QkDboGLT3Lvnebj64tVBrOF",
-      name: "Pro",
-      description: "$200.00 / month",
-    },
-    {
-      priceId: "price_1QkDboGLT3LvnebjMN8oIyk3",
-      name: "Enterprise",
-      description: "$400.00 / month",
-    },
-  ];
-
   const elements = [
     {
       label: "basic",
@@ -57,17 +40,11 @@ const SettingsPage = () => {
     },
     {
       label: "subscription",
-      node: (
-        <Subscription
-          items={productItems}
-          successUrl={
-            "http://localhost:3000/settings/subscription/complete?success=true&session_id={CHECKOUT_SESSION_ID}"
-          }
-          cancelUrl={
-            "http://localhost:3000/settings/subscription/cancel?canceled=true"
-          }
-        />
-      ),
+      node: <Subscription />,
+    },
+    {
+      label: "Payment",
+      node: <SubscriptionDetail />,
     },
   ];
 
