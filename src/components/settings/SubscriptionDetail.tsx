@@ -40,7 +40,7 @@ export const SubscriptionDetail = () => {
     queryKey: ["fetchSubscriptionDetail"],
     queryFn: async () => {
       const { payload, error } = await fetchSubscriptionDetail(subscriptionId);
-      if (error) {
+      if (!payload && error) {
         setSystemAlert({
           open: true,
           title: "error",
@@ -61,6 +61,7 @@ export const SubscriptionDetail = () => {
 
   if (isPending) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
+  if (!subscription) return <div>not found</div>
 
   return (
     <Card
@@ -122,7 +123,7 @@ export const SubscriptionDetail = () => {
             <Event sx={{ mr: 2 }} />
             <ListItemText
               primary="Billing Cycle"
-              secondary={`${new Date(subscription.current_period_start * 1000).toLocaleDateString()} - ${new Date(subscription.current_period_end * 1000).toLocaleDateString()}`}
+              secondary={`${subscription.currentPeriodStart} - ${subscription.currentPeriodEnd}`}
             />
           </ListItem>
           <Divider light />
@@ -130,7 +131,7 @@ export const SubscriptionDetail = () => {
             <CreditCard sx={{ mr: 2 }} />
             <ListItemText
               primary="Collection Method"
-              secondary={subscription.collection_method}
+              secondary={subscription.collectionMethod}
             />
           </ListItem>
           <Divider light />
@@ -138,7 +139,7 @@ export const SubscriptionDetail = () => {
             <Receipt sx={{ mr: 2 }} />
             <ListItemText
               primary="Latest Invoice"
-              secondary={subscription.latest_invoice}
+              secondary={subscription.latestInvoice}
             />
           </ListItem>
         </List>
@@ -170,7 +171,7 @@ export const SubscriptionDetail = () => {
               </Typography>
             </Box>
             <Typography variant="body1">
-              Price: {item.price.unit_amount / 100}{" "}
+              Price: {item.price.unitAmount / 100}{" "}
               {subscription.currency.toUpperCase()}
             </Typography>
             <Typography variant="body1">Quantity: {item.quantity}</Typography>
