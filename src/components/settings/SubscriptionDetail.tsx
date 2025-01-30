@@ -61,7 +61,7 @@ export const SubscriptionDetail = () => {
 
   if (isPending) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
-  if (!subscription) return <div>not found</div>
+  if (!subscription) return <div>not found</div>;
 
   return (
     <Card
@@ -146,7 +146,7 @@ export const SubscriptionDetail = () => {
         <Typography variant="h5" sx={{ mt: 3, fontWeight: "bold" }}>
           Items:
         </Typography>
-        {subscription.items?.data.map((item: any) => (
+        {subscription.items?.map((item: any) => (
           <Card
             key={item.id}
             sx={{
@@ -171,7 +171,7 @@ export const SubscriptionDetail = () => {
               </Typography>
             </Box>
             <Typography variant="body1">
-              Price: {item.price.unitAmount / 100}{" "}
+              Price: {item.price.unitAmount}{" "}
               {subscription.currency.toUpperCase()}
             </Typography>
             <Typography variant="body1">Quantity: {item.quantity}</Typography>
