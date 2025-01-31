@@ -110,3 +110,28 @@ export const fetchSubscriptionDetail = async ({
     };
   }
 };
+
+export const fetchPaymentMethods = async ({
+  customerId,
+  limit = 5,
+}: {
+  customerId: string;
+  limit: number;
+}) => {
+  try {
+    const paymentMethods = await stripe.customers.listPaymentMethods(
+      customerId,
+      {
+        limit,
+      },
+    );
+    return {
+      paymentMethods,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      error: e,
+    };
+  }
+};

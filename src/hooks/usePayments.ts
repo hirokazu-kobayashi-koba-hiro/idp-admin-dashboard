@@ -1,4 +1,3 @@
-import { fetchSubscriptionDetail } from "@/server/stripe/stripe";
 import { SubscriptionDetail } from "@/types/subscription";
 import { convertToCamel } from "@/functions/convertToCamel";
 
@@ -97,10 +96,37 @@ export const usePayments = () => {
     }
   };
 
+  const fetchPaymentMethods = async (
+    customerId: string,
+  ): Promise<{ payload?: any; error?: any }> => {
+    try {
+      const response = await fetch(
+        `/api/payments/customers/${customerId}/payment_methods`,
+      );
+      if (!response.ok) {
+        return {
+          error: "Network response was not ok",
+        };
+      }
+
+      const body = await response.json();
+
+      return {
+        payload: "",
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        error: e,
+      };
+    }
+  };
+
   return {
     fetchPrices,
     postSessionCreation,
     fetchSubscriptionDetail,
+    fetchPaymentMethods,
   };
 };
 
@@ -121,9 +147,6 @@ const transformSubscription = (response: any): SubscriptionDetail => {
     }),
   };
 };
-
-const formatPrice = (amount: number, currency: string) =>
-  `${(amount / 100).toFixed(2)} ${currency.toUpperCase()}`;
 
 const formatDate = (timestamp: number) =>
   new Date(timestamp * 1000).toLocaleDateString();
