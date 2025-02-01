@@ -78,4 +78,17 @@ export type PaymentMethod = {
   metadata: Record<string, any>;
   redaction: string | null;
   type: "card" | "us_bank_account"; // Extendable if more types are needed
+  usBankAccount?: {
+    accountHolderType: "individual" | "company";
+    accountType: "checking" | "savings";
+    bankName: string;
+    financialConnectionsAccount: string | null;
+    fingerprint: string;
+    last4: string;
+    routingNumber: string;
+    networks: {
+      preferred: "ach" | null;
+      supported: string[];
+    };
+  };
 };

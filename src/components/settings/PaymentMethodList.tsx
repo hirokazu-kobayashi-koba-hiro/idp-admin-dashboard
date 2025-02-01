@@ -16,68 +16,141 @@ import {
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { ExpandMore as ExpandMoreIcon, CreditCard } from "@mui/icons-material";
+import {
+  ExpandMore as ExpandMoreIcon,
+  CreditCard,
+  AccountBalance,
+  Home,
+} from "@mui/icons-material";
 import { PaymentMethod } from "@/types/payment";
+
+const formatAddress = (paymentMethod: PaymentMethod) => {
+  const { address } = paymentMethod.billingDetails;
+  if (!address) return "No Address Provided";
+
+  return `${address.line1 || "N/A"}, ${address.city || "N/A"}, ${address.state || "N/A"}, ${address.country || "N/A"} - ${address.postalCode || "N/A"}`;
+};
 
 const PaymentMethodCard = ({
   paymentMethod,
 }: {
   paymentMethod: PaymentMethod;
 }) => {
+  const renderCardDetails = () => {
+    if (!paymentMethod.card) return null;
+
+    return (
+      <>
+        {/* Card Brand Display */}
+        <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+          <CreditCardIcon fontSize="large" color="primary" />
+          <Typography variant="h6" fontWeight="bold">
+            {paymentMethod.card.brand.toUpperCase()} -{" "}
+            {paymentMethod.card.last4}
+          </Typography>
+        </Grid>
+
+        {/* Basic Information */}
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1">
+            <strong>Expiration Date:</strong> {paymentMethod.card.expMonth}/
+            {paymentMethod.card.expYear}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Type:</strong> {paymentMethod.card.funding.toUpperCase()}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Country:</strong> {paymentMethod.card.country}
+          </Typography>
+        </Grid>
+
+        {/* 3D Secure Support */}
+        <Grid item xs={12}>
+          <Chip
+            icon={
+              paymentMethod.card.threeDSecureUsage.supported ? (
+                <CheckCircleIcon color="success" />
+              ) : (
+                <CancelIcon color="error" />
+              )
+            }
+            label={
+              paymentMethod.card.threeDSecureUsage.supported
+                ? "3D Secure Supported"
+                : "3D Secure Not Supported"
+            }
+            color={
+              paymentMethod.card.threeDSecureUsage.supported
+                ? "success"
+                : "error"
+            }
+            variant="outlined"
+          />
+        </Grid>
+      </>
+    );
+  };
+
+  const renderBankAccountDetails = () => {
+    if (!paymentMethod.usBankAccount) return null;
+
+    return (
+      <>
+        {/* Bank Name Display */}
+        <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+          <AccountBalance fontSize="large" color="primary" />
+          <Typography variant="h6" fontWeight="bold">
+            {paymentMethod.usBankAccount.bankName} -{" "}
+            {paymentMethod.usBankAccount.last4}
+          </Typography>
+        </Grid>
+
+        {/* Basic Information */}
+        <Grid item xs={12} md={4}>
+          <Typography variant="body1">
+            <strong>Account Type:</strong>{" "}
+            {paymentMethod.usBankAccount.accountType.toUpperCase()}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Holder Type:</strong>{" "}
+            {paymentMethod.usBankAccount.accountHolderType.toUpperCase()}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Routing Number:</strong>{" "}
+            {paymentMethod.usBankAccount.routingNumber}
+          </Typography>
+        </Grid>
+
+        {/* Supported Networks */}
+        <Grid item xs={12}>
+          <Chip
+            label={`Supported Networks: ${paymentMethod.usBankAccount.networks.supported.join(", ")}`}
+            color="primary"
+            variant="outlined"
+          />
+        </Grid>
+      </>
+    );
+  };
+
+  const renderBillingAddress = (paymentMethod: PaymentMethod) => (
+    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+      <Home fontSize="large" color="secondary" />
+      <Typography variant="body1">
+        <strong>Billing Address:</strong> {formatAddress(paymentMethod)}
+      </Typography>
+    </Grid>
+  );
+
   return (
     <Card sx={{ m: 2, p: 2, boxShadow: 3, borderRadius: 2 }}>
       <CardContent>
-        {paymentMethod.card && (
-          <Grid container spacing={2} alignItems="center">
-            {/* Card Brand Display */}
-            <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-              <CreditCardIcon fontSize="large" color="primary" />
-              <Typography variant="h6" fontWeight="bold">
-                {paymentMethod.card.brand.toUpperCase()} -{" "}
-                {paymentMethod.card.last4}
-              </Typography>
-            </Grid>
-
-            {/* Basic Information */}
-            <Grid item xs={12} md={4}>
-              <Typography variant="body1">
-                <strong>Expiration Date:</strong> {paymentMethod.card.expMonth}/
-                {paymentMethod.card.expYear}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Type:</strong>{" "}
-                {paymentMethod.card.funding.toUpperCase()}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Country:</strong> {paymentMethod.card.country}
-              </Typography>
-            </Grid>
-
-            {/* 3D Secure Support */}
-            <Grid item xs={12}>
-              <Chip
-                icon={
-                  paymentMethod.card.threeDSecureUsage.supported ? (
-                    <CheckCircleIcon color="success" />
-                  ) : (
-                    <CancelIcon color="error" />
-                  )
-                }
-                label={
-                  paymentMethod.card.threeDSecureUsage.supported
-                    ? "3D Secure Supported"
-                    : "3D Secure Not Supported"
-                }
-                color={
-                  paymentMethod.card.threeDSecureUsage.supported
-                    ? "success"
-                    : "error"
-                }
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-        )}
+        <Grid container spacing={2} alignItems="center">
+          {paymentMethod.type === "card" && renderCardDetails()}
+          {paymentMethod.type === "us_bank_account" &&
+            renderBankAccountDetails()}
+          {renderBillingAddress(paymentMethod)}
+        </Grid>
       </CardContent>
     </Card>
   );
