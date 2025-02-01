@@ -17,10 +17,10 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
-  ExpandMore as ExpandMoreIcon,
-  CreditCard,
-  AccountBalance,
-  Home,
+    ExpandMore as ExpandMoreIcon,
+    CreditCard,
+    AccountBalance,
+    Home, Person, Email, Phone,
 } from "@mui/icons-material";
 import { PaymentMethod } from "@/types/payment";
 
@@ -133,14 +133,50 @@ const PaymentMethodCard = ({
     );
   };
 
-  const renderBillingAddress = (paymentMethod: PaymentMethod) => (
-    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-      <Home fontSize="large" color="secondary" />
-      <Typography variant="body1">
-        <strong>Billing Address:</strong> {formatAddress(paymentMethod)}
-      </Typography>
-    </Grid>
-  );
+    const renderBillingDetails = (paymentMethod: PaymentMethod) => {
+        const { name, email, phone } = paymentMethod.billingDetails;
+        return (
+            <>
+                {/* Billing Name */}
+                {name && (
+                    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+                        <Person fontSize="medium" color="secondary" />
+                        <Typography variant="body1">
+                            <strong>Name:</strong> {name}
+                        </Typography>
+                    </Grid>
+                )}
+
+                {/* Billing Email */}
+                {email && (
+                    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+                        <Email fontSize="medium" color="secondary" />
+                        <Typography variant="body1">
+                            <strong>Email:</strong> {email}
+                        </Typography>
+                    </Grid>
+                )}
+
+                {/* Billing Phone */}
+                {phone && (
+                    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+                        <Phone fontSize="medium" color="secondary" />
+                        <Typography variant="body1">
+                            <strong>Phone:</strong> {phone}
+                        </Typography>
+                    </Grid>
+                )}
+
+                {/* Billing Address */}
+                <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+                    <Home fontSize="medium" color="secondary" />
+                    <Typography variant="body1">
+                        <strong>Billing Address:</strong> {formatAddress(paymentMethod)}
+                    </Typography>
+                </Grid>
+            </>
+        );
+    };
 
   return (
     <Card sx={{ m: 2, p: 2, boxShadow: 3, borderRadius: 2 }}>
@@ -149,7 +185,7 @@ const PaymentMethodCard = ({
           {paymentMethod.type === "card" && renderCardDetails()}
           {paymentMethod.type === "us_bank_account" &&
             renderBankAccountDetails()}
-          {renderBillingAddress(paymentMethod)}
+          {renderBillingDetails(paymentMethod)}
         </Grid>
       </CardContent>
     </Card>
