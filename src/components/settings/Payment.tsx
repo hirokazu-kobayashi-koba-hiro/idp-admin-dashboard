@@ -37,7 +37,6 @@ export const Payment = () => {
   });
 
   if (!data) return <div>error</div>;
-  const paymentMethods = data as any[];
 
   return (
     <>
@@ -49,7 +48,7 @@ export const Payment = () => {
       >
         <SubscriptionDetail />
       </Box>
-      <PaymentMethodsList paymentMethods={paymentMethods} />
+      <PaymentMethodsList paymentMethods={data} />
     </>
   );
 };

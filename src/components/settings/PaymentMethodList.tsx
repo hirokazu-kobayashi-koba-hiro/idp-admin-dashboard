@@ -17,59 +17,67 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { ExpandMore as ExpandMoreIcon, CreditCard } from "@mui/icons-material";
+import { PaymentMethod } from "@/types/payment";
 
-const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: any }) => {
+const PaymentMethodCard = ({
+  paymentMethod,
+}: {
+  paymentMethod: PaymentMethod;
+}) => {
   return (
     <Card sx={{ m: 2, p: 2, boxShadow: 3, borderRadius: 2 }}>
       <CardContent>
-        <Grid container spacing={2} alignItems="center">
-          {/* Card Brand Display */}
-          <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-            <CreditCardIcon fontSize="large" color="primary" />
-            <Typography variant="h6" fontWeight="bold">
-              {paymentMethod.card.brand.toUpperCase()} -{" "}
-              {paymentMethod.card.last4}
-            </Typography>
-          </Grid>
+        {paymentMethod.card && (
+          <Grid container spacing={2} alignItems="center">
+            {/* Card Brand Display */}
+            <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+              <CreditCardIcon fontSize="large" color="primary" />
+              <Typography variant="h6" fontWeight="bold">
+                {paymentMethod.card.brand.toUpperCase()} -{" "}
+                {paymentMethod.card.last4}
+              </Typography>
+            </Grid>
 
-          {/* Basic Information */}
-          <Grid item xs={12} md={4}>
-            <Typography variant="body1">
-              <strong>Expiration Date:</strong> {paymentMethod.card.expMonth}/
-              {paymentMethod.card.expYear}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Type:</strong> {paymentMethod.card.funding.toUpperCase()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Country:</strong> {paymentMethod.card.country}
-            </Typography>
-          </Grid>
+            {/* Basic Information */}
+            <Grid item xs={12} md={4}>
+              <Typography variant="body1">
+                <strong>Expiration Date:</strong> {paymentMethod.card.expMonth}/
+                {paymentMethod.card.expYear}
+              </Typography>
+              <Typography variant="body1">
+                <strong>Type:</strong>{" "}
+                {paymentMethod.card.funding.toUpperCase()}
+              </Typography>
+              <Typography variant="body1">
+                <strong>Country:</strong> {paymentMethod.card.country}
+              </Typography>
+            </Grid>
 
-          {/* 3D Secure Support */}
-          <Grid item xs={12}>
-            <Chip
-              icon={
-                paymentMethod.card.threeDSecureUsage.supported ? (
-                  <CheckCircleIcon color="success" />
-                ) : (
-                  <CancelIcon color="error" />
-                )
-              }
-              label={
-                paymentMethod.card.threeDSecureUsage.supported
-                  ? "3D Secure Supported"
-                  : "3D Secure Not Supported"
-              }
-              color={
-                paymentMethod.card.threeDSecureUsage.supported
-                  ? "success"
-                  : "error"
-              }
-              variant="outlined"
-            />
+            {/* 3D Secure Support */}
+            <Grid item xs={12}>
+              <Chip
+                icon={
+                  paymentMethod.card.threeDSecureUsage.supported ? (
+                    <CheckCircleIcon color="success" />
+                  ) : (
+                    <CancelIcon color="error" />
+                  )
+                }
+                label={
+                  paymentMethod.card.threeDSecureUsage.supported
+                    ? "3D Secure Supported"
+                    : "3D Secure Not Supported"
+                }
+                color={
+                  paymentMethod.card.threeDSecureUsage.supported
+                    ? "success"
+                    : "error"
+                }
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </CardContent>
     </Card>
   );
@@ -78,7 +86,7 @@ const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: any }) => {
 export const PaymentMethodsList = ({
   paymentMethods,
 }: {
-  paymentMethods: any[];
+  paymentMethods: PaymentMethod[];
 }) => {
   const [openItems, setOpenItems] = useState(
     Array(paymentMethods.length).fill(false),

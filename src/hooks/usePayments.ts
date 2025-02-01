@@ -1,4 +1,4 @@
-import { SubscriptionDetail } from "@/types/subscription";
+import { PaymentMethod, SubscriptionDetail } from "@/types/payment";
 import { convertToCamel } from "@/functions/convertToCamel";
 
 export const usePayments = () => {
@@ -98,7 +98,7 @@ export const usePayments = () => {
 
   const fetchPaymentMethods = async (
     customerId: string,
-  ): Promise<{ payload?: any; error?: any }> => {
+  ): Promise<{ payload?: PaymentMethod[]; error?: any }> => {
     try {
       const response = await fetch(
         `/api/payments/customers/${customerId}/payment_methods`,
