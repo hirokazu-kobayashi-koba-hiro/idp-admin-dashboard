@@ -2,11 +2,11 @@ import {
   Card,
   CardContent,
   Typography,
-  List,
   ListItem,
   ListItemText,
   Divider,
   Box,
+  Grid,
 } from "@mui/material";
 import {
   AccountCircle,
@@ -40,7 +40,7 @@ export const SubscriptionDetail = () => {
     queryKey: ["fetchSubscriptionDetail"],
     queryFn: async () => {
       const { payload, error } = await fetchSubscriptionDetail(subscriptionId);
-      if (error) {
+      if (!payload && error) {
         setSystemAlert({
           open: true,
           title: "error",
@@ -61,11 +61,11 @@ export const SubscriptionDetail = () => {
 
   if (isPending) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
+  if (!subscription) return <div>not found</div>;
 
   return (
     <Card
       sx={{
-        maxWidth: { xs: "90%", sm: 700 },
         margin: "auto",
         mt: 4,
         p: { xs: 2, sm: 3 },
@@ -85,67 +85,81 @@ export const SubscriptionDetail = () => {
           Subscription Details
         </Typography>
         <Divider sx={{ mb: 2 }} />
-        <List>
-          <ListItem>
-            <AccountCircle sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Subscription ID"
-              secondary={subscription.id}
-            />
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <CreditCard sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Status"
-              secondary={subscription.status.toUpperCase()}
-            />
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <AccountCircle sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Customer ID"
-              secondary={subscription.customer}
-            />
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <AttachMoney sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Currency"
-              secondary={subscription.currency.toUpperCase()}
-            />
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <Event sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Billing Cycle"
-              secondary={`${new Date(subscription.current_period_start * 1000).toLocaleDateString()} - ${new Date(subscription.current_period_end * 1000).toLocaleDateString()}`}
-            />
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <CreditCard sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Collection Method"
-              secondary={subscription.collection_method}
-            />
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <Receipt sx={{ mr: 2 }} />
-            <ListItemText
-              primary="Latest Invoice"
-              secondary={subscription.latest_invoice}
-            />
-          </ListItem>
-        </List>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <AccountCircle sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Subscription ID"
+                secondary={subscription.id}
+              />
+            </ListItem>
+            <Divider light />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <CreditCard sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Status"
+                secondary={subscription.status.toUpperCase()}
+              />
+            </ListItem>
+            <Divider light />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <AccountCircle sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Customer ID"
+                secondary={subscription.customer}
+              />
+            </ListItem>
+            <Divider light />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <AttachMoney sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Currency"
+                secondary={subscription.currency.toUpperCase()}
+              />
+            </ListItem>
+            <Divider light />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <Event sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Billing Cycle"
+                secondary={`${subscription.currentPeriodStart} - ${subscription.currentPeriodEnd}`}
+              />
+            </ListItem>
+            <Divider light />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <CreditCard sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Collection Method"
+                secondary={subscription.collectionMethod}
+              />
+            </ListItem>
+            <Divider light />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ListItem>
+              <Receipt sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Latest Invoice"
+                secondary={subscription.latestInvoice}
+              />
+            </ListItem>
+          </Grid>
+        </Grid>
         <Typography variant="h5" sx={{ mt: 3, fontWeight: "bold" }}>
           Items:
         </Typography>
-        {subscription.items?.data.map((item: any) => (
+        {subscription.items?.map((item: any) => (
           <Card
             key={item.id}
             sx={{
@@ -170,7 +184,7 @@ export const SubscriptionDetail = () => {
               </Typography>
             </Box>
             <Typography variant="body1">
-              Price: {item.price.unit_amount / 100}{" "}
+              Price: {item.price.unitAmount}{" "}
               {subscription.currency.toUpperCase()}
             </Typography>
             <Typography variant="body1">Quantity: {item.quantity}</Typography>

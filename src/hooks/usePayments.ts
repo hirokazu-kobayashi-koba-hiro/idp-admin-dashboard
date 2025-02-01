@@ -1,4 +1,5 @@
-import { fetchSubscriptionDetail } from "@/server/stripe/stripe";
+import { PaymentMethod, SubscriptionDetail } from "@/types/payment";
+import { convertToCamel } from "@/functions/convertToCamel";
 
 export const usePayments = () => {
   const fetchPrices = async (productId: string) => {
@@ -69,7 +70,9 @@ export const usePayments = () => {
     }
   };
 
-  const fetchSubscriptionDetail = async (subscriptionId: string) => {
+  const fetchSubscriptionDetail = async (
+    subscriptionId: string,
+  ): Promise<{ payload?: SubscriptionDetail; error?: any }> => {
     try {
       const response = await fetch(
         `/api/payments/subscription/${subscriptionId}`,
@@ -81,8 +84,34 @@ export const usePayments = () => {
       }
 
       const body = await response.json();
+      const transformed = transformSubscription(body);
       return {
-        payload: body,
+        payload: transformed,
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        error: e,
+      };
+    }
+  };
+
+  const fetchPaymentMethods = async (
+    customerId: string,
+  ): Promise<{ payload?: PaymentMethod[]; error?: any }> => {
+    try {
+      const response = await fetch(
+        `/api/payments/customers/${customerId}/payment_methods`,
+      );
+      if (!response.ok) {
+        return {
+          error: "Network response was not ok",
+        };
+      }
+
+      const body = await response.json();
+      return {
+        payload: convertToCamel(body.data),
       };
     } catch (e) {
       console.error(e);
@@ -96,5 +125,27 @@ export const usePayments = () => {
     fetchPrices,
     postSessionCreation,
     fetchSubscriptionDetail,
+    fetchPaymentMethods,
   };
 };
+
+const transformSubscription = (response: any): SubscriptionDetail => {
+  const converted = convertToCamel(response);
+  return {
+    ...converted,
+    currentPeriodStart: formatDate(converted.currentPeriodStart),
+    currentPeriodEnd: formatDate(converted.currentPeriodEnd),
+    items: converted.items.data.map((item: any) => {
+      return {
+        ...item,
+        price: {
+          ...item.price,
+          unitAmount: item.price.unitAmount / 100,
+        },
+      };
+    }),
+  };
+};
+
+const formatDate = (timestamp: number) =>
+  new Date(timestamp * 1000).toLocaleDateString();

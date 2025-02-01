@@ -5,6 +5,7 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import { TabPanels } from "@/components/TabPanels";
 import { Subscription } from "@/components/settings/Subscription";
 import { SubscriptionDetail } from "@/components/settings/SubscriptionDetail";
+import { Payment } from "@/components/settings/Payment";
 
 const SettingsPage = () => {
   const elements = [
@@ -44,7 +45,7 @@ const SettingsPage = () => {
     },
     {
       label: "Payment",
-      node: <SubscriptionDetail />,
+      node: <Payment />,
     },
   ];
 

@@ -14,6 +14,7 @@ export const { handlers } = NextAuth({
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, trigger, newSession);
       session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
+      session.user.customerId = "cus_RgYcKnMlSxoaHs";
       return session;
     },
   },
