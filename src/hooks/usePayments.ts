@@ -110,9 +110,8 @@ export const usePayments = () => {
       }
 
       const body = await response.json();
-
       return {
-        payload: "",
+        payload: convertToCamel(body.data),
       };
     } catch (e) {
       console.error(e);

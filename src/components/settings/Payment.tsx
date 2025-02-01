@@ -1,88 +1,55 @@
 import React from "react";
-import { Card, CardContent, Typography, Grid, Chip, Box } from "@mui/material";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Box } from "@mui/material";
 import { SubscriptionDetail } from "@/components/settings/SubscriptionDetail";
-
-const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: any }) => {
-  return (
-    <Card sx={{ maxWidth: 500, m: 2, p: 2, boxShadow: 3, borderRadius: 2 }}>
-      <CardContent>
-        <Grid container spacing={2} alignItems="center">
-          {/* Card Brand Display */}
-          <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-            <CreditCardIcon fontSize="large" color="primary" />
-            <Typography variant="h6" fontWeight="bold">
-              {paymentMethod.card.brand.toUpperCase()} -{" "}
-              {paymentMethod.card.last4}
-            </Typography>
-          </Grid>
-
-          {/* Basic Information */}
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <strong>Expiration Date:</strong> {paymentMethod.card.expMonth}/
-              {paymentMethod.card.expYear}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Type:</strong> {paymentMethod.card.funding.toUpperCase()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Country:</strong> {paymentMethod.card.country}
-            </Typography>
-          </Grid>
-
-          {/* 3D Secure Support */}
-          <Grid item xs={12}>
-            <Chip
-              icon={
-                paymentMethod.card.threeDSecureUsage.supported ? (
-                  <CheckCircleIcon color="success" />
-                ) : (
-                  <CancelIcon color="error" />
-                )
-              }
-              label={
-                paymentMethod.card.threeDSecureUsage.supported
-                  ? "3D Secure Supported"
-                  : "3D Secure Not Supported"
-              }
-              color={
-                paymentMethod.card.threeDSecureUsage.supported
-                  ? "success"
-                  : "error"
-              }
-              variant="outlined"
-            />
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-  );
-};
+import { PaymentMethodsList } from "@/components/settings/PaymentMethodList";
+import { usePayments } from "@/hooks/usePayments";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { systemAlertAtom } from "@/state/SystemState";
 
 export const Payment = () => {
-  const paymentMethod = {
-    card: {
-      brand: "visa",
-      last4: "4242",
-      expMonth: 12,
-      expYear: 2034,
-      funding: "credit",
-      country: "US",
-      threeDSecureUsage: { supported: true },
+  const [, setSystemAlert] = useAtom(systemAlertAtom);
+  const { fetchPaymentMethods } = usePayments();
+  const { data: session } = useSession();
+  const customerId = session?.user.customerId || "";
+
+  const { data } = useQuery({
+    queryKey: ["fetchPaymentMethods"],
+    queryFn: async () => {
+      const { payload, error } = await fetchPaymentMethods(customerId);
+      if (!payload && error) {
+        setSystemAlert({
+          open: true,
+          title: "error",
+          body: null,
+          onClickPositiveButton: () => {
+            console.log("onClickPositiveButton");
+          },
+          onClickNegativeButton: () => {
+            console.log("onClickNegativeButton");
+          },
+        });
+        throw new Error("Network response was not ok");
+      }
+      return payload;
     },
-  };
+  });
+
+  if (!data) return <div>error</div>;
+  const paymentMethods = data as any[];
+
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <PaymentMethodCard paymentMethod={paymentMethod} />
-      <SubscriptionDetail />
-    </Box>
+    <>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <SubscriptionDetail />
+      </Box>
+      <PaymentMethodsList paymentMethods={paymentMethods} />
+    </>
   );
 };
