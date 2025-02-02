@@ -1,19 +1,19 @@
 import { NextRequest } from "next/server";
-import {fetchBalanceTransactions} from "@/server/stripe/stripe";
+import { fetchPaymentMethods } from "@/server/stripe/stripe";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { customerId: string } },
 ): Promise<Response> {
   const customerId = params.customerId;
-  const { customerBalanceTransactions, error } = await fetchBalanceTransactions({
+  const { paymentMethods, error } = await fetchPaymentMethods({
     limit: 5,
     customerId,
   });
-  console.log(customerBalanceTransactions, error);
+  console.log(paymentMethods, error);
   if (error) {
     return new Response();
   }
 
-  return Response.json({ ...customerBalanceTransactions });
+  return Response.json({ ...paymentMethods });
 }
