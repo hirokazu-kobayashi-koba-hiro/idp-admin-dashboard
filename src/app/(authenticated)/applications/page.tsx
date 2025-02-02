@@ -1,12 +1,11 @@
-import {Typography} from "@mui/material";
+import { Typography } from "@mui/material";
 
 const Applications = () => {
-
-    return (
-      <>
+  return (
+    <>
       <Typography variant={"h4"}>Applications</Typography>
-      </>
-    );
-}
+    </>
+  );
+};
 
 export default Applications;
