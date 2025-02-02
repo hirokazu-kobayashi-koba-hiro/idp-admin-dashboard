@@ -15,7 +15,7 @@ export const UserDetails = (props: UserDetailsProps) => {
         <CardContent>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
-              <LabeledTypography label={"id"} value={user.id} />
+              <LabeledTypography label={"id"} value={user.sub} />
             </Grid>
             <Grid item xs={12} md={4}>
               <LabeledTypography label={"name"} value={user.name} />
