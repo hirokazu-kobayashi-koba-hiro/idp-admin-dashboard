@@ -46,7 +46,7 @@ const PlatformSelector = ({
             transition: "0.3s",
           }}
         >
-          <CardActionArea onClick={() => handleSelect(platform.name)}>
+          <CardActionArea onClick={() => handleSelect(platform)}>
             <CardContent>
               {platform.icon}
               <Typography variant="h6" sx={{ mt: 1 }}>
@@ -61,39 +61,71 @@ const PlatformSelector = ({
 };
 
 const GettingStarted = () => {
-  const [selectedPlatform, setSelectedPlatform] = useState("");
+  const [selectedPlatform, setSelectedPlatform] = useState(null);
 
   const platforms = [
     {
       name: "React",
       icon: <SiReact size={50} color="#61DBFB" />,
       color: "#61DBFB",
-      sampleAppUrl: "https://github.com/auth0/auth0-spa-js/archive/main.zip",
+      sampleAppUrl:
+        "https://github.com/hirokazu-kobayashi-koba-hiro//idp-admin-dashboard/archive/main.zip",
+      step2: {
+        title: "React: .env",
+        codeSnippet:
+          "IDP_DOMAIN=your-react-domain.com\nIDP_CLIENT_ID=your-client-id\nIDP_CLIENT_SECRET=your-client-secret",
+        codeLanguage: "bash",
+      },
+      step3: {
+        title: "run command",
+        codeSnippet: "npm install\nnpm run dev",
+        codeLanguage: "bash",
+      },
     },
     {
       name: "Android",
       icon: <SiAndroid size={50} color="#3DDC84" />,
       color: "#3DDC84",
-      sampleAppUrl: "https://github.com/auth0/Auth0.Android/archive/main.zip",
+      sampleAppUrl:
+        "https://github.com/hirokazu-kobayashi-koba-hiro/vc-wallet-android-app/archive/main.zip",
+      step2: {
+        title: "Android: resources",
+        codeSnippet:
+          '<string name="com_vc_wallet_client_id">sKUsWLY5BCzdXAggk78km7kOjfQP1rWR</string>\n<string name="com_vc_wallet_domain">dev-l6ns7qgdx81yv2rs.us.auth0.com</string>\n<string name="com_vc_wallet_scheme">org.idp.verifiable.credentials</string>',
+        codeLanguage: "bash",
+      },
+      step3: {
+        title: "run command",
+        codeSnippet: "npm install\nnpm run dev",
+        codeLanguage: "bash",
+      },
     },
     {
       name: "iOS",
       icon: <SiApple size={50} color="#A2AAAD" />,
       color: "#A2AAAD",
-      sampleAppUrl: "https://github.com/auth0/Auth0.swift/archive/master.zip",
+      sampleAppUrl:
+        "https://github.com/hirokazu-kobayashi-koba-hiro/vc-wallet-ios-app/archive/main.zip",
+      step2: {
+        title: "iOS: info.plist",
+        codeSnippet:
+          "IDP_DOMAIN=your-react-domain.com\nIDP_CLIENT_ID=your-client-id\nIDP_CLIENT_SECRET=your-client-secret",
+        codeLanguage: "bash",
+      },
+      step3: {
+        title: "iOS: ",
+        codeSnippet: "",
+        codeLanguage: "bash",
+      },
     },
   ];
 
   const fetchSampleAppRepository = async () => {
     try {
-      const sampleApp = platforms.find(
-        (platform) => platform.name === selectedPlatform,
-      );
-
       const response = await fetch("/api/sample-app", {
         method: "POST",
         body: JSON.stringify({
-          url: sampleApp?.sampleAppUrl || "",
+          url: selectedPlatform?.sampleAppUrl || "",
         }),
       });
       console.log(response);
@@ -120,7 +152,6 @@ const GettingStarted = () => {
       window.URL.revokeObjectURL(a.href);
     }
   };
-  const reactCodeSnippet = `IDP_DOMAIN=your-react-domain.auth0.com\nIDP_CLIENT_ID=your-client-id\nIDP_CLIENT_SECRET=your-client-secret`;
 
   return (
     <>
@@ -145,7 +176,7 @@ const GettingStarted = () => {
             </Typography>
             <PlatformSelector
               platforms={platforms}
-              onSelect={(selected: string) => {
+              onSelect={(selected: any) => {
                 console.log(selected);
                 setSelectedPlatform(selected);
               }}
@@ -162,42 +193,20 @@ const GettingStarted = () => {
               download
             </Button>
           </Box>
-          {selectedPlatform === "React" && (
+          {selectedPlatform && (
             <Stack spacing={2}>
               <Typography variant={"h6"}>STEP2: Configure app</Typography>
               <CodeSnippet
-                title={"React: .env"}
-                code={reactCodeSnippet}
-                codeLanguage={"bash"}
+                title={selectedPlatform.step2.title}
+                code={selectedPlatform.step2.codeSnippet}
+                codeLanguage={selectedPlatform.step2.codeLanguage}
               />
               <Typography variant={"h6"}>STEP3: run app</Typography>
               <CodeSnippet
-                title={"run command"}
-                code={`npm install\nnpm run dev`}
-                codeLanguage={"bash"}
+                title={selectedPlatform.step3.title}
+                code={selectedPlatform.step3.codeSnippet}
+                codeLanguage={selectedPlatform.step3.codeLanguage}
               />
-            </Stack>
-          )}
-          {selectedPlatform === "Android" && (
-            <Stack spacing={2}>
-              <Typography variant={"h6"}>STEP2: Configure app</Typography>
-              <CodeSnippet
-                title={"Android: config.json"}
-                code={reactCodeSnippet}
-                codeLanguage={"bash"}
-              />
-              <Typography variant={"h6"}>STEP3: run app</Typography>
-            </Stack>
-          )}
-          {selectedPlatform === "iOS" && (
-            <Stack spacing={2}>
-              <Typography variant={"h6"}>STEP2: Configure app</Typography>
-              <CodeSnippet
-                title={"iOS: info.plist"}
-                code={reactCodeSnippet}
-                codeLanguage={"bash"}
-              />
-              <Typography variant={"h6"}>STEP3: run app</Typography>
             </Stack>
           )}
         </Stack>
