@@ -19,7 +19,7 @@ const UsersPage = () => {
   const [selectedUser, setSelectedUser] = useState("");
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["admin-users"],
+    queryKey: ["fetchUsers"],
     queryFn: async () => {
       const response = await fetch("/api/admin/users");
       if (!response.ok) {
@@ -58,7 +58,7 @@ const UsersPage = () => {
   if (deletionError) return <div>Error: {deletionError.message}</div>;
   const users: User[] = data;
   const columns = [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "sub", headerName: "Sub", width: 200 },
     { field: "name", headerName: "Name", width: 200 },
     { field: "email", headerName: "Email", width: 200 },
     {
@@ -67,10 +67,11 @@ const UsersPage = () => {
       sortable: false,
       width: 90,
       disableClickEventBubbling: true,
-      renderCell: (user: User) => (
+      renderCell: (data: any) => (
         <IconButton
           onClick={() => {
-            router.push(`/users/${user.id}`);
+            console.log("edit", data);
+            router.push(`/users/${data.row.sub}`);
           }}
         >
           <Edit />
@@ -86,7 +87,7 @@ const UsersPage = () => {
       renderCell: (user: User) => (
         <IconButton
           onClick={() => {
-            setSelectedUser(user.id);
+            setSelectedUser(user.sub);
             setShowDialog(true);
           }}
         >
@@ -95,6 +96,13 @@ const UsersPage = () => {
       ),
     },
   ];
+
+  const userList = users.map((user, index) => {
+    return {
+      id: index,
+      ...user,
+    };
+  });
 
   return (
     <>
@@ -105,7 +113,7 @@ const UsersPage = () => {
         sx={{ maxWidth: 800, margin: "auto", mt: 4 }}
         // @ts-ignore
         columns={columns}
-        rows={users}
+        rows={userList}
       />
       {showDialog && (
         <ConfirmationDialog

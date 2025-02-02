@@ -13,7 +13,7 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [, setSystemAlert] = useAtom(systemAlertAtom);
 
   const { data, error, isPending } = useQuery({
-    queryKey: [""],
+    queryKey: ["fetchUser"],
     queryFn: async () => {
       const resolvedParams = await params;
       const userId = resolvedParams.id;
@@ -60,7 +60,7 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
             margin: "0 auto",
           }}
         >
-          <TextField variant="standard" value={user.id} />
+          <TextField variant="standard" value={user.sub} />
         </Box>
       ),
     },
