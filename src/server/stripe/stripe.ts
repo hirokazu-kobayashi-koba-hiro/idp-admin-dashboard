@@ -135,3 +135,28 @@ export const fetchPaymentMethods = async ({
     };
   }
 };
+
+export const fetchBalanceTransactions = async ({
+                                            customerId,
+                                            limit = 5,
+                                          }: {
+  customerId: string;
+  limit: number;
+}) => {
+  try {
+    const customerBalanceTransactions = await stripe.customers.listBalanceTransactions(
+        customerId,
+        {
+          limit,
+        },
+    );
+    return {
+      customerBalanceTransactions,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      error: e,
+    };
+  }
+};

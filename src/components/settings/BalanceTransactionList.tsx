@@ -192,13 +192,13 @@ const PaymentMethodCard = ({
   );
 };
 
-export const PaymentMethodsList = ({
-  paymentMethods,
+export const BalanceTransactionList = ({
+  transactions,
 }: {
-  paymentMethods: PaymentMethod[];
+    transactions: any[];
 }) => {
   const [openItems, setOpenItems] = useState(
-    Array(paymentMethods.length).fill(false),
+    Array(transactions.length).fill(false),
   );
 
   const handleToggle = (index: number) => {
@@ -212,11 +212,11 @@ export const PaymentMethodsList = ({
   return (
     <>
       <Box mt={4}>
-        <Typography variant={"h5"}>Payment Methods</Typography>
+        <Typography variant={"h5"}>Balance Transaction</Typography>
       </Box>
       <List>
         <Box sx={{ position: "relative", overflow: "hidden" }}>
-          {paymentMethods.map((method: any, index: number) => (
+          {transactions.map((transaction: any, index: number) => (
             <ListItem key={index} disableGutters>
               <Box width="100%">
                 <Box display="flex" m={2} alignItems="center">
@@ -237,15 +237,15 @@ export const PaymentMethodsList = ({
                     <CreditCard />
                   </ListItemIcon>
                   <ListItemText
-                    primary={`${method.card.brand} - ${method.card.last4}`}
+                    primary={`${transaction.card} - ${transaction}`}
                   />
                   <ListItemText
-                    primary={`${method.card.expMonth} / ${method.card.expYear}`}
+                    primary={`$`}
                   />
                 </Box>
                 <Divider light />
                 <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
-                  <PaymentMethodCard paymentMethod={method} />
+
                 </Collapse>
               </Box>
             </ListItem>

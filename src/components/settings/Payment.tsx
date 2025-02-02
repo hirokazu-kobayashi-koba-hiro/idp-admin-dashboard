@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { systemAlertAtom } from "@/state/SystemState";
+import { Loading } from "@/components/Loading";
 
 export const Payment = () => {
   const [, setSystemAlert] = useAtom(systemAlertAtom);
@@ -14,7 +15,7 @@ export const Payment = () => {
   const { data: session } = useSession();
   const customerId = session?.user.customerId || "";
 
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["fetchPaymentMethods"],
     queryFn: async () => {
       const { payload, error } = await fetchPaymentMethods(customerId);
@@ -36,6 +37,7 @@ export const Payment = () => {
     },
   });
 
+  if (isPending) return <Loading />;
   if (!data) return <div>error</div>;
 
   return (

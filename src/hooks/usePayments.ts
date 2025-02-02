@@ -121,11 +121,35 @@ export const usePayments = () => {
     }
   };
 
+  const fetchBalanceTransactions = async (customerId: string,): Promise<{ payload?: any, error?: any }> => {
+    try {
+      const response = await fetch(
+          `/api/payments/customers/${customerId}/balance_transactions`,
+      );
+      if (!response.ok) {
+        return {
+          error: "Network response was not ok",
+        };
+      }
+
+      const body = await response.json();
+      return {
+        payload: convertToCamel(body.data),
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        error: e,
+      };
+    }
+  }
+
   return {
     fetchPrices,
     postSessionCreation,
     fetchSubscriptionDetail,
     fetchPaymentMethods,
+    fetchBalanceTransactions,
   };
 };
 
