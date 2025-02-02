@@ -19,7 +19,7 @@ export default function RootLayout({
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
   const menuItems = [
     { text: "Getting Started", icon: <Start />, path: "getting-started" },
-    { text: "Statics", icon: <EqualizerIcon />, path: "/statics" },
+    { text: "Activity", icon: <EqualizerIcon />, path: "/activity" },
     { text: "Applications", icon: <AppSettingsAltIcon />, path: "/applications" },
     { text: "Users", icon: <PeopleIcon />, path: "/users" },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
