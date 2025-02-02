@@ -8,6 +8,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { systemAlertAtom } from "@/state/SystemState";
 import { SystemAlertDialog } from "@/components/SystemAlertDialog";
 import { useAtom } from "jotai";
+import { Start } from "@mui/icons-material";
 
 export default function RootLayout({
   children,
@@ -16,6 +17,7 @@ export default function RootLayout({
 }>) {
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
   const menuItems = [
+    { text: "Getting Started", icon: <Start />, path: "getting-started" },
     { text: "Dashboard", icon: <DashboardIcon />, path: "/home" },
     { text: "Users", icon: <PeopleIcon />, path: "/users" },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },

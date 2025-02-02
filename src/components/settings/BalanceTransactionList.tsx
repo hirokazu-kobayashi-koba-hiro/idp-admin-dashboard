@@ -17,10 +17,13 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
-    ExpandMore as ExpandMoreIcon,
-    CreditCard,
-    AccountBalance,
-    Home, Person, Email, Phone,
+  ExpandMore as ExpandMoreIcon,
+  CreditCard,
+  AccountBalance,
+  Home,
+  Person,
+  Email,
+  Phone,
 } from "@mui/icons-material";
 import { PaymentMethod } from "@/types/payment";
 
@@ -133,50 +136,50 @@ const PaymentMethodCard = ({
     );
   };
 
-    const renderBillingDetails = (paymentMethod: PaymentMethod) => {
-        const { name, email, phone } = paymentMethod.billingDetails;
-        return (
-            <>
-                {/* Billing Name */}
-                {name && (
-                    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-                        <Person fontSize="medium" color="secondary" />
-                        <Typography variant="body1">
-                            <strong>Name:</strong> {name}
-                        </Typography>
-                    </Grid>
-                )}
+  const renderBillingDetails = (paymentMethod: PaymentMethod) => {
+    const { name, email, phone } = paymentMethod.billingDetails;
+    return (
+      <>
+        {/* Billing Name */}
+        {name && (
+          <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+            <Person fontSize="medium" color="secondary" />
+            <Typography variant="body1">
+              <strong>Name:</strong> {name}
+            </Typography>
+          </Grid>
+        )}
 
-                {/* Billing Email */}
-                {email && (
-                    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-                        <Email fontSize="medium" color="secondary" />
-                        <Typography variant="body1">
-                            <strong>Email:</strong> {email}
-                        </Typography>
-                    </Grid>
-                )}
+        {/* Billing Email */}
+        {email && (
+          <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+            <Email fontSize="medium" color="secondary" />
+            <Typography variant="body1">
+              <strong>Email:</strong> {email}
+            </Typography>
+          </Grid>
+        )}
 
-                {/* Billing Phone */}
-                {phone && (
-                    <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-                        <Phone fontSize="medium" color="secondary" />
-                        <Typography variant="body1">
-                            <strong>Phone:</strong> {phone}
-                        </Typography>
-                    </Grid>
-                )}
+        {/* Billing Phone */}
+        {phone && (
+          <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+            <Phone fontSize="medium" color="secondary" />
+            <Typography variant="body1">
+              <strong>Phone:</strong> {phone}
+            </Typography>
+          </Grid>
+        )}
 
-                {/* Billing Address */}
-                <Grid item xs={12} display="flex" alignItems="center" gap={1}>
-                    <Home fontSize="medium" color="secondary" />
-                    <Typography variant="body1">
-                        <strong>Billing Address:</strong> {formatAddress(paymentMethod)}
-                    </Typography>
-                </Grid>
-            </>
-        );
-    };
+        {/* Billing Address */}
+        <Grid item xs={12} display="flex" alignItems="center" gap={1}>
+          <Home fontSize="medium" color="secondary" />
+          <Typography variant="body1">
+            <strong>Billing Address:</strong> {formatAddress(paymentMethod)}
+          </Typography>
+        </Grid>
+      </>
+    );
+  };
 
   return (
     <Card sx={{ m: 2, p: 2, boxShadow: 3, borderRadius: 2 }}>
@@ -195,7 +198,7 @@ const PaymentMethodCard = ({
 export const BalanceTransactionList = ({
   transactions,
 }: {
-    transactions: any[];
+  transactions: any[];
 }) => {
   const [openItems, setOpenItems] = useState(
     Array(transactions.length).fill(false),
@@ -239,14 +242,14 @@ export const BalanceTransactionList = ({
                   <ListItemText
                     primary={`${transaction.card} - ${transaction}`}
                   />
-                  <ListItemText
-                    primary={`$`}
-                  />
+                  <ListItemText primary={`$`} />
                 </Box>
                 <Divider light />
-                <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
-
-                </Collapse>
+                <Collapse
+                  in={openItems[index]}
+                  timeout="auto"
+                  unmountOnExit
+                ></Collapse>
               </Box>
             </ListItem>
           ))}

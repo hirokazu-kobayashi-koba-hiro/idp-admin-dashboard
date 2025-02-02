@@ -121,10 +121,12 @@ export const usePayments = () => {
     }
   };
 
-  const fetchBalanceTransactions = async (customerId: string,): Promise<{ payload?: any, error?: any }> => {
+  const fetchBalanceTransactions = async (
+    customerId: string,
+  ): Promise<{ payload?: any; error?: any }> => {
     try {
       const response = await fetch(
-          `/api/payments/customers/${customerId}/balance_transactions`,
+        `/api/payments/customers/${customerId}/balance_transactions`,
       );
       if (!response.ok) {
         return {
@@ -142,7 +144,7 @@ export const usePayments = () => {
         error: e,
       };
     }
-  }
+  };
 
   return {
     fetchPrices,
