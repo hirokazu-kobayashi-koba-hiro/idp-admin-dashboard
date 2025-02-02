@@ -78,9 +78,9 @@ type Platform = {
 };
 
 const GettingStarted = () => {
-  const [selectedPlatform, setSelectedPlatform] = useState<
-    Platform | null
-  >(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
+    null,
+  );
 
   const platforms = [
     {

@@ -20,7 +20,7 @@ export default function AuthHandler({
         router.push(pathname);
         return;
       }
-      router.push("/home");
+      router.push("/activity");
     };
     if (status === "authenticated") {
       goToPage();

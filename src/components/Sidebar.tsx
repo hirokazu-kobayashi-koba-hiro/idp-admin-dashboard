@@ -6,9 +6,9 @@ import {
   Drawer,
   Toolbar,
   List,
-  ListItem,
   ListItemIcon,
   ListItemText,
+  ListItemButton,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
@@ -51,20 +51,24 @@ export const Sidebar = ({
       <Box sx={{ overflow: "auto" }}>
         <List>
           {menuItems.map((item, index) => (
-            <ListItem
+            <ListItemButton
               key={index}
               onClick={() => {
                 router.push(item.path);
                 onClose();
               }}
               sx={{
-                backgroundColor: "inherit",
-                color: "inherit",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.08)",
+                },
+                "&:active": {
+                  backgroundColor: "rgba(0, 0, 0, 0.15)",
+                },
               }}
             >
               <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
-            </ListItem>
+            </ListItemButton>
           ))}
         </List>
       </Box>

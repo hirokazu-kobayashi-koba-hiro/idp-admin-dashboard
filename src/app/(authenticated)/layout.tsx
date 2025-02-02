@@ -2,9 +2,10 @@
 
 import DashboardLayout from "@/components/DashboardLayout";
 import React from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
+import AppSettingsAltIcon from "@mui/icons-material/AppSettingsAlt";
 import { systemAlertAtom } from "@/state/SystemState";
 import { SystemAlertDialog } from "@/components/SystemAlertDialog";
 import { useAtom } from "jotai";
@@ -18,7 +19,12 @@ export default function RootLayout({
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
   const menuItems = [
     { text: "Getting Started", icon: <Start />, path: "getting-started" },
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/home" },
+    { text: "Activity", icon: <EqualizerIcon />, path: "/activity" },
+    {
+      text: "Applications",
+      icon: <AppSettingsAltIcon />,
+      path: "/applications",
+    },
     { text: "Users", icon: <PeopleIcon />, path: "/users" },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
   ];
