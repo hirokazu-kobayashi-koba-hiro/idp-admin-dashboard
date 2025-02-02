@@ -19,7 +19,7 @@ const PlatformSelector = ({
   platforms: any[];
   onSelect: (platform: any) => void;
 }) => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<Platform | null>(null);
 
   const handleSelect = (platform: any) => {
     setSelected(platform);
@@ -35,12 +35,12 @@ const PlatformSelector = ({
             width: 150,
             textAlign: "center",
             border:
-              selected === platform.name
+              selected?.name === platform.name
                 ? `3px solid ${platform.color}`
                 : "1px solid #ccc",
             borderRadius: "10px",
             boxShadow:
-              selected === platform.name
+              selected?.name === platform.name
                 ? `0 4px 10px ${platform.color}88`
                 : "none",
             transition: "0.3s",
@@ -60,8 +60,27 @@ const PlatformSelector = ({
   );
 };
 
+type Platform = {
+  name: string;
+  icon: React.ReactNode;
+  color: string;
+  sampleAppUrl: string;
+  step2: {
+    title: string;
+    codeSnippet: string;
+    codeLanguage: string;
+  };
+  step3: {
+    title: string;
+    codeSnippet: string;
+    codeLanguage: string;
+  };
+};
+
 const GettingStarted = () => {
-  const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    Platform | undefined
+  >(undefined);
 
   const platforms = [
     {
@@ -96,7 +115,7 @@ const GettingStarted = () => {
       },
       step3: {
         title: "run command",
-        codeSnippet: "npm install\nnpm run dev",
+        codeSnippet: "",
         codeLanguage: "bash",
       },
     },
