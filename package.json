@@ -19,10 +19,13 @@
     "@mui/x-data-grid": "^7.24.0",
     "@tanstack/react-query": "^5.64.0",
     "jotai": "^2.11.0",
+    "jszip": "^3.10.1",
     "next": "15.1.4",
     "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "react-syntax-highlighter": "^15.6.1",
     "stripe": "^17.5.0",
     "uuid": "^11.0.5"
   },
