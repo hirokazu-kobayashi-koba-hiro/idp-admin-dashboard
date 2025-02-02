@@ -1,6 +1,6 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ContentCopy } from "@mui/icons-material";
 import React from "react";
 
@@ -20,7 +20,7 @@ export const CodeSnippet = ({
   return (
     <Box position="relative">
       <Typography>{title}</Typography>
-      <SyntaxHighlighter language={codeLanguage} style={atomOneDark}>
+      <SyntaxHighlighter language={codeLanguage} style={atomDark}>
         {code}
       </SyntaxHighlighter>
       <IconButton

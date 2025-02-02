@@ -6,14 +6,10 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
 import { SiReact, SiAndroid, SiApple } from "react-icons/si";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { ContentCopy } from "@mui/icons-material";
 import { CodeSnippet } from "@/components/CodeSnippet";
 
 const PlatformSelector = ({
@@ -113,7 +109,7 @@ const GettingStarted = () => {
   };
 
   const handleClick = async () => {
-    const { url, error } = await fetchSampleAppRepository();
+    const { url } = await fetchSampleAppRepository();
     if (url) {
       console.log(url);
       const a = document.createElement("a");
@@ -125,10 +121,6 @@ const GettingStarted = () => {
     }
   };
   const reactCodeSnippet = `IDP_DOMAIN=your-react-domain.auth0.com\nIDP_CLIENT_ID=your-client-id\nIDP_CLIENT_SECRET=your-client-secret`;
-
-  const handleCopy = (codeSnippet: string) => {
-    navigator.clipboard.writeText(codeSnippet);
-  };
 
   return (
     <>
