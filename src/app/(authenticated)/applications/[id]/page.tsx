@@ -3,22 +3,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { systemAlertAtom } from "@/state/SystemState";
-import { User } from "@/app/api/admin/users/route";
 import { Box, TextField, Typography } from "@mui/material";
 import { Loading } from "@/components/Loading";
 import { TabPanels } from "@/components/TabPanels";
-import { UserDetails } from "@/components/users/UserDetails";
+import {useApplications} from "@/hooks/useApplications";
+import {ApplicationBasic} from "@/components/applications/ApplicationBasic";
 
-const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const ApplicationEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { fetchApplication } = useApplications();
   const [, setSystemAlert] = useAtom(systemAlertAtom);
 
   const { data, error, isPending } = useQuery({
-    queryKey: ["fetchUser"],
+    queryKey: ["fetchApplication"],
     queryFn: async () => {
       const resolvedParams = await params;
-      const userId = resolvedParams.id;
-      const response = await fetch(`/api/admin/users/${userId}`);
-      if (!response.ok) {
+      const id = resolvedParams.id;
+      const { payload, error } = await fetchApplication(id);
+      if (error) {
         setSystemAlert({
           open: true,
           title: "error",
@@ -32,7 +33,7 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
         });
         throw new Error("Network response was not ok");
       }
-      return response.json();
+      return payload;
     },
   });
   if (isPending) {
@@ -41,15 +42,15 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
   if (error) {
     return <Typography>error</Typography>;
   }
+  console.log("application", data)
 
-  const user: User = data;
   const elements = [
     {
-      label: "details",
-      node: <UserDetails user={user} />,
+      label: "basic",
+      node: <ApplicationBasic application={data} />,
     },
     {
-      label: "devices",
+      label: "authorization",
       node: (
         <Box
           sx={{
@@ -60,7 +61,7 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
             margin: "0 auto",
           }}
         >
-          <TextField variant="standard" value={user.sub} />
+          <TextField variant="standard" value={"authorization"}/>
         </Box>
       ),
     },
@@ -73,4 +74,4 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default UserEditionPage;
+export default ApplicationEditionPage;
