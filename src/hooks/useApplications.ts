@@ -17,7 +17,23 @@ export const useApplications = () => {
         }
     }
 
+    const fetchApplication = async (id: string) => {
+        const response = await fetch(`/api/admin/applications/${id}`);
+        if (!response.ok) {
+            return {
+                error: "Network response was not ok",
+            };
+        }
+
+        const body = await response.json();
+        const converted = convertToCamel(body);
+        return {
+            payload: converted
+        }
+    }
+
     return {
         fetchApplications,
+        fetchApplication
     }
 }

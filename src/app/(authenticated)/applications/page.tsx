@@ -45,7 +45,7 @@ const Applications = () => {
                 <IconButton
                     onClick={() => {
                         console.log("edit", data);
-                        router.push(`/clients/${data.row.clientId}`);
+                        router.push(`/applications/${data.row.clientId}`);
                     }}
                 >
                     <Edit />
