@@ -93,11 +93,7 @@ export const fetchPrices = async ({ productId }: { productId: string }) => {
   }
 };
 
-export const fetchSubscriptionDetail = async ({
-  subscriptionId,
-}: {
-  subscriptionId: string;
-}) => {
+export const fetchSubscriptionDetail = async (subscriptionId: string) => {
   try {
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     return {
