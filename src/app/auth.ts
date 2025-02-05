@@ -88,7 +88,7 @@ const IdpServer = (options: any) => ({
   ...options,
 })
 
-export const { handlers } = NextAuth({
+export const { handlers, auth } = NextAuth({
   providers: [
     IdpServer({
       clientId: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID,
@@ -101,15 +101,23 @@ export const { handlers } = NextAuth({
       issuer: process.env.NEXT_AUTH_AUTH0_ISSUER,
     }),
   ],
-  debug: true,
+  // debug: true,
   callbacks: {
-    async session({ session, trigger, newSession }) {
+    async jwt({ token, account}) {
+      if (account) {
+        token.accessToken = account.access_token
+      }
+
+      return token;
+    },
+    async session({ session, token, trigger, newSession }) {
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, trigger, newSession);
       session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
-      session.user.customerId = "cus_RgYcKnMlSxoaHs";
-      return session;
+      session.user.accessToken = token.accessToken
+      return session
     },
+
   },
   session: {
     strategy: "jwt",
