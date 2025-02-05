@@ -10,8 +10,8 @@ declare module "next-auth" {
       sub: string;
       subscriptionId: string;
       customerId: string;
-      accessToken?: string;
     } & DefaultSession["user"];
+    accessToken?: string;
   }
 }
 
@@ -20,6 +20,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     /** OpenID ID Token */
     accessToken?: string;
-    idToken?: string
+    idToken?: string;
   }
 }

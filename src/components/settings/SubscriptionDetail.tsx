@@ -29,7 +29,6 @@ export const SubscriptionDetail = () => {
   const [, setSystemAlert] = useAtom(systemAlertAtom);
   const { fetchSubscriptionDetail } = usePayments();
   const { data: session } = useSession();
-  console.log("session", session);
   const subscriptionId = session?.user.subscriptionId || "";
 
   const {

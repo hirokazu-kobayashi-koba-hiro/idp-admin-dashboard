@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { MenuItem, Sidebar } from "./Sidebar";
-import {Logout, Menu} from "@mui/icons-material";
+import { Logout, Menu } from "@mui/icons-material";
 import { signOut } from "next-auth/react";
 
 const DashboardLayout = ({
@@ -41,11 +41,13 @@ const DashboardLayout = ({
             <Typography variant="h6" noWrap>
               Dashboard
             </Typography>
-              <IconButton onClick={() => {
-                  signOut()
-              }}>
-                  <Logout />
-              </IconButton>
+            <IconButton
+              onClick={() => {
+                signOut();
+              }}
+            >
+              <Logout />
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

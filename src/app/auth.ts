@@ -1,10 +1,10 @@
 import NextAuth from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
-import {backendUrl} from "@/app/api/backendConfig";
-import {convertToCamel} from "@/functions/convertToCamel";
+import { backendUrl } from "@/app/api/backendConfig";
+import { convertToCamel } from "@/functions/convertToCamel";
 
 const IdpServer = (options: any) => ({
-  ... {
+  ...{
     id: "idp-server",
     name: "IdPServer",
     type: "oidc",
@@ -17,7 +17,7 @@ const IdpServer = (options: any) => ({
         scope: "openid profile phone email address",
         client_id: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID,
         response_type: "code",
-      }
+      },
     },
     checks: ["pkce", "state"],
     token: {
@@ -27,26 +27,26 @@ const IdpServer = (options: any) => ({
           grant_type: "authorization_code",
           code,
           redirect_uri: `http://localhost:3000/api/auth/callback/idp-server`,
-          client_id: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID as string
-        })
+          client_id: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
+        });
         const response = await fetch(`${backendUrl}/api/v1/tokens`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded",
           },
           body: params,
-        })
+        });
         if (!response.ok) {
-          console.log(response)
-          return {}
+          console.log(response);
+          return {};
         }
 
-        const body = await response.json()
-        console.log(body)
+        const body = await response.json();
+        console.log(body);
 
         return {
           ...body,
-        }
+        };
       },
     },
     userinfo: {
@@ -58,35 +58,35 @@ const IdpServer = (options: any) => ({
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${access_token}`
+            Authorization: `Bearer ${access_token}`,
           },
-        })
+        });
         if (!response.ok) {
-          console.log(response)
-          return {}
+          console.log(response);
+          return {};
         }
 
-        const body = await response.json()
-        console.log(body)
+        const body = await response.json();
+        console.log(body);
 
         return {
           access_token,
           refresh_token,
           expires_at,
           ...body,
-        }
+        };
       },
     },
     profile: (profile: any) => {
-      const converted = convertToCamel(profile)
+      const converted = convertToCamel(profile);
       return {
         id: profile.sub,
-        ...converted
-      }
-    }
+        ...converted,
+      };
+    },
   },
   ...options,
-})
+});
 
 export const { handlers, auth } = NextAuth({
   providers: [
@@ -103,9 +103,9 @@ export const { handlers, auth } = NextAuth({
   ],
   // debug: true,
   callbacks: {
-    async jwt({ token, account}) {
+    async jwt({ token, account }) {
       if (account) {
-        token.accessToken = account.access_token
+        token.accessToken = account.access_token;
       }
 
       return token;
@@ -114,10 +114,10 @@ export const { handlers, auth } = NextAuth({
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, trigger, newSession);
       session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
-      session.user.accessToken = token.accessToken
-      return session
+      session.user.customerId = "cus_RgYcKnMlSxoaHs";
+      session.accessToken = token.accessToken;
+      return session;
     },
-
   },
   session: {
     strategy: "jwt",

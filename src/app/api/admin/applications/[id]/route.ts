@@ -6,17 +6,17 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } },
 ): Promise<Response> {
-  const session = await auth()
-  const accessToken = session?.user?.accessToken
+  const session = await auth();
+  const accessToken = session?.accessToken;
   const id = params.id;
   const response = await fetch(
     `${backendUrl}/api/v1/management/clients/${id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      }
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
   );
   if (!response.ok) {
     return Response.error();
@@ -31,10 +31,10 @@ export async function DELETE(
 ): Promise<Response> {
   const id = params.id;
   const response = await fetch(
-      `${backendUrl}/api/v1/management/applications/${id}`,
-      {
-        method: "DELETE"
-      }
+    `${backendUrl}/api/v1/management/applications/${id}`,
+    {
+      method: "DELETE",
+    },
   );
   if (!response.ok) {
     return Response.error();

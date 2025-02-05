@@ -1,6 +1,6 @@
 import { backendUrl } from "@/app/api/backendConfig";
 import { convertToCamel } from "@/functions/convertToCamel";
-import {auth} from "@/app/auth";
+import { auth } from "@/app/auth";
 
 export type User = {
   sub: string;
@@ -22,13 +22,13 @@ export type User = {
 };
 
 export async function GET(): Promise<Response> {
-  const session = await auth()
-  const accessToken = session?.user?.accessToken
+  const session = await auth();
+  const accessToken = session?.accessToken;
   const response = await fetch(`${backendUrl}/api/v1/management/users`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
   if (!response.ok) {
     throw new Error("api is failed");
