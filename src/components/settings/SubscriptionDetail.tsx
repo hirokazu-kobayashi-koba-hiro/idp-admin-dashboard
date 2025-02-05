@@ -16,51 +16,13 @@ import {
   Event,
   ShoppingCart,
 } from "@mui/icons-material";
-
-import { useAtom } from "jotai/index";
-import { systemAlertAtom } from "@/state/SystemState";
-import { usePayments } from "@/hooks/usePayments";
-import { useQuery } from "@tanstack/react-query";
-import { Loading } from "@/components/Loading";
 import React from "react";
-import { useSession } from "next-auth/react";
+import {Loading} from "@/components/Loading";
 
-export const SubscriptionDetail = () => {
-  const [, setSystemAlert] = useAtom(systemAlertAtom);
-  const { fetchSubscriptionDetail } = usePayments();
-  const { data: session } = useSession();
-  const subscriptionId = session?.user.subscriptionId || "";
-
-  const {
-    data: subscription,
-    isPending,
-    error,
-  } = useQuery({
-    queryKey: ["fetchSubscriptionDetail"],
-    queryFn: async () => {
-      const { payload, error } = await fetchSubscriptionDetail(subscriptionId);
-      if (!payload && error) {
-        setSystemAlert({
-          open: true,
-          title: "error",
-          body: null,
-          onClickPositiveButton: () => {
-            console.log("onClickPositiveButton");
-          },
-          onClickNegativeButton: () => {
-            console.log("onClickNegativeButton");
-          },
-        });
-        throw new Error("Network response was not ok");
-      }
-      return payload;
-    },
-  });
-  console.log(subscription);
-
-  if (isPending) return <Loading />;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!subscription) return <div>not found</div>;
+export const SubscriptionDetail = (props: any) => {
+  const { subscription } = props;
+  console.log(subscription)
+  if (!subscription) return <Loading />
 
   return (
     <Card
