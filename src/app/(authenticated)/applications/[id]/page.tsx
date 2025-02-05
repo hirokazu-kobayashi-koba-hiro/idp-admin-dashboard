@@ -6,10 +6,14 @@ import { systemAlertAtom } from "@/state/SystemState";
 import { Box, TextField, Typography } from "@mui/material";
 import { Loading } from "@/components/Loading";
 import { TabPanels } from "@/components/TabPanels";
-import {useApplications} from "@/hooks/useApplications";
-import {ApplicationBasic} from "@/components/applications/ApplicationBasic";
+import { useApplications } from "@/hooks/useApplications";
+import { ApplicationBasic } from "@/components/applications/ApplicationBasic";
 
-const ApplicationEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const ApplicationEditionPage = ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
   const { fetchApplication } = useApplications();
   const [, setSystemAlert] = useAtom(systemAlertAtom);
 
@@ -42,7 +46,7 @@ const ApplicationEditionPage = ({ params }: { params: Promise<{ id: string }> })
   if (error) {
     return <Typography>error</Typography>;
   }
-  console.log("application", data)
+  console.log("application", data);
 
   const elements = [
     {
@@ -61,7 +65,7 @@ const ApplicationEditionPage = ({ params }: { params: Promise<{ id: string }> })
             margin: "0 auto",
           }}
         >
-          <TextField variant="standard" value={"authorization"}/>
+          <TextField variant="standard" value={"authorization"} />
         </Box>
       ),
     },

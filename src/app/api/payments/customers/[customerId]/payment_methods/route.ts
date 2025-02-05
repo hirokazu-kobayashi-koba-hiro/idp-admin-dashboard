@@ -14,7 +14,7 @@ export async function GET(
   );
   console.log(customerBalanceTransactions, error);
   if (error) {
-    return new Response();
+    return new Response(null, { status: 500 });
   }
 
   return Response.json({ ...customerBalanceTransactions });

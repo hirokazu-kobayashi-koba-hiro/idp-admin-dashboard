@@ -29,7 +29,7 @@ export default function AuthHandler({
     if (status === "loading") {
       return;
     }
-    signIn("auth0");
+    signIn("idp-server");
   }, [router, status]);
 
   if (status === "loading") {

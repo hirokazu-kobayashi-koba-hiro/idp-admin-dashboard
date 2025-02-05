@@ -12,7 +12,7 @@ export async function GET(
   });
   console.log(paymentMethods, error);
   if (error) {
-    return new Response();
+    return new Response(null, { status: 500 });
   }
 
   return Response.json({ ...paymentMethods });

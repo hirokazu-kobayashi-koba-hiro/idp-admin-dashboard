@@ -6,12 +6,10 @@ export async function GET(
   { params }: { params: { subscriptionId: string } },
 ): Promise<Response> {
   const subscriptionId = params.subscriptionId;
-  const { subscription, error } = await fetchSubscriptionDetail({
-    subscriptionId,
-  });
+  const { subscription, error } = await fetchSubscriptionDetail(subscriptionId);
   console.log(subscription, error);
   if (error) {
-    return new Response();
+    return new Response(null, { status: 500 });
   }
 
   return Response.json({ ...subscription });
