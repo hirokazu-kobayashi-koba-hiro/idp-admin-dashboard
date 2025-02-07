@@ -17,12 +17,12 @@ import {
   ShoppingCart,
 } from "@mui/icons-material";
 import React from "react";
-import {Loading} from "@/components/Loading";
+import { Loading } from "@/components/Loading";
 
 export const SubscriptionDetail = (props: any) => {
   const { subscription } = props;
-  console.log(subscription)
-  if (!subscription) return <Loading />
+  console.log(subscription);
+  if (!subscription) return <Loading />;
 
   return (
     <Card
