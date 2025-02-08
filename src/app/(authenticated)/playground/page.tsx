@@ -127,7 +127,7 @@ function OidcPlayground() {
                       logMessage(`[Step 1] request authorization: ${authUrl}`);
                     }}
                   >
-                    次へ
+                    Next
                   </Button>
                 </Box>
                 <CodeSnippet
@@ -141,7 +141,7 @@ function OidcPlayground() {
               <>
                 <Box>
                   <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    戻る
+                    Back
                   </Button>
                   <Button
                     variant="contained"
@@ -150,7 +150,7 @@ function OidcPlayground() {
                       gotoNext();
                     }}
                   >
-                    次へ
+                    Next
                   </Button>
                 </Box>
                 <CodeSnippet
@@ -164,7 +164,7 @@ function OidcPlayground() {
               <>
                 <Box>
                   <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    戻る
+                    Back
                   </Button>
                   <Button
                     variant="contained"
@@ -204,7 +204,7 @@ function OidcPlayground() {
                       gotoNext();
                     }}
                   >
-                    次へ
+                    Next
                   </Button>
                 </Box>
                 <CodeSnippet
@@ -218,7 +218,7 @@ function OidcPlayground() {
               <>
                 <Box>
                   <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    戻る
+                    Back
                   </Button>
                   <Button
                     variant="contained"
@@ -230,7 +230,7 @@ function OidcPlayground() {
                       gotoNext();
                     }}
                   >
-                    次へ
+                    Next
                   </Button>
                 </Box>
                 <CodeSnippet
@@ -244,7 +244,7 @@ function OidcPlayground() {
               <>
                 <Box>
                   <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    戻る
+                    Back
                   </Button>
                   <Button
                     variant="contained"
@@ -267,7 +267,7 @@ function OidcPlayground() {
                       gotoNext();
                     }}
                   >
-                    次へ
+                    Next
                   </Button>
                 </Box>
                 <CodeSnippet
@@ -281,7 +281,7 @@ function OidcPlayground() {
               <>
                 <Box>
                   <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    戻る
+                    Back
                   </Button>
                   <Button
                     variant="contained"
@@ -290,7 +290,7 @@ function OidcPlayground() {
                       gotoNext();
                     }}
                   >
-                    次へ
+                    Next
                   </Button>
                 </Box>
                 <CodeSnippet
