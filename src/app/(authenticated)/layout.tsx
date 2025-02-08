@@ -9,7 +9,7 @@ import AppSettingsAltIcon from "@mui/icons-material/AppSettingsAlt";
 import { systemAlertAtom } from "@/state/SystemState";
 import { SystemAlertDialog } from "@/components/SystemAlertDialog";
 import { useAtom } from "jotai";
-import { Start } from "@mui/icons-material";
+import { Start, PlayCircleOutline } from "@mui/icons-material";
 
 export default function RootLayout({
   children,
@@ -19,6 +19,7 @@ export default function RootLayout({
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
   const menuItems = [
     { text: "Getting Started", icon: <Start />, path: "getting-started" },
+    { text: "Playground", icon: <PlayCircleOutline />, path: "playground" },
     { text: "Activity", icon: <EqualizerIcon />, path: "/activity" },
     {
       text: "Applications",
