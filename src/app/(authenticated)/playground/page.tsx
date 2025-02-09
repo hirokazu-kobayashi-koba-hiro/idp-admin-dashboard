@@ -11,7 +11,6 @@ import {
   Container,
   Grid,
 } from "@mui/material";
-import { createBasicAuthHeader } from "@/functions/http";
 import { CodeSnippet } from "@/components/CodeSnippet";
 
 const steps = [
@@ -53,7 +52,7 @@ function decodeJwt(token: string) {
 
 function OidcPlayground() {
   const [activeStep, setActiveStep] = useState(0);
-  const [oidcParams, setOidcParams] = useState({
+  const [oidcParams, ] = useState({
     clientId: "clientSecretBasic2",
     redirectUri: "http://localhost:3000/playground",
     scope: "openid profile email",
@@ -77,6 +76,7 @@ function OidcPlayground() {
     const code = urlParams.get("code");
     if (code) {
       setAuthCode(code);
+      // @ts-ignore
       setLogs([`[Step 2] authorization code: ${code}`]);
       setActiveStep(2);
     }
@@ -97,6 +97,7 @@ function OidcPlayground() {
   };
 
   const logMessage = (message: any) => {
+    // @ts-ignore
     setLogs((prev) => [...prev, message]);
   };
 

@@ -3,7 +3,7 @@ import { fetchBalanceTransactions } from "@/server/stripe/stripe";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { customerId: string } },
+  { params } : any,
 ): Promise<Response> {
   const customerId = params.customerId;
   const { customerBalanceTransactions, error } = await fetchBalanceTransactions(

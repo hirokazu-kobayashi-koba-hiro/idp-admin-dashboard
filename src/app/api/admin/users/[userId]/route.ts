@@ -6,7 +6,7 @@ import { auth } from "@/app/auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } },
+  { params } : any,
 ): Promise<Response> {
   const session = await auth();
   const accessToken = session?.accessToken;
@@ -30,7 +30,7 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { userId: string } },
+  { params } : any,
 ): Promise<Response> {
   console.log(params.userId);
   await sleep(500);
