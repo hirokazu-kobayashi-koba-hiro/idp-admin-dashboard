@@ -17,6 +17,7 @@ const PlatformSelector = ({
   onSelect,
 }: {
   platforms: any[];
+  // eslint-disable-next-line no-unused-vars
   onSelect: (platform: any) => void;
 }) => {
   const [selected, setSelected] = useState<Platform | null>(null);

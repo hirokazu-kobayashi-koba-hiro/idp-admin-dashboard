@@ -13,15 +13,19 @@ export default function AuthHandler({
   const { data: session, status } = useSession();
   const pathname = usePathname();
 
+  const goToPage = async () => {
+    await sleep(500);
+    if (session) {
+      console.log(session)
+    }
+    if (pathname && pathname !== "/") {
+      router.push(pathname);
+      return;
+    }
+    router.push("/activity");
+  };
+
   useEffect(() => {
-    const goToPage = async () => {
-      await sleep(500);
-      if (pathname && pathname !== "/") {
-        router.push(pathname);
-        return;
-      }
-      router.push("/activity");
-    };
     if (status === "authenticated") {
       goToPage();
       return;

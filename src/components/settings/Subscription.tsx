@@ -48,6 +48,7 @@ const ProductItem = ({
   priceId: string;
   name: string;
   description: string;
+  // eslint-disable-next-line no-unused-vars
   onClick: (priceId: string) => void;
 }) => {
   return (

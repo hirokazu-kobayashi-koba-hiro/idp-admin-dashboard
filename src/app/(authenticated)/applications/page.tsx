@@ -58,7 +58,7 @@ const Applications = () => {
       sortable: false,
       width: 90,
       disableClickEventBubbling: true,
-      renderCell: (data: any) => (
+      renderCell: () => (
         <IconButton onClick={() => {}}>
           <Delete />
         </IconButton>
