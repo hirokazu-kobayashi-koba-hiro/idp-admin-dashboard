@@ -59,9 +59,9 @@ function OidcPlayground() {
     scope: "openid profile email",
     responseType: "code",
     grantType: "authorization_code",
-    authEndpoint: "http://localhost:8080/123/v1/authorizations",
-    tokenEndpoint: "http://localhost:8080/123/api/v1/tokens",
-    userinfoEndpoint: "http://localhost:8080/123/api/v1/userinfo",
+    authEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/v1/authorizations`,
+    tokenEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/tokens`,
+    userinfoEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/userinfo`,
     clientSecret:
       "clientSecretBasic2cf136dc3c1fc93f31185e5885805d1222333gogoggubaoaugaladufal2cf136dc3c1fc93f31185e5885805d1222333gogoggubaoaugaladufal",
   });
@@ -177,10 +177,6 @@ function OidcPlayground() {
                           method: "POST",
                           headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
-                            ...createBasicAuthHeader({
-                              username: oidcParams.clientId,
-                              password: oidcParams.clientSecret,
-                            }),
                           },
                           body: {
                             client_id: oidcParams.clientId,

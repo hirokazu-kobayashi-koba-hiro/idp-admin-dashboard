@@ -1,7 +1,8 @@
 import NextAuth from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
-import { backendUrl } from "@/app/api/backendConfig";
 import { convertToCamel } from "@/functions/convertToCamel";
+
+export const backendUrl = process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER;
 
 const IdpServer = (options: any) => ({
   ...{
@@ -15,7 +16,7 @@ const IdpServer = (options: any) => ({
       url: `${backendUrl}/v1/authorizations`,
       params: {
         scope: "openid profile phone email address",
-        client_id: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID,
+        client_id: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
         response_type: "code",
       },
     },
@@ -27,7 +28,8 @@ const IdpServer = (options: any) => ({
           grant_type: "authorization_code",
           code,
           redirect_uri: `http://localhost:3000/api/auth/callback/idp-server`,
-          client_id: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
+          client_id: process.env
+            .NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
         });
         const response = await fetch(`${backendUrl}/api/v1/tokens`, {
           method: "POST",
@@ -42,7 +44,7 @@ const IdpServer = (options: any) => ({
         }
 
         const body = await response.json();
-        console.log(body);
+        console.log("token", body);
 
         return {
           ...body,
@@ -67,7 +69,7 @@ const IdpServer = (options: any) => ({
         }
 
         const body = await response.json();
-        console.log(body);
+        console.log("userinfo", body);
 
         return {
           access_token,
@@ -91,9 +93,9 @@ const IdpServer = (options: any) => ({
 export const { handlers, auth } = NextAuth({
   providers: [
     IdpServer({
-      clientId: process.env.IDP_ADMIN_DASHBOARD_CLIENT_ID,
-      clientSecret: process.env.IDP_ADMIN_DASHBOARD_CLIENT_SECRET,
-      issuer: process.env.IDP_SERVER_ISSUER,
+      clientId: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
+      clientSecret: process.env.NEXT_IDP_ADMIN_DASHBOARD_CLIENT_SECRET,
+      issuer: process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER,
     }),
     Auth0Provider({
       clientId: process.env.NEXT_AUTH_AUTH0_CLIENT_ID,
