@@ -1,6 +1,6 @@
 import { sleep } from "@/functions/sleep";
 import { NextRequest } from "next/server";
-import { backendUrl } from "@/app/api/backendConfig";
+import { backendUrl } from "@/app/auth";
 import { convertToCamel } from "@/functions/convertToCamel";
 import { auth } from "@/app/auth";
 

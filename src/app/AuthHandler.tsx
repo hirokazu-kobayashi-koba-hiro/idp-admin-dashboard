@@ -29,6 +29,10 @@ export default function AuthHandler({
     if (status === "loading") {
       return;
     }
+    if (pathname.startsWith("/initial")) {
+      // router.push(pathname);
+      return;
+    }
     signIn("idp-server");
   }, [router, status]);
 

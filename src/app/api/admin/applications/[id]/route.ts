@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { backendUrl } from "@/app/api/backendConfig";
+import { backendUrl } from "@/app/auth";
 import { auth } from "@/app/auth";
 
 export async function GET(

@@ -1,4 +1,4 @@
-import { backendUrl } from "@/app/api/backendConfig";
+import { backendUrl } from "@/app/auth";
 import { auth } from "@/app/auth";
 
 export async function GET(): Promise<Response> {
@@ -10,6 +10,6 @@ export async function GET(): Promise<Response> {
     },
   });
   const body = await response.json();
-  console.log("/123/api/v1/management/clients", body);
+  console.log("/api/v1/management/clients", body);
   return Response.json(body);
 }
