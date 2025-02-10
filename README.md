@@ -12,12 +12,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Libraries
 
-- Next.js
-  - FW
-- Auth.js
-  - Authentication
-- TanStack Query
-  - State Management
+- FW
+  - Next.js
+- Authentication
+  - Auth.js
+- State Management  
+  - TanStack Query
+
 
 #### Next Learn More
 
