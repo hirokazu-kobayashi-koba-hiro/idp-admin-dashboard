@@ -3,7 +3,7 @@ import { fetchPrices } from "@/server/stripe/stripe";
 
 export async function GET(
   request: NextRequest,
-  { params } : any,
+  { params }: any,
 ): Promise<Response> {
   const productId = params.productId;
   const { prices, error } = await fetchPrices({

@@ -16,7 +16,6 @@ declare module "next-auth" {
     } & DefaultSession["user"];
     accessToken?: string;
   }
-
 }
 
 declare module "next-auth/jwt" {

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {useTenants} from "@/hooks/useTenants";
+import { useTenants } from "@/hooks/useTenants";
 import { tenantConfigTemplate } from "@/app/initial/setting/tenantConfigTemplate";
 
 const InitialSetting = () => {
@@ -19,13 +19,13 @@ const InitialSetting = () => {
   const { postTenant } = useTenants();
 
   const handleNext = async () => {
-      const { payload , error } = await postTenant(tenantConfigTemplate);
-      if (payload && !error) {
-          console.log(payload);
-          router.push("/activity");
-          return
-      }
-      console.error(error)
+    const { payload, error } = await postTenant(tenantConfigTemplate);
+    if (payload && !error) {
+      console.log(payload);
+      router.push("/activity");
+      return;
+    }
+    console.error(error);
   };
 
   return (

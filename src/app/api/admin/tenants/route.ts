@@ -1,6 +1,6 @@
 import { backendUrl } from "@/app/auth";
 import { auth } from "@/app/auth";
-import {NextRequest} from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(): Promise<Response> {
   const session = await auth();
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(requestBody)
+    body: JSON.stringify(requestBody),
   });
   const body = await response.json();
   console.log("/api/v1/management/tenants", body);
