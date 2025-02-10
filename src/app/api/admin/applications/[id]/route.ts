@@ -4,7 +4,7 @@ import { auth } from "@/app/auth";
 
 export async function GET(
   request: NextRequest,
-  { params } : any,
+  { params }: any,
 ): Promise<Response> {
   const session = await auth();
   const accessToken = session?.accessToken;
@@ -27,7 +27,7 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params } : any,
+  { params }: any,
 ): Promise<Response> {
   const id = params.id;
   const response = await fetch(

@@ -52,7 +52,7 @@ function decodeJwt(token: string) {
 
 function OidcPlayground() {
   const [activeStep, setActiveStep] = useState(0);
-  const [oidcParams, ] = useState({
+  const [oidcParams] = useState({
     clientId: "clientSecretBasic2",
     redirectUri: "http://localhost:3000/playground",
     scope: "openid profile email",
