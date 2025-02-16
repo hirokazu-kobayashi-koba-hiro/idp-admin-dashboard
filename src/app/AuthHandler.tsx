@@ -16,7 +16,7 @@ export default function AuthHandler({
   const goToPage = async () => {
     await sleep(500);
     if (session) {
-      console.log(session)
+      console.log(session);
     }
     if (pathname && pathname !== "/") {
       router.push(pathname);

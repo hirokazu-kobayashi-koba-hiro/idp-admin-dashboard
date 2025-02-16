@@ -9,10 +9,7 @@ import {
   ListItemIcon,
   Collapse,
 } from "@mui/material";
-import {
-  ExpandMore as ExpandMoreIcon,
-  CreditCard,
-} from "@mui/icons-material";
+import { ExpandMore as ExpandMoreIcon, CreditCard } from "@mui/icons-material";
 
 export const BalanceTransactionList = ({
   transactions,

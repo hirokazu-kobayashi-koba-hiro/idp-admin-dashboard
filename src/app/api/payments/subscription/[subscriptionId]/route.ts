@@ -3,7 +3,7 @@ import { fetchSubscriptionDetail } from "@/server/stripe/stripe";
 
 export async function GET(
   request: NextRequest,
-  { params } : any,
+  { params }: any,
 ): Promise<Response> {
   const subscriptionId = params.subscriptionId;
   const { subscription, error } = await fetchSubscriptionDetail(subscriptionId);

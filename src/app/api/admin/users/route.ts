@@ -24,17 +24,20 @@ export type User = {
 export async function GET(): Promise<Response> {
   const session = await auth();
   const accessToken = session?.accessToken;
-  const response = await fetch(`${backendUrl}/api/v1/management/users`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
+  const tenantId = session?.tenantId;
+  const response = await fetch(
+    `${backendUrl}/api/v1/management/tenants/${tenantId}/users`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     },
-  });
+  );
   if (!response.ok) {
     throw new Error("api is failed");
   }
   const body = await response.json();
-  console.log("/123/api/v1/management/users", body);
   const converted = convertToCamel(body);
   return Response.json(converted.list);
 }

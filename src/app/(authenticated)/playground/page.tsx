@@ -12,6 +12,7 @@ import {
   Grid,
 } from "@mui/material";
 import { CodeSnippet } from "@/components/CodeSnippet";
+import { decodeJwt } from "@/functions/oauth";
 
 const steps = [
   "Authorization Request",
@@ -22,37 +23,9 @@ const steps = [
   "Getting Userinfo",
 ];
 
-function decode(base64edString: string) {
-  const base64 = base64edString.replace(/-/g, "+").replace(/_/g, "/");
-  const decodedValue = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-      .join(""),
-  );
-
-  return JSON.parse(decodedValue);
-}
-
-function decodeJwt(token: string) {
-  try {
-    const splittedToken = token.split(".");
-    const header = decode(splittedToken[0]);
-    const payload = decode(splittedToken[1]);
-    const signature = splittedToken[2];
-    return {
-      header: header,
-      payload: payload,
-      signature: signature,
-    };
-  } catch (error) {
-    return null;
-  }
-}
-
 function OidcPlayground() {
   const [activeStep, setActiveStep] = useState(0);
-  const [oidcParams, ] = useState({
+  const [oidcParams] = useState({
     clientId: "clientSecretBasic2",
     redirectUri: "http://localhost:3000/playground",
     scope: "openid profile email",
