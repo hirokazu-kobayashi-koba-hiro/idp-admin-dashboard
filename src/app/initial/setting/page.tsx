@@ -10,16 +10,21 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTenants } from "@/hooks/useTenants";
 import { tenantConfigTemplate } from "@/app/initial/setting/tenantConfigTemplate";
+import { useInitialRegistration } from "@/hooks/useInitialRegistration";
 
 const InitialSetting = () => {
   const router = useRouter();
   const [tenantName, setTenantName] = useState("");
-  const { postTenant } = useTenants();
+  const { postInitialRegistration } = useInitialRegistration();
 
   const handleNext = async () => {
-    const { payload, error } = await postTenant(tenantConfigTemplate);
+    const requestBody = {
+      tenant_name: "test",
+      organization_name: "test",
+      server_config: JSON.stringify(tenantConfigTemplate),
+    };
+    const { payload, error } = await postInitialRegistration(requestBody);
     if (payload && !error) {
       console.log(payload);
       router.push("/activity");

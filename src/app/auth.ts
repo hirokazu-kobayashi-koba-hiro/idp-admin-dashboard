@@ -121,6 +121,25 @@ export const { handlers, auth } = NextAuth({
       return session;
     },
   },
+  events: {
+    async signOut() {
+      console.log("------------- signOut -----------------");
+      const logoutUrl = new URL("https://your-idp.com/logout");
+      logoutUrl.searchParams.set("id_token_hint", "token.idToken");
+      logoutUrl.searchParams.set(
+        "post_logout_redirect_uri",
+        "https://your-rp.com/",
+      );
+
+      await fetch(
+        `${backendUrl}/v1/logout?client_id=${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+    },
+  },
   session: {
     strategy: "jwt",
     maxAge: 3600,
