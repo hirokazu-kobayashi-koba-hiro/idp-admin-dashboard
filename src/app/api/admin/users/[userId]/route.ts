@@ -10,9 +10,10 @@ export async function GET(
 ): Promise<Response> {
   const session = await auth();
   const accessToken = session?.accessToken;
+  const tenantId = session?.tenantId;
   const userId = params.userId;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/users/${userId}`,
+    `${backendUrl}/api/v1/management/tenants/${tenantId}/users/${userId}`,
     {
       method: "GET",
       headers: {
@@ -32,7 +33,21 @@ export async function DELETE(
   request: NextRequest,
   { params }: any,
 ): Promise<Response> {
-  console.log(params.userId);
-  await sleep(500);
+  const session = await auth();
+  const accessToken = session?.accessToken;
+  const tenantId = session?.tenantId;
+  const userId = params.userId;
+  const response = await fetch(
+    `${backendUrl}/api/v1/management/tenants/${tenantId}/users/${userId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+  if (!response.ok) {
+    return Response.error();
+  }
   return Response.json(null);
 }

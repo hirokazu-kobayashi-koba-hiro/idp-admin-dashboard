@@ -1,8 +1,10 @@
 import NextAuth from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
 import { convertToCamel } from "@/functions/convertToCamel";
+import { decodeJwt } from "@/functions/oauth";
 
-export const backendUrl = process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER;
+export const issuer = process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER;
+export const backendUrl = process.env.NEXT_PUBLIC_IDP_SERVER_BACKEND_URL;
 
 const IdpServer = (options: any) => ({
   ...{
@@ -10,10 +12,10 @@ const IdpServer = (options: any) => ({
     name: "IdPServer",
     type: "oidc",
     version: "2.0",
-    wellKnown: `${backendUrl}/.well-known/openid-configuration`,
+    wellKnown: `${issuer}/.well-known/openid-configuration`,
     idToken: false,
     authorization: {
-      url: `${backendUrl}/v1/authorizations`,
+      url: `${issuer}/v1/authorizations`,
       params: {
         scope: "openid profile phone email address",
         client_id: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
@@ -23,6 +25,7 @@ const IdpServer = (options: any) => ({
     checks: ["pkce", "state"],
     token: {
       async request(context: any) {
+        console.log("------------- token request -----------------");
         const { code } = context.params;
         const params = new URLSearchParams({
           grant_type: "authorization_code",
@@ -31,7 +34,7 @@ const IdpServer = (options: any) => ({
           client_id: process.env
             .NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
         });
-        const response = await fetch(`${backendUrl}/api/v1/tokens`, {
+        const response = await fetch(`${issuer}/api/v1/tokens`, {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -54,9 +57,10 @@ const IdpServer = (options: any) => ({
     userinfo: {
       async request(context: any) {
         console.log(context.params);
-        const { access_token, refresh_token, expires_at } = context.params;
+        const { access_token, refresh_token, expires_at, id_token } =
+          context.params;
 
-        const response = await fetch(`${backendUrl}/api/v1/userinfo`, {
+        const response = await fetch(`${issuer}/api/v1/userinfo`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -74,6 +78,7 @@ const IdpServer = (options: any) => ({
         return {
           access_token,
           refresh_token,
+          id_token,
           expires_at,
           ...body,
         };
@@ -106,18 +111,37 @@ export const { handlers, auth } = NextAuth({
   // debug: true,
   callbacks: {
     async jwt({ token, account }) {
+      console.log("--------------- jwt ----------------");
+      console.log(token);
+      console.log(account);
       if (account) {
         token.accessToken = account.access_token;
+      }
+
+      //FIXME consider logic
+      if (account?.id_token) {
+        const decodedIdToken = decodeJwt(account.id_token);
+        if (decodedIdToken) {
+          const { payload } = decodedIdToken;
+          token.tenantId =
+            payload.organization?.assigned_tenants?.length > 0
+              ? payload.organization.assigned_tenants[0].id
+              : undefined;
+          token.organizationId = payload.organization?.id;
+        }
       }
 
       return token;
     },
     async session({ session, token, trigger, newSession }) {
+      console.log("------------- session -----------------");
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
-      console.log(session, trigger, newSession);
+      console.log(session, token, trigger, newSession);
       session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
       session.user.customerId = "cus_RgYcKnMlSxoaHs";
       session.accessToken = token.accessToken;
+      session.tenantId = token.tenantId;
+      session.organizationId = token.organizationId;
       return session;
     },
   },
@@ -132,7 +156,7 @@ export const { handlers, auth } = NextAuth({
       );
 
       await fetch(
-        `${backendUrl}/v1/logout?client_id=${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`,
+        `${issuer}/v1/logout?client_id=${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`,
         {
           method: "GET",
           credentials: "include",

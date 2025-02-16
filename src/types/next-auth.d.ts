@@ -15,6 +15,8 @@ declare module "next-auth" {
       customerId: string;
     } & DefaultSession["user"];
     accessToken?: string;
+    organizationId?: string;
+    tenantId?: string;
   }
 }
 
@@ -24,6 +26,8 @@ declare module "next-auth/jwt" {
   interface JWT {
     /** OpenID ID Token */
     accessToken?: string;
+    organizationId?: string;
+    tenantId?: string;
     idToken?: string;
   }
 }

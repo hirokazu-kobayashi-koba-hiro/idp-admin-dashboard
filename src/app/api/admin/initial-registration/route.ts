@@ -18,6 +18,6 @@ export async function POST(request: NextRequest): Promise<Response> {
       body: JSON.stringify(requestBody),
     },
   );
-  console.log(response.status)
+  console.log(response.status);
   return Response.json(null);
 }

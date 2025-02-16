@@ -11,7 +11,6 @@ export async function GET(): Promise<Response> {
     },
   });
   const body = await response.json();
-  console.log("/api/v1/management/tenants", body);
   return Response.json(body);
 }
 
@@ -29,6 +28,5 @@ export async function POST(request: NextRequest): Promise<Response> {
     body: JSON.stringify(requestBody),
   });
   const body = await response.json();
-  console.log("/api/v1/management/tenants", body);
   return Response.json(body);
 }

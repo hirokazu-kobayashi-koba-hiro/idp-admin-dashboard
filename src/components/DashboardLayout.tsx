@@ -12,7 +12,7 @@ import {
 import { MenuItem, Sidebar } from "./Sidebar";
 import { Logout, Menu } from "@mui/icons-material";
 import { signOut } from "next-auth/react";
-import { backendUrl } from "@/app/auth";
+import { issuer } from "@/app/auth";
 
 const DashboardLayout = ({
   menuItems,
@@ -45,7 +45,7 @@ const DashboardLayout = ({
             <IconButton
               onClick={async () => {
                 await signOut();
-                window.location.href = `${backendUrl}/v1/logout?client_id${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`
+                window.location.href = `${issuer}/v1/logout?client_id${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`;
               }}
             >
               <Logout />

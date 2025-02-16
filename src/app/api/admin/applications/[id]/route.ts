@@ -8,9 +8,10 @@ export async function GET(
 ): Promise<Response> {
   const session = await auth();
   const accessToken = session?.accessToken;
+  const tenantId = session?.tenantId;
   const id = params.id;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/clients/${id}`,
+    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients/${id}`,
     {
       method: "GET",
       headers: {
@@ -29,11 +30,17 @@ export async function DELETE(
   request: NextRequest,
   { params }: any,
 ): Promise<Response> {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+  const tenantId = session?.tenantId;
   const id = params.id;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/applications/${id}`,
+    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients/${id}`,
     {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     },
   );
   if (!response.ok) {
