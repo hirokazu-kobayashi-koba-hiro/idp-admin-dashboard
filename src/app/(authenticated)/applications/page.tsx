@@ -1,6 +1,6 @@
 "use client";
 
-import { IconButton, Typography } from "@mui/material";
+import {Button, IconButton, Typography} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/Loading";
 import { useApplications } from "@/hooks/useApplications";
@@ -76,6 +76,12 @@ const Applications = () => {
   return (
     <>
       <Typography variant={"h4"}>Applications</Typography>
+      <Button
+          variant={"outlined"}
+          sx={{ textTransform: "none"} }
+          onClick={() => {
+        router.push("/applications/new")
+      }}>New</Button>
       <DataGrid
         sx={{ maxWidth: 800, margin: "auto", mt: 4 }}
         // @ts-ignore
