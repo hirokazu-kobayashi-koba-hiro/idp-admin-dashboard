@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { SiReact, SiAndroid, SiApple } from "react-icons/si";
 import { CodeSnippet } from "@/components/CodeSnippet";
-import {ReactTemplate} from "@/app/(authenticated)/applications/new/templates/react";
-import {AndroidTemplate} from "@/app/(authenticated)/applications/new/templates/android";
-import {iOSTemplate} from "@/app/(authenticated)/applications/new/templates/ios";
-import {useApplications} from "@/hooks/useApplications";
+import { ReactTemplate } from "@/app/(authenticated)/applications/new/templates/react";
+import { AndroidTemplate } from "@/app/(authenticated)/applications/new/templates/android";
+import { iOSTemplate } from "@/app/(authenticated)/applications/new/templates/ios";
+import { useApplications } from "@/hooks/useApplications";
 
 const PlatformSelector = ({
   platforms,
@@ -70,7 +70,7 @@ type Platform = {
   icon: React.ReactNode;
   color: string;
   sampleAppUrl: string;
-  template: any,
+  template: any;
   step2: {
     title: string;
     codeSnippet: string;
@@ -87,8 +87,8 @@ const GettingStarted = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
     null,
   );
-  const [ application, setApplication] = useState<any| null>(null)
-  const { postApplication} = useApplications();
+  const [application, setApplication] = useState<any | null>(null);
+  const { postApplication } = useApplications();
 
   const platforms = [
     {
@@ -101,13 +101,13 @@ const GettingStarted = () => {
       step2: {
         title: "React: setup .env",
         codeSnippet:
-          "export NEXT_PUBLIC_IDP_SERVER_ISSUER=\"$NEXT_PUBLIC_IDP_SERVER_ISSUER\"\n" +
-            "export NEXT_PUBLIC_FRONTEND_URL=\"http://localhost:4000\"\n" +
-            "export NEXT_PUBLIC_IDP_CLIENT_ID=\"$NEXT_PUBLIC_IDP_CLIENT_ID\"\n" +
-            "export NEXT_IDP_CLIENT_SECRET=\"$NEXT_IDP_CLIENT_SECRET\"\n" +
-            "\n" +
-            "chmod +x setup_env.sh\n" +
-            "./setup_env.sh",
+          'export NEXT_PUBLIC_IDP_SERVER_ISSUER="$NEXT_PUBLIC_IDP_SERVER_ISSUER"\n' +
+          'export NEXT_PUBLIC_FRONTEND_URL="http://localhost:4000"\n' +
+          'export NEXT_PUBLIC_IDP_CLIENT_ID="$NEXT_PUBLIC_IDP_CLIENT_ID"\n' +
+          'export NEXT_IDP_CLIENT_SECRET="$NEXT_IDP_CLIENT_SECRET"\n' +
+          "\n" +
+          "chmod +x setup_env.sh\n" +
+          "./setup_env.sh",
         codeLanguage: "bash",
       },
       step3: {
@@ -178,7 +178,9 @@ const GettingStarted = () => {
 
   const handleCreationApllication = async () => {
     if (selectedPlatform) {
-      const { payload, error } = await postApplication(selectedPlatform.template);
+      const { payload, error } = await postApplication(
+        selectedPlatform.template,
+      );
       console.log(payload, error);
       if (payload && !error) {
         setApplication({
@@ -187,7 +189,7 @@ const GettingStarted = () => {
           clientSecret: payload.clientSecret,
           clientName: payload.clientName,
           redirectUris: payload.redirectUris,
-        })
+        });
       }
     }
   };
@@ -209,15 +211,15 @@ const GettingStarted = () => {
     switch (platform.name) {
       case "React": {
         return platform.step2.codeSnippet
-            .replace("$NEXT_PUBLIC_IDP_SERVER_ISSUER", application.issuer)
-            .replace("$NEXT_PUBLIC_IDP_CLIENT_ID", application.clientId)
-            .replace("$NEXT_IDP_CLIENT_SECRET", application.clientSecret)
+          .replace("$NEXT_PUBLIC_IDP_SERVER_ISSUER", application.issuer)
+          .replace("$NEXT_PUBLIC_IDP_CLIENT_ID", application.clientId)
+          .replace("$NEXT_IDP_CLIENT_SECRET", application.clientSecret);
       }
       default: {
-        return platform.step2.codeSnippet
+        return platform.step2.codeSnippet;
       }
     }
-  }
+  };
 
   return (
     <>
@@ -241,37 +243,35 @@ const GettingStarted = () => {
               STEP1: Create New Application
             </Typography>
             <PlatformSelector
-                platforms={platforms}
-                onSelect={(selected: any) => {
-                  console.log(selected);
-                  setSelectedPlatform(selected);
-                }}
+              platforms={platforms}
+              onSelect={(selected: any) => {
+                console.log(selected);
+                setSelectedPlatform(selected);
+              }}
             />
           </Box>
           <Box m={2} display="flex" justifyContent="flex-end">
             <Button
-                variant={"contained"}
-                disabled={selectedPlatform === null}
-                onClick={handleCreationApllication}
-                sx={{
-                  width: 150,
-                  textTransform: "none",
-                }}
+              variant={"contained"}
+              disabled={selectedPlatform === null}
+              onClick={handleCreationApllication}
+              sx={{
+                width: 150,
+                textTransform: "none",
+              }}
             >
               Create
             </Button>
           </Box>
-          {
-            application && (
-                <>
-                  <CodeSnippet
-                      title={"new application"}
-                      code={JSON.stringify(application, null, 2)}
-                      codeLanguage={"json"}
-                  />
-                </>
-              )
-          }
+          {application && (
+            <>
+              <CodeSnippet
+                title={"new application"}
+                code={JSON.stringify(application, null, 2)}
+                codeLanguage={"json"}
+              />
+            </>
+          )}
           <Box>
             <Typography variant={"h6"}>
               STEP2: Download sample app for selected platform

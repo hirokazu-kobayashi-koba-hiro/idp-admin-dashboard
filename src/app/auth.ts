@@ -115,7 +115,7 @@ export const { handlers, auth } = NextAuth({
       console.log(token);
       console.log(account);
       console.log(trigger);
-      console.log(session)
+      console.log(session);
       if (account) {
         token.accessToken = account.access_token;
       }
@@ -134,7 +134,7 @@ export const { handlers, auth } = NextAuth({
       }
 
       if (trigger === "update") {
-        console.log("--------------- update jwt ----------------")
+        console.log("--------------- update jwt ----------------");
         token.tenantId = session?.tenantId;
         token.organizationId = session?.organizationId;
       }
@@ -146,7 +146,7 @@ export const { handlers, auth } = NextAuth({
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, token, trigger, newSession);
       if (trigger === "update") {
-        console.log("--------------- update session ----------------")
+        console.log("--------------- update session ----------------");
         session.tenantId = newSession?.tenantId;
         session.organizationId = newSession?.organizationId;
       } else {

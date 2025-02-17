@@ -3,8 +3,8 @@ export const ReactTemplate = {
   client_id: "${CLIENT_ID}",
   client_secret: "${CLIENT_SECRET}",
   redirect_uris: [
-      "http://localhost:3000/api/auth/callback/idp-server",
-      "http://localhost:4000/api/auth/callback/idp-server"
+    "http://localhost:3000/api/auth/callback/idp-server",
+    "http://localhost:4000/api/auth/callback/idp-server",
   ],
   response_types: [
     "code",

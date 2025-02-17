@@ -14,16 +14,16 @@ export default function AuthHandler({
   const pathname = usePathname();
 
   const goToPage = async () => {
-    console.log("goToPage", pathname)
+    console.log("goToPage", pathname);
     if (!session?.tenantId) {
       console.log("!session?.tenantId");
       console.log(session);
-      router.push("/initial/onboarding")
-      return
+      router.push("/initial/onboarding");
+      return;
     }
     if (session?.tenantId && pathname === "/initial/onboarding") {
       router.push("/activity");
-      return
+      return;
     }
     if (pathname && pathname !== "/") {
       router.push(pathname);

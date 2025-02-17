@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { tenantConfigTemplate } from "@/app/initial/onboarding/tenantConfigTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
-import {useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();
@@ -31,11 +31,12 @@ const InitialSetting = () => {
       const newSession = await update({
         ...session,
         organizationId: payload.id,
-        tenantId: payload.assignedTenants?.length > 0
-                ? payload.assignedTenants[0].id
-                : undefined
-      })
-      console.log("newSession", newSession)
+        tenantId:
+          payload.assignedTenants?.length > 0
+            ? payload.assignedTenants[0].id
+            : undefined,
+      });
+      console.log("newSession", newSession);
       router.push("/activity");
       return;
     }

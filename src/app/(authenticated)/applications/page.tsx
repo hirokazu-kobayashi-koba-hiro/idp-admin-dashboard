@@ -1,6 +1,13 @@
 "use client";
 
-import {Box, Button, Container, IconButton, Paper, Typography} from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/Loading";
 import { useApplications } from "@/hooks/useApplications";
@@ -75,25 +82,25 @@ const Applications = () => {
 
   return (
     <>
-      <Container sx={{ m:2 }}>
+      <Container sx={{ m: 2 }}>
         <Paper sx={{ p: 4 }}>
           <Typography variant={"h4"}>Applications</Typography>
           <Box m={2} display="flex" justifyContent="flex-end">
             <Button
-                variant={"outlined"}
-                sx={{ textTransform: "none" }}
-                onClick={() => {
-                  router.push("/applications/new");
-                }}
+              variant={"outlined"}
+              sx={{ textTransform: "none" }}
+              onClick={() => {
+                router.push("/applications/new");
+              }}
             >
               New
             </Button>
           </Box>
           <DataGrid
-              sx={{ margin: "auto", mt: 4 }}
-              // @ts-ignore
-              columns={columns}
-              rows={rows}
+            sx={{ margin: "auto", mt: 4 }}
+            // @ts-ignore
+            columns={columns}
+            rows={rows}
           />
         </Paper>
       </Container>
