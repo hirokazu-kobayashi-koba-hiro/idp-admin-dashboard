@@ -110,10 +110,12 @@ export const { handlers, auth } = NextAuth({
   ],
   // debug: true,
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, trigger, session }) {
       console.log("--------------- jwt ----------------");
       console.log(token);
       console.log(account);
+      console.log(trigger);
+      console.log(session)
       if (account) {
         token.accessToken = account.access_token;
       }
@@ -131,17 +133,29 @@ export const { handlers, auth } = NextAuth({
         }
       }
 
+      if (trigger === "update") {
+        console.log("--------------- update jwt ----------------")
+        token.tenantId = session?.tenantId;
+        token.organizationId = session?.organizationId;
+      }
+
       return token;
     },
     async session({ session, token, trigger, newSession }) {
       console.log("------------- session -----------------");
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, token, trigger, newSession);
-      session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
-      session.user.customerId = "cus_RgYcKnMlSxoaHs";
-      session.accessToken = token.accessToken;
-      session.tenantId = token.tenantId;
-      session.organizationId = token.organizationId;
+      if (trigger === "update") {
+        console.log("--------------- update session ----------------")
+        session.tenantId = newSession?.tenantId;
+        session.organizationId = newSession?.organizationId;
+      } else {
+        session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
+        session.user.customerId = "cus_RgYcKnMlSxoaHs";
+        session.accessToken = token.accessToken;
+        session.tenantId = token.tenantId;
+        session.organizationId = token.organizationId;
+      }
       return session;
     },
   },

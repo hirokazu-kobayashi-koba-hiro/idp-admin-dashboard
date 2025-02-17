@@ -8,7 +8,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   const requestBody = await request.json();
 
   const response = await fetch(
-    `${backendUrl}/api/v1/management/initial-registration`,
+    `${backendUrl}/api/v1/management/onboarding`,
     {
       method: "POST",
       headers: {
@@ -18,6 +18,10 @@ export async function POST(request: NextRequest): Promise<Response> {
       body: JSON.stringify(requestBody),
     },
   );
+  if (!response.ok) {
+      return Response.error();
+  }
   console.log(response.status);
-  return Response.json(null);
+  const body = await response.json();
+  return Response.json(body);
 }

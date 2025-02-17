@@ -14,9 +14,16 @@ export default function AuthHandler({
   const pathname = usePathname();
 
   const goToPage = async () => {
-    await sleep(500);
-    if (session) {
+    console.log("goToPage", pathname)
+    if (!session?.tenantId) {
+      console.log("!session?.tenantId");
       console.log(session);
+      router.push("/initial/onboarding")
+      return
+    }
+    if (session?.tenantId && pathname === "/initial/onboarding") {
+      router.push("/activity");
+      return
     }
     if (pathname && pathname !== "/") {
       router.push(pathname);
@@ -34,7 +41,7 @@ export default function AuthHandler({
       return;
     }
     if (pathname.startsWith("/initial")) {
-      // router.push(pathname);
+      router.push(pathname);
       return;
     }
     signIn("idp-server");
