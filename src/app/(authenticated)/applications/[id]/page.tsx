@@ -50,11 +50,11 @@ const ApplicationEditionPage = ({
 
   const elements = [
     {
-      label: "basic",
+      label: "Basic",
       node: <ApplicationBasic application={data} />,
     },
     {
-      label: "authorization",
+      label: "Authorization",
       node: (
         <Box
           sx={{

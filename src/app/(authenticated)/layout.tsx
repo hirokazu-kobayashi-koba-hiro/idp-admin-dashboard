@@ -18,8 +18,8 @@ export default function RootLayout({
 }>) {
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
   const menuItems = [
-    { text: "Getting Started", icon: <Start />, path: "getting-started" },
-    { text: "Playground", icon: <PlayCircleOutline />, path: "playground" },
+    { text: "Getting Started", icon: <Start />, path: "/getting-started" },
+    { text: "Playground", icon: <PlayCircleOutline />, path: "/playground" },
     { text: "Activity", icon: <EqualizerIcon />, path: "/activity" },
     {
       text: "Applications",

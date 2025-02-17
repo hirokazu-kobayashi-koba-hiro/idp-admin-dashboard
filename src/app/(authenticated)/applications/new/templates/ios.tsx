@@ -26,7 +26,7 @@ export const iOSTemplate = {
     "openid profile email address phone offline_access account transfers read write",
   client_name: "iOS app",
   "client_name#ja-Jpan-JP": "iOS app",
-  token_endpoint_auth_method: "client_secret_basic",
+  token_endpoint_auth_method: "none",
   logo_uri: "https://client.example.org/logo.png",
   jwks_uri: "https://client.example.org/my_public_keys.jwks",
   backchannel_token_delivery_mode: "ping",
@@ -34,7 +34,7 @@ export const iOSTemplate = {
     "https://client.example.org/ciba/callback",
   backchannel_authentication_request_signing_alg: "ES256",
   backchannel_user_code_parameter: true,
-  application_type: "web",
+  application_type: "native",
   authorization_details_types: [
     "payment_initiation",
     "account_information",

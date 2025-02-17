@@ -11,6 +11,10 @@ import {
 } from "@mui/material";
 import { SiReact, SiAndroid, SiApple } from "react-icons/si";
 import { CodeSnippet } from "@/components/CodeSnippet";
+import {ReactTemplate} from "@/app/(authenticated)/applications/new/templates/react";
+import {AndroidTemplate} from "@/app/(authenticated)/applications/new/templates/android";
+import {iOSTemplate} from "@/app/(authenticated)/applications/new/templates/ios";
+import {useApplications} from "@/hooks/useApplications";
 
 const PlatformSelector = ({
   platforms,
@@ -66,6 +70,7 @@ type Platform = {
   icon: React.ReactNode;
   color: string;
   sampleAppUrl: string;
+  template: any,
   step2: {
     title: string;
     codeSnippet: string;
@@ -82,6 +87,8 @@ const GettingStarted = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
     null,
   );
+  const [ application, setApplication] = useState<any| null>(null)
+  const { postApplication} = useApplications();
 
   const platforms = [
     {
@@ -89,11 +96,18 @@ const GettingStarted = () => {
       icon: <SiReact size={50} color="#61DBFB" />,
       color: "#61DBFB",
       sampleAppUrl:
-        "https://github.com/hirokazu-kobayashi-koba-hiro//idp-admin-dashboard/archive/main.zip",
+        "https://github.com/hirokazu-kobayashi-koba-hiro/idp-next-auth-sample-app/archive/main.zip",
+      template: ReactTemplate,
       step2: {
-        title: "React: .env",
+        title: "React: setup .env",
         codeSnippet:
-          "IDP_DOMAIN=your-react-domain.com\nIDP_CLIENT_ID=your-client-id\nIDP_CLIENT_SECRET=your-client-secret",
+          "export NEXT_PUBLIC_IDP_SERVER_ISSUER=\"$NEXT_PUBLIC_IDP_SERVER_ISSUER\"\n" +
+            "export NEXT_PUBLIC_FRONTEND_URL=\"http://localhost:4000\"\n" +
+            "export NEXT_PUBLIC_IDP_CLIENT_ID=\"$NEXT_PUBLIC_IDP_CLIENT_ID\"\n" +
+            "export NEXT_IDP_CLIENT_SECRET=\"$NEXT_IDP_CLIENT_SECRET\"\n" +
+            "\n" +
+            "chmod +x setup_env.sh\n" +
+            "./setup_env.sh",
         codeLanguage: "bash",
       },
       step3: {
@@ -108,6 +122,7 @@ const GettingStarted = () => {
       color: "#3DDC84",
       sampleAppUrl:
         "https://github.com/hirokazu-kobayashi-koba-hiro/vc-wallet-android-app/archive/main.zip",
+      template: AndroidTemplate,
       step2: {
         title: "Android: resources",
         codeSnippet:
@@ -126,6 +141,7 @@ const GettingStarted = () => {
       color: "#A2AAAD",
       sampleAppUrl:
         "https://github.com/hirokazu-kobayashi-koba-hiro/vc-wallet-ios-app/archive/main.zip",
+      template: iOSTemplate,
       step2: {
         title: "iOS: info.plist",
         codeSnippet:
@@ -160,6 +176,22 @@ const GettingStarted = () => {
     }
   };
 
+  const handleCreationApllication = async () => {
+    if (selectedPlatform) {
+      const { payload, error } = await postApplication(selectedPlatform.template);
+      console.log(payload, error);
+      if (payload && !error) {
+        setApplication({
+          issuer: payload.issuer,
+          clientId: payload.clientId,
+          clientSecret: payload.clientSecret,
+          clientName: payload.clientName,
+          redirectUris: payload.redirectUris,
+        })
+      }
+    }
+  };
+
   const handleClick = async () => {
     const { url } = await fetchSampleAppRepository();
     if (url) {
@@ -172,6 +204,20 @@ const GettingStarted = () => {
       window.URL.revokeObjectURL(a.href);
     }
   };
+
+  const embedEnvironment = (platform: any) => {
+    switch (platform.name) {
+      case "React": {
+        return platform.step2.codeSnippet
+            .replace("$NEXT_PUBLIC_IDP_SERVER_ISSUER", application.issuer)
+            .replace("$NEXT_PUBLIC_IDP_CLIENT_ID", application.clientId)
+            .replace("$NEXT_IDP_CLIENT_SECRET", application.clientSecret)
+      }
+      default: {
+        return platform.step2.codeSnippet
+      }
+    }
+  }
 
   return (
     <>
@@ -192,36 +238,67 @@ const GettingStarted = () => {
           </Typography>
           <Box>
             <Typography variant={"h6"}>
-              STEP1: Select a platform for your app and download
+              STEP1: Create New Application
             </Typography>
             <PlatformSelector
-              platforms={platforms}
-              onSelect={(selected: any) => {
-                console.log(selected);
-                setSelectedPlatform(selected);
-              }}
+                platforms={platforms}
+                onSelect={(selected: any) => {
+                  console.log(selected);
+                  setSelectedPlatform(selected);
+                }}
             />
           </Box>
           <Box m={2} display="flex" justifyContent="flex-end">
             <Button
-              variant={"outlined"}
-              onClick={handleClick}
-              sx={{
-                maxWidth: 200,
-              }}
+                variant={"contained"}
+                disabled={selectedPlatform === null}
+                onClick={handleCreationApllication}
+                sx={{
+                  width: 150,
+                  textTransform: "none",
+                }}
             >
-              download
+              Create
             </Button>
           </Box>
-          {selectedPlatform && (
+          {
+            application && (
+                <>
+                  <CodeSnippet
+                      title={"new application"}
+                      code={JSON.stringify(application, null, 2)}
+                      codeLanguage={"json"}
+                  />
+                </>
+              )
+          }
+          <Box>
+            <Typography variant={"h6"}>
+              STEP2: Download sample app for selected platform
+            </Typography>
+          </Box>
+          <Box m={2} display="flex" justifyContent="flex-end">
+            <Button
+              variant={"outlined"}
+              disabled={selectedPlatform === null}
+              onClick={handleClick}
+              sx={{
+                width: 150,
+                textTransform: "none",
+              }}
+            >
+              Download
+            </Button>
+          </Box>
+          {application && selectedPlatform && (
             <Stack spacing={2}>
-              <Typography variant={"h6"}>STEP2: Configure app</Typography>
+              <Typography variant={"h6"}>STEP3: Configure app</Typography>
               <CodeSnippet
                 title={selectedPlatform.step2.title}
-                code={selectedPlatform.step2.codeSnippet}
+                code={embedEnvironment(selectedPlatform)}
                 codeLanguage={selectedPlatform.step2.codeLanguage}
               />
-              <Typography variant={"h6"}>STEP3: run app</Typography>
+              <Typography variant={"h6"}>STEP4: run app</Typography>
               <CodeSnippet
                 title={selectedPlatform.step3.title}
                 code={selectedPlatform.step3.codeSnippet}

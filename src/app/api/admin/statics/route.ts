@@ -5,7 +5,7 @@ export type Statics = {
 
 export async function GET(): Promise<Response> {
   return Response.json({
-    totalUsers: 1000,
-    dau: 100,
+    totalUsers: 0,
+    dau: 0,
   });
 }

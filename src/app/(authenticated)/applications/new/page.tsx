@@ -17,8 +17,8 @@ import { SiReact, SiAndroid, SiApple } from "react-icons/si";
 import { ReactTemplate } from "@/app/(authenticated)/applications/new/templates/react";
 import { AndroidTemplate } from "@/app/(authenticated)/applications/new/templates/android";
 import { iOSTemplate } from "@/app/(authenticated)/applications/new/templates/ios";
-import {useApplications} from "@/hooks/useApplications";
-import {useRouter} from "next/navigation";
+import { useApplications } from "@/hooks/useApplications";
+import { useRouter } from "next/navigation";
 
 type Platform = {
   name: string;
@@ -77,8 +77,8 @@ const PlatformSelector = ({
 };
 
 const NewApplication = () => {
-  const [selected, setSelected] = useState<Platform| null>(null);
-  const { postApplication } = useApplications()
+  const [selected, setSelected] = useState<Platform | null>(null);
+  const { postApplication } = useApplications();
   const router = useRouter();
 
   const platforms = [
@@ -104,13 +104,13 @@ const NewApplication = () => {
 
   const handleSubmit = async () => {
     if (selected) {
-      const { payload, error } = await postApplication(selected.template)
-      console.log(payload, error)
+      const { payload, error } = await postApplication(selected.template);
+      console.log(payload, error);
       if (payload && !error) {
-        router.push("/applications")
+        router.push("/applications");
       }
     }
-  }
+  };
 
   return (
     <>
@@ -133,7 +133,12 @@ const NewApplication = () => {
               label={"clientName"}
               placeholder={"sample app"}
             ></TextField>
-            <Button variant={"contained"} sx={{ textTransform: "none" }} disabled={selected === null} onClick={handleSubmit}>
+            <Button
+              variant={"contained"}
+              sx={{ textTransform: "none" }}
+              disabled={selected === null}
+              onClick={handleSubmit}
+            >
               Submit
             </Button>
           </Stack>
