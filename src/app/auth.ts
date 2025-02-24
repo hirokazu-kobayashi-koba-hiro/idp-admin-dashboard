@@ -5,6 +5,7 @@ import { decodeJwt } from "@/functions/oauth";
 
 export const issuer = process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER;
 export const backendUrl = process.env.NEXT_PUBLIC_IDP_SERVER_BACKEND_URL;
+export const frontendUrl =  process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_URL
 
 const IdpServer = (options: any) => ({
   ...{
@@ -15,7 +16,7 @@ const IdpServer = (options: any) => ({
     wellKnown: `${issuer}/.well-known/openid-configuration`,
     idToken: false,
     authorization: {
-      url: `${issuer}/v1/authorizations`,
+      url: `${issuer}/api/v1/authorizations`,
       params: {
         scope: "openid profile phone email address",
         client_id: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
@@ -30,7 +31,7 @@ const IdpServer = (options: any) => ({
         const params = new URLSearchParams({
           grant_type: "authorization_code",
           code,
-          redirect_uri: `http://localhost:3000/api/auth/callback/idp-server`,
+          redirect_uri: `${frontendUrl}/api/auth/callback/idp-server`,
           client_id: process.env
             .NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
         });

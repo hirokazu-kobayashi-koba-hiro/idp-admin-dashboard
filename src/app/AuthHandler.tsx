@@ -14,6 +14,7 @@ export default function AuthHandler({
   const pathname = usePathname();
 
   const goToPage = async () => {
+    console.log(session)
     console.log("goToPage", pathname);
     if (!session?.tenantId) {
       console.log("!session?.tenantId");
