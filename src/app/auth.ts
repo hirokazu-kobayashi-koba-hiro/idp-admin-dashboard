@@ -5,7 +5,7 @@ import { decodeJwt } from "@/functions/oauth";
 
 export const issuer = process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER;
 export const backendUrl = process.env.NEXT_PUBLIC_IDP_SERVER_BACKEND_URL;
-export const frontendUrl =  process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_URL
+export const frontendUrl = process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_URL;
 
 const IdpServer = (options: any) => ({
   ...{

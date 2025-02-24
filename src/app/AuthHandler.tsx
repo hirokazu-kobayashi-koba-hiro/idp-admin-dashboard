@@ -4,7 +4,6 @@ import { signIn, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Loading } from "@/components/Loading";
-import { sleep } from "@/functions/sleep";
 
 export default function AuthHandler({
   children,
@@ -14,7 +13,7 @@ export default function AuthHandler({
   const pathname = usePathname();
 
   const goToPage = async () => {
-    console.log(session)
+    console.log(session);
     console.log("goToPage", pathname);
     if (!session?.tenantId) {
       console.log("!session?.tenantId");

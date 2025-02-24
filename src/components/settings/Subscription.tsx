@@ -13,7 +13,7 @@ import { useAtom } from "jotai/index";
 import { systemAlertAtom } from "@/state/SystemState";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/Loading";
-import {frontendUrl} from "@/app/auth";
+import { frontendUrl } from "@/app/auth";
 
 const Logo = () => (
   <svg

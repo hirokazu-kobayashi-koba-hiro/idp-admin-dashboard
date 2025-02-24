@@ -1,4 +1,3 @@
-import { sleep } from "@/functions/sleep";
 import { NextRequest } from "next/server";
 import { backendUrl } from "@/app/auth";
 import { convertToCamel } from "@/functions/convertToCamel";
@@ -8,6 +7,7 @@ export async function GET(
   request: NextRequest,
   { params }: any,
 ): Promise<Response> {
+  console.log(request, params)
   const session = await auth();
   const accessToken = session?.accessToken;
   const tenantId = session?.tenantId;

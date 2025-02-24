@@ -41,11 +41,12 @@ const SettingsPage = () => {
     {
       label: "Members",
       node: (
-          <>
-      <Box>
-          <Typography>TODO</Typography>
-      </Box>
-      </>),
+        <>
+          <Box>
+            <Typography>TODO</Typography>
+          </Box>
+        </>
+      ),
     },
     {
       label: "Subscription",

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { CodeSnippet } from "@/components/CodeSnippet";
 import { decodeJwt } from "@/functions/oauth";
-import {frontendUrl} from "@/app/auth";
+import { frontendUrl } from "@/app/auth";
 
 const steps = [
   "Authorization Request",
