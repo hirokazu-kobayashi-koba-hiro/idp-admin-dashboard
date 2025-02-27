@@ -13,6 +13,7 @@ import { useAtom } from "jotai/index";
 import { systemAlertAtom } from "@/state/SystemState";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/Loading";
+import { frontendUrl } from "@/app/auth";
 
 const Logo = () => (
   <svg
@@ -92,8 +93,8 @@ export const Subscription = () => {
   const { fetchPrices } = usePayments();
 
   const productId = "prod_RdUaxgZxpFkf6l";
-  const successUrl = "http://localhost:3000/settings/subscription/complete";
-  const cancelUrl = "http://localhost:3000/settings/subscription/cancel";
+  const successUrl = `${frontendUrl}/settings/subscription/complete`;
+  const cancelUrl = `${frontendUrl}/settings/subscription/cancel`;
 
   const { data, isPending, error } = useQuery({
     queryKey: ["fetchPrices"],

@@ -25,7 +25,14 @@ export const TabPanels = ({ elements }: TabsProps) => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             {elements.map((element, index) => {
-              return <Tab key={index} value={index} label={element.label} />;
+              return (
+                <Tab
+                  key={index}
+                  value={index}
+                  label={element.label}
+                  sx={{ textTransform: "none" }}
+                />
+              );
             })}
           </TabList>
         </Box>

@@ -9,7 +9,7 @@ import { Payment } from "@/components/settings/Payment";
 const SettingsPage = () => {
   const elements = [
     {
-      label: "basic",
+      label: "Basic",
       node: (
         <Box
           component="form"
@@ -39,7 +39,17 @@ const SettingsPage = () => {
       ),
     },
     {
-      label: "subscription",
+      label: "Members",
+      node: (
+        <>
+          <Box>
+            <Typography>TODO</Typography>
+          </Box>
+        </>
+      ),
+    },
+    {
+      label: "Subscription",
       node: <Subscription />,
     },
     {

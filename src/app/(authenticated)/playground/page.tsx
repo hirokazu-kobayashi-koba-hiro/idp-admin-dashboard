@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { CodeSnippet } from "@/components/CodeSnippet";
 import { decodeJwt } from "@/functions/oauth";
+import { frontendUrl } from "@/app/auth";
 
 const steps = [
   "Authorization Request",
@@ -27,15 +28,14 @@ function OidcPlayground() {
   const [activeStep, setActiveStep] = useState(0);
   const [oidcParams] = useState({
     clientId: "clientSecretBasic2",
-    redirectUri: "http://localhost:3000/playground",
+    redirectUri: `${frontendUrl}/playground`,
     scope: "openid profile email",
     responseType: "code",
     grantType: "authorization_code",
     authEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/v1/authorizations`,
     tokenEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/tokens`,
     userinfoEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/userinfo`,
-    clientSecret:
-      "clientSecretBasic2cf136dc3c1fc93f31185e5885805d1222333gogoggubaoaugaladufal2cf136dc3c1fc93f31185e5885805d1222333gogoggubaoaugaladufal",
+    clientSecret: process.env.NEXT_IDP_ADMIN_DASHBOARD_CLIENT_SECRET,
   });
 
   const [logs, setLogs] = useState([]);

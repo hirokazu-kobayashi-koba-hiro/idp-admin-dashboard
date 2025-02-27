@@ -5,6 +5,7 @@ import { decodeJwt } from "@/functions/oauth";
 
 export const issuer = process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER;
 export const backendUrl = process.env.NEXT_PUBLIC_IDP_SERVER_BACKEND_URL;
+export const frontendUrl = process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_URL;
 
 const IdpServer = (options: any) => ({
   ...{
@@ -15,7 +16,7 @@ const IdpServer = (options: any) => ({
     wellKnown: `${issuer}/.well-known/openid-configuration`,
     idToken: false,
     authorization: {
-      url: `${issuer}/v1/authorizations`,
+      url: `${issuer}/api/v1/authorizations`,
       params: {
         scope: "openid profile phone email address",
         client_id: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
@@ -30,7 +31,7 @@ const IdpServer = (options: any) => ({
         const params = new URLSearchParams({
           grant_type: "authorization_code",
           code,
-          redirect_uri: `http://localhost:3000/api/auth/callback/idp-server`,
+          redirect_uri: `${frontendUrl}/api/auth/callback/idp-server`,
           client_id: process.env
             .NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
         });
@@ -110,10 +111,12 @@ export const { handlers, auth } = NextAuth({
   ],
   // debug: true,
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, trigger, session }) {
       console.log("--------------- jwt ----------------");
       console.log(token);
       console.log(account);
+      console.log(trigger);
+      console.log(session);
       if (account) {
         token.accessToken = account.access_token;
       }
@@ -131,17 +134,29 @@ export const { handlers, auth } = NextAuth({
         }
       }
 
+      if (trigger === "update") {
+        console.log("--------------- update jwt ----------------");
+        token.tenantId = session?.tenantId;
+        token.organizationId = session?.organizationId;
+      }
+
       return token;
     },
     async session({ session, token, trigger, newSession }) {
       console.log("------------- session -----------------");
       // Note, that `rest.session` can be any arbitrary object, remember to validate it!
       console.log(session, token, trigger, newSession);
-      session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
-      session.user.customerId = "cus_RgYcKnMlSxoaHs";
-      session.accessToken = token.accessToken;
-      session.tenantId = token.tenantId;
-      session.organizationId = token.organizationId;
+      if (trigger === "update") {
+        console.log("--------------- update session ----------------");
+        session.tenantId = newSession?.tenantId;
+        session.organizationId = newSession?.organizationId;
+      } else {
+        session.user.subscriptionId = "sub_1QmkhOGLT3LvnebjAYzJo1Nf";
+        session.user.customerId = "cus_RgYcKnMlSxoaHs";
+        session.accessToken = token.accessToken;
+        session.tenantId = token.tenantId;
+        session.organizationId = token.organizationId;
+      }
       return session;
     },
   },

@@ -1,11 +1,10 @@
 import { convertToCamel } from "@/functions/convertToCamel";
 
 export const useApplications = () => {
-
   const postApplication = async (request: any) => {
     const response = await fetch("/api/admin/applications", {
       method: "POST",
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     });
     if (!response.ok) {
       return {
@@ -18,7 +17,7 @@ export const useApplications = () => {
     return {
       payload: converted,
     };
-  }
+  };
 
   const fetchApplications = async () => {
     const response = await fetch("/api/admin/applications");

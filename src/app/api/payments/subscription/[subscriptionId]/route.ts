@@ -1,16 +1,11 @@
 import { NextRequest } from "next/server";
-import { fetchSubscriptionDetail } from "@/server/stripe/stripe";
 
 export async function GET(
   request: NextRequest,
   { params }: any,
 ): Promise<Response> {
   const subscriptionId = params.subscriptionId;
-  const { subscription, error } = await fetchSubscriptionDetail(subscriptionId);
-  console.log(subscription, error);
-  if (error) {
-    return new Response(null, { status: 500 });
-  }
+  console.log(subscriptionId);
 
-  return Response.json({ ...subscription });
+  return Response.json({});
 }
