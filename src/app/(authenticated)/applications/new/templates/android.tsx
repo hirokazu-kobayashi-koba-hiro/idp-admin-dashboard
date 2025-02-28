@@ -2,7 +2,9 @@ export const AndroidTemplate = {
   issuer: "${ISSUER}",
   client_id: "${CLIENT_ID}",
   client_secret: "${CLIENT_SECRET}",
-  redirect_uris: [],
+  redirect_uris: [
+      "org.idp.verifiable.credentials://${ISSUER_DOMAIN}/android/org.idp.wallet.app/callback"
+  ],
   response_types: [
     "code",
     "token",
