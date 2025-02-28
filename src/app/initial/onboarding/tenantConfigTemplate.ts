@@ -1,6 +1,6 @@
 export const tenantConfigTemplate = {
   issuer: "IDP_ISSUER",
-  authorization_endpoint: "IDP_ISSUER/api/debug/v1/authorizations",
+  authorization_endpoint: "IDP_ISSUER/api/v1/authorizations",
   token_endpoint: "IDP_ISSUER/api/v1/tokens",
   token_endpoint_auth_methods_supported: [
     "client_secret_post",
@@ -9,6 +9,7 @@ export const tenantConfigTemplate = {
     "private_key_jwt",
     "tls_client_auth",
     "self_signed_tls_client_auth",
+    "none"
   ],
   token_endpoint_auth_signing_alg_values_supported: ["RS256", "ES256"],
   userinfo_endpoint: "IDP_ISSUER/api/v1/userinfo",
