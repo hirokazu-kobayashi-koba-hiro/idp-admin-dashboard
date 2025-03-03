@@ -3,7 +3,7 @@ export const AndroidTemplate = {
   client_id: "${CLIENT_ID}",
   client_secret: "${CLIENT_SECRET}",
   redirect_uris: [
-      "org.idp.verifiable.credentials://${ISSUER_DOMAIN}/android/org.idp.wallet.app/callback"
+    "org.idp.verifiable.credentials://${ISSUER_DOMAIN}/android/org.idp.wallet.app/callback",
   ],
   response_types: [
     "code",
