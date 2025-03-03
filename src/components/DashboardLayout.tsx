@@ -12,7 +12,6 @@ import {
 import { MenuItem, Sidebar } from "./Sidebar";
 import { Logout, Menu } from "@mui/icons-material";
 import { signOut } from "next-auth/react";
-import { issuer } from "@/app/auth";
 
 const DashboardLayout = ({
   menuItems,
