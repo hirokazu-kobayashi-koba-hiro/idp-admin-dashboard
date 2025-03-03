@@ -7,7 +7,7 @@ export async function GET(
   request: NextRequest,
   { params }: any,
 ): Promise<Response> {
-  console.log(request, params)
+  console.log(request, params);
   const session = await auth();
   const accessToken = session?.accessToken;
   const tenantId = session?.tenantId;

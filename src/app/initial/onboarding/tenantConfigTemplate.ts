@@ -9,7 +9,7 @@ export const tenantConfigTemplate = {
     "private_key_jwt",
     "tls_client_auth",
     "self_signed_tls_client_auth",
-    "none"
+    "none",
   ],
   token_endpoint_auth_signing_alg_values_supported: ["RS256", "ES256"],
   userinfo_endpoint: "IDP_ISSUER/api/v1/userinfo",

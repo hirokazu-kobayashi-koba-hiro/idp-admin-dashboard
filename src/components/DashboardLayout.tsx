@@ -45,10 +45,15 @@ const DashboardLayout = ({
             <IconButton
               onClick={async () => {
                 await signOut();
-                const logoutResponse = await fetch(`${issuer}/api/v1/logout?client_id=${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`);
-                  if (logoutResponse.status === 302) {
-                    window.location.href = logoutResponse.headers.get("location") || "";
+                const logoutResponse = await fetch("/api/auth/logout");
+
+                if (logoutResponse.ok) {
+                  const { redirectUri } = await logoutResponse.json();
+                  console.log(redirectUri);
+                  if (redirectUri) {
+                    window.location.href = redirectUri;
                   }
+                }
               }}
             >
               <Logout />
