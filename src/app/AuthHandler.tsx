@@ -18,10 +18,10 @@ export default function AuthHandler({
     if (!session?.tenantId) {
       console.log("!session?.tenantId");
       console.log(session);
-      router.push("/initial/onboarding");
+      router.push("/onboarding");
       return;
     }
-    if (session?.tenantId && pathname === "/initial/onboarding") {
+    if (session?.tenantId && pathname === "/onboarding") {
       router.push("/activity");
       return;
     }

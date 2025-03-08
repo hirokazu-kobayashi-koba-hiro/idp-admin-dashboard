@@ -1,18 +1,20 @@
 "use client";
 
 import {
+  AppBar,
   Box,
   Button,
-  Container,
+  Container, IconButton,
   Paper,
-  TextField,
+  TextField, Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { tenantConfigTemplate } from "@/app/initial/onboarding/tenantConfigTemplate";
+import { tenantConfigTemplate } from "@/app/onboarding/tenantConfigTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
-import { useSession } from "next-auth/react";
+import {signOut, useSession} from "next-auth/react";
+import { Logout } from "@mui/icons-material";
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();
@@ -45,6 +47,34 @@ const InitialSetting = () => {
 
   return (
     <>
+      <AppBar
+          position="fixed"
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Toolbar>
+          <Box display="flex" alignItems="center">
+            <Typography variant="h6" noWrap>
+              Dashboard
+            </Typography>
+            <IconButton
+                onClick={async () => {
+                  await signOut();
+                  const logoutResponse = await fetch("/api/auth/logout");
+
+                  if (logoutResponse.ok) {
+                    const { redirectUri } = await logoutResponse.json();
+                    console.log(redirectUri);
+                    if (redirectUri) {
+                      window.location.href = redirectUri;
+                    }
+                  }
+                }}
+            >
+              <Logout />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
       <Container
         maxWidth="sm"
         sx={{
@@ -56,6 +86,7 @@ const InitialSetting = () => {
       >
         <Paper
           sx={{
+            mt:6,
             p: 6,
             borderRadius: 4,
             boxShadow: 3,
