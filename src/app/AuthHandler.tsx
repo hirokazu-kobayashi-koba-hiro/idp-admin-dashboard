@@ -33,18 +33,22 @@ export default function AuthHandler({
   };
 
   useEffect(() => {
-    if (status === "authenticated") {
-      goToPage();
-      return;
+    const fn = async () => {
+      if (status === "authenticated") {
+        await goToPage();
+        return;
+      }
+      if (status === "loading") {
+        return;
+      }
+      if (pathname.startsWith("/initial")) {
+        router.push(pathname);
+        return;
+      }
+      await signIn("idp-server");
     }
-    if (status === "loading") {
-      return;
-    }
-    if (pathname.startsWith("/initial")) {
-      router.push(pathname);
-      return;
-    }
-    signIn("idp-server");
+
+    fn()
   }, [router, status]);
 
   if (status === "loading") {
