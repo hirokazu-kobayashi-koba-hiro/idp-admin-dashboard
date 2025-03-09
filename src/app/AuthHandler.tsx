@@ -46,12 +46,15 @@ export default function AuthHandler({
         return;
       }
       await signIn("idp-server");
-    }
+    };
 
-    fn()
+    fn();
   }, [router, status]);
 
-  if (status === "loading" || status === "unauthenticated") {
+  if (
+    status === "loading" ||
+    (status === "unauthenticated" && !pathname.startsWith("/initial"))
+  ) {
     return <Loading />; // Show a loading screen instead
   }
 
