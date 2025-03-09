@@ -51,8 +51,8 @@ export default function AuthHandler({
     fn()
   }, [router, status]);
 
-  if (status === "loading") {
-    return <Loading />;
+  if (status === "loading" || status === "unauthenticated") {
+    return <Loading />; // Show a loading screen instead
   }
 
   return <>{children}</>;
