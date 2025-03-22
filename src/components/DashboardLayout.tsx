@@ -9,7 +9,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { MenuItem, Sidebar } from "./Sidebar";
+import { MenuItem, Sidebar } from "@/components/ui/Sidebar";
 import { Logout, Menu } from "@mui/icons-material";
 import { signOut } from "next-auth/react";
 

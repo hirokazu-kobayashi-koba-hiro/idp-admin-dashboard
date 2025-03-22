@@ -1,13 +1,5 @@
-import {
-  Box,
-  Typography,
-  Grid,
-  useTheme,
-  Fade,
-  alpha,
-} from "@mui/material";
-import {FormField} from "@/components/ui/FormField";
-
+import { Box, Typography, Grid, useTheme, Fade, alpha } from "@mui/material";
+import { FormField } from "@/components/ui/FormField";
 
 export default function EncryptionSettingsSection() {
   const theme = useTheme();

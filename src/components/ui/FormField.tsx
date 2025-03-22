@@ -47,7 +47,7 @@ export function FormField({
         multiline={multiline}
         minRows={rows}
         error={hasError}
-        helperText={hasError ? errors[name] : " "}
+        // helperText={hasError ? errors[name] : " "}
       />
     </Box>
   );

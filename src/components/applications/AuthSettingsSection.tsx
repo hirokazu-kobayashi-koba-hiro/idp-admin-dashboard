@@ -87,7 +87,7 @@ function FormFieldWrapper({
 }
 
 export default function AuthSettingsSection() {
-  const { values, handleChange, setFieldValue } = useFormikContext<any>();
+  const { values, handleChange } = useFormikContext<any>();
   const [showSecret, setShowSecret] = useState(false);
   const theme = useTheme();
 

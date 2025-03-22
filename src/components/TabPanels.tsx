@@ -1,49 +1,69 @@
+// components/ui/StyledTabs.tsx
 import React from "react";
-import { Box, Tab } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Box, Tabs, Tab, useTheme, alpha } from "@mui/material";
 
 export type TabElement = {
   label: string;
   node: React.ReactNode;
 };
 
-export type TabsProps = {
+export type StyledTabsProps = {
   elements: TabElement[];
 };
 
-export const TabPanels = ({ elements }: TabsProps) => {
+export const TabPanels = ({ elements }: StyledTabsProps) => {
   const [showIndex, setShowIndex] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newIndex: number) => {
-    console.log(newIndex);
-    setShowIndex(newIndex);
-  };
+  const theme = useTheme();
 
   return (
     <Box>
-      <TabContext value={showIndex}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            {elements.map((element, index) => {
-              return (
-                <Tab
-                  key={index}
-                  value={index}
-                  label={element.label}
-                  sx={{ textTransform: "none" }}
-                />
-              );
-            })}
-          </TabList>
-        </Box>
-        {elements.map((element, index) => {
-          return (
-            <TabPanel key={index} value={index}>
-              {element.node}
-            </TabPanel>
-          );
-        })}
-      </TabContext>
+      {/* Tab List */}
+      <Tabs
+        value={showIndex}
+        onChange={(_, newIndex) => setShowIndex(newIndex)}
+        variant="scrollable"
+        scrollButtons="auto"
+        sx={{
+          borderBottom: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+          mb: 3,
+        }}
+      >
+        {elements.map((element, index) => (
+          <Tab
+            key={index}
+            label={element.label}
+            value={index}
+            disableRipple
+            sx={{
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: "0.95rem",
+              px: 2,
+              color: theme.palette.text.secondary,
+              "&.Mui-selected": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                backgroundColor: alpha(theme.palette.action.hover, 0.05),
+              },
+            }}
+          />
+        ))}
+      </Tabs>
+
+      {/* Tab Panels */}
+      <Box>
+        {elements.map((element, index) => (
+          <Box
+            key={index}
+            role="tabpanel"
+            hidden={showIndex !== index}
+            sx={{ pt: 2 }}
+          >
+            {showIndex === index && element.node}
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };

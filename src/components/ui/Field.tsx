@@ -74,7 +74,7 @@ export default function Field({
           disabled={disabled}
           placeholder={placeholder}
           error={hasError}
-          helperText={hasError ? errors[name] : " "}
+          // helperText={hasError ? errors[name] : " "}
           variant="outlined"
           sx={{
             "& input": { fontSize: "0.925rem" },

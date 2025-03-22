@@ -3,9 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { systemAlertAtom } from "@/state/SystemState";
-import { Box, TextField, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Loading } from "@/components/Loading";
-import { TabPanels } from "@/components/TabPanels";
 import { useApplications } from "@/hooks/useApplications";
 import { ApplicationForm } from "@/components/applications/ApplicationForm";
 
