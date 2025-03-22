@@ -17,20 +17,24 @@ import { tenantConfigTemplate } from "@/app/onboarding/tenantConfigTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { signOut, useSession } from "next-auth/react";
 import { Logout } from "@mui/icons-material";
+import { backendUrl } from "@/app/auth";
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();
   const router = useRouter();
-  const [tenantName, setTenantName] = useState("");
+  const [name, setName] = useState("");
   const { postRegistration } = useOnboarding();
 
   const handleNext = async () => {
     const requestBody = {
-      tenant_name: "test",
-      organization_name: "test",
-      server_config: JSON.stringify(tenantConfigTemplate),
+      tenant_name: name,
+      organization_name: name,
+      server_domain: backendUrl,
+      server_configuration: JSON.stringify(tenantConfigTemplate),
     };
+
     const { payload, error } = await postRegistration(requestBody);
+
     if (payload && !error) {
       const newSession = await update({
         ...session,
@@ -40,6 +44,7 @@ const InitialSetting = () => {
             ? payload.assignedTenants[0].id
             : undefined,
       });
+
       console.log("newSession", newSession);
       router.push("/activity");
       return;
@@ -111,9 +116,9 @@ const InitialSetting = () => {
               label="Tenant Name"
               name="tenantName"
               placeholder="Enter your tenant name"
-              value={tenantName}
+              value={name}
               inputMode="text"
-              onChange={(e) => setTenantName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               fullWidth
               variant="outlined"
             />

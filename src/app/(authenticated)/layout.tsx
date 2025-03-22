@@ -17,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
+
   const menuItems = [
     { text: "Getting Started", icon: <Start />, path: "/getting-started" },
     { text: "Playground", icon: <PlayCircleOutline />, path: "/playground" },

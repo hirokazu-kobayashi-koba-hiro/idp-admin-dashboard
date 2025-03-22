@@ -7,7 +7,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import { Loading } from "@/components/Loading";
 import { TabPanels } from "@/components/TabPanels";
 import { useApplications } from "@/hooks/useApplications";
-import { ApplicationBasic } from "@/components/applications/ApplicationBasic";
+import { ApplicationForm } from "@/components/applications/ApplicationForm";
 
 const ApplicationEditionPage = ({
   params,
@@ -48,32 +48,9 @@ const ApplicationEditionPage = ({
   }
   console.log("application", data);
 
-  const elements = [
-    {
-      label: "Basic",
-      node: <ApplicationBasic application={data} />,
-    },
-    {
-      label: "Authorization",
-      node: (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            maxWidth: 400,
-            margin: "0 auto",
-          }}
-        >
-          <TextField variant="standard" value={"authorization"} />
-        </Box>
-      ),
-    },
-  ];
-
   return (
     <>
-      <TabPanels elements={elements} />
+      <ApplicationForm initialApplication={data} />
     </>
   );
 };

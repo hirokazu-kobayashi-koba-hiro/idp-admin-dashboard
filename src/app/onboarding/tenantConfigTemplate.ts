@@ -1,4 +1,5 @@
 export const tenantConfigTemplate = {
+  tenant_id: "TENANT_ID",
   issuer: "IDP_ISSUER",
   authorization_endpoint: "IDP_ISSUER/api/v1/authorizations",
   token_endpoint: "IDP_ISSUER/api/v1/tokens",
