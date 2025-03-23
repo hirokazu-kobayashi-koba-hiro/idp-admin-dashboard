@@ -1,4 +1,5 @@
 import { convertToCamel } from "@/functions/convertToCamel";
+import {convertToSnake} from "@/functions/convertToSnake";
 
 export const useApplications = () => {
   const postApplication = async (request: any) => {
@@ -49,9 +50,35 @@ export const useApplications = () => {
     };
   };
 
+  const putApplication = async (id: string, request: any, ) => {
+    const convertedRequest = convertToSnake(request)
+
+    const response = await fetch(`/api/admin/applications/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(convertedRequest),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json();
+
+      return {
+        error: {
+          type: errorResponse.error,
+          description: errorResponse.error_description,
+        },
+      };
+    }
+
+    const body = await response.json();
+    const converted = convertToCamel(body);
+    return {
+      payload: converted,
+    };
+  };
+
   return {
     postApplication,
     fetchApplications,
     fetchApplication,
+    putApplication
   };
 };

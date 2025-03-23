@@ -10,20 +10,23 @@ import {
   Paper,
   alpha,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import { Loading } from "@/components/ui/Loading";
 import { useApplications } from "@/hooks/useApplications";
 import { Edit, Delete } from "@mui/icons-material";
-import React from "react";
+import React, {useState} from "react";
 import { useRouter } from "next/navigation";
 import { DataGrid } from "@mui/x-data-grid";
+import {ConfirmationDialog} from "@/components/ui/ConfirmationDialog";
 
 const Applications = () => {
   const theme = useTheme();
   const router = useRouter();
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedApplication, setSelectedApplication] = useState("");
   const { fetchApplications } = useApplications();
 
-  const { data, isPending, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["fetchApplications"],
     queryFn: async () => {
       const { payload, error } = await fetchApplications();
@@ -32,9 +35,26 @@ const Applications = () => {
     },
   });
 
-  if (isPending) return <Loading />;
-  if (error) return <Typography>Error loading applications</Typography>;
-  if (!data) return <Typography>No applications found</Typography>;
+  const {
+    mutate,
+    isPending,
+    error: deletionError,
+  } = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/admin/applications/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Network response was not ok");
+    },
+  });
+
+  if (isLoading || isPending) return <Loading />;
+  if (error || deletionError) {
+    // @ts-ignore
+    return <Typography>Error: {(error || deletionError).message}</Typography>;
+  }
+
+
 
   const columns = [
     { field: "clientId", headerName: "Client ID", flex: 1 },
@@ -64,10 +84,16 @@ const Applications = () => {
       headerName: "",
       sortable: false,
       width: 60,
-      renderCell: () => (
-        <IconButton aria-label="Delete" onClick={() => {}}>
-          <Delete fontSize="small" />
-        </IconButton>
+      renderCell: (params: any) => (
+          <IconButton
+              onClick={() => {
+                setSelectedApplication(params.row.clientId);
+                setShowDialog(true);
+              }}
+              sx={{ color: theme.palette.error.main }}
+          >
+            <Delete />
+          </IconButton>
       ),
     },
   ];
@@ -76,6 +102,7 @@ const Applications = () => {
     id: index,
     ...item,
   }));
+
 
   return (
     <Container maxWidth="lg" sx={{ pt: 4, pb: 10 }}>
@@ -140,6 +167,24 @@ const Applications = () => {
           />
         </Box>
       </Paper>
+      {showDialog && (
+          <ConfirmationDialog
+              open={showDialog}
+              title="Confirm deletion application"
+              body={
+                <Box mx={2} my={1}>
+                  <Typography variant="body2">
+                    When you delete a application, the application data is permanently deleted.
+                  </Typography>
+                </Box>
+              }
+              onClickPositiveButton={() => {
+                setShowDialog(false);
+                mutate(selectedApplication);
+              }}
+              onClickNegativeButton={() => setShowDialog(false)}
+          />
+      )}
     </Container>
   );
 };

@@ -11,6 +11,10 @@ import ScopeSettingsSection from "@/components/applications/ScopeSettingsSection
 import TlsClientAuthSection from "@/components/applications/TlsClientAuthSection";
 import SoftwareAndLegalSection from "@/components/applications/SoftwareAndLegalSection";
 import { convertToSnake } from "@/functions/convertToSnake";
+import {useApplications} from "@/hooks/useApplications";
+import {systemAlertAtom} from "@/state/SystemState";
+import {useAtom} from "jotai";
+import {useRouter} from "next/navigation";
 
 export const initialValues = {
   clientId: "",
@@ -54,6 +58,11 @@ export const ApplicationForm = ({
 }: {
   initialApplication: any;
 }) => {
+  const { putApplication } = useApplications()
+  const [, setSystemAlert] = useAtom(systemAlertAtom);
+  const router = useRouter();
+
+
   const elements = [
     {
       label: "Basic",
@@ -92,23 +101,25 @@ export const ApplicationForm = ({
   return (
     <Formik
       initialValues={initialApplication}
-      onSubmit={async (values) => {
-        const convertedValues = convertToSnake(values);
-        console.log("Submitting", convertedValues);
-        // Send to backend
-        const response = await fetch(
-          `/api/admin/applications/${initialApplication.clientId}`,
-          {
-            method: "PUT",
-            body: JSON.stringify(convertedValues),
-          },
-        );
+      onSubmit={async (values) => {// Send to backend
+        const { payload, error} = await putApplication(initialApplication.clientId, values)
 
-        console.log(response.status);
-
-        if (!response.ok) {
-          console.error("error");
+        if (!payload && error) {
+          setSystemAlert({
+            open: true,
+            title: error?.type || "error",
+            body: error?.description || "unexpected error",
+            onClickPositiveButton: () => {
+              console.log("onClickPositiveButton");
+            },
+            onClickNegativeButton: () => {
+              console.log("onClickNegativeButton");
+            },
+          })
+          return
         }
+
+        router.push("/applications")
       }}
     >
       {() => (
