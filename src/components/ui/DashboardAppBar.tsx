@@ -54,7 +54,7 @@ export default function DashboardAppBar({ sidebarWidth = 240 }: { sidebarWidth?:
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Avatar sx={{ width: 32, height: 32 }} />
+                    <Avatar src={session?.user?.image || ""} sx={{ width: 32, height: 32 }} />
                     <Typography variant="body2" color="text.secondary">
                         {session?.user?.email}
                     </Typography>
