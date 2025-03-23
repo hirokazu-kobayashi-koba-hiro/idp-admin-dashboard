@@ -12,7 +12,7 @@ import {
   Container,
   Stack,
 } from "@mui/material";
-import { TabPanels } from "@/components/TabPanels";
+import { TabPanels } from "@/components/ui/TabPanels";
 import { Subscription } from "@/components/settings/Subscription";
 import { Payment } from "@/components/settings/Payment";
 

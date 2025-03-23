@@ -6,15 +6,15 @@ import {
   CssBaseline,
   Toolbar,
 } from "@mui/material";
-import { MenuItem, Sidebar } from "@/components/ui/Sidebar";
+import { Sidebar, SidebarSection} from "@/components/ui/Sidebar";
 
 import DashboardAppBar from "@/components/ui/DashboardAppBar";
 
 const DashboardLayout = ({
-  menuItems,
+  sidebarSections,
   children,
 }: {
-  menuItems: MenuItem[];
+  sidebarSections: SidebarSection[];
   children: React.ReactNode;
 }) => {
   const sidebarWidth = 240
@@ -24,7 +24,7 @@ const DashboardLayout = ({
       <CssBaseline />
       <DashboardAppBar sidebarWidth={sidebarWidth}/>
       <Sidebar
-        menuItems={menuItems}
+        sections={sidebarSections}
         open={true}
         onClose={() => {
           // setIsOpen(false)

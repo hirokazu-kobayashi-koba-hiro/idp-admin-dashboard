@@ -5,7 +5,7 @@ import BasicInfoSection from "@/components/applications/BasicInfoSection";
 import AuthSettingsSection from "@/components/applications/AuthSettingsSection";
 import UriSettingsSection from "@/components/applications/UriSettingsSection";
 import CibaSettingsSection from "@/components/applications/CibaSettingsSection";
-import { TabPanels } from "@/components/TabPanels";
+import { TabPanels } from "@/components/ui/TabPanels";
 import EncryptionSettingsSection from "@/components/applications/EncryptionSettingsSection";
 import ScopeSettingsSection from "@/components/applications/ScopeSettingsSection";
 import TlsClientAuthSection from "@/components/applications/TlsClientAuthSection";

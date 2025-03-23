@@ -13,7 +13,7 @@ import {
   useTheme,
   alpha,
 } from "@mui/material";
-import { CodeSnippet } from "@/components/CodeSnippet";
+import { CodeSnippet } from "@/components/ui/CodeSnippet";
 import { decodeJwt } from "@/functions/oauth";
 import { frontendUrl } from "@/app/auth";
 
@@ -42,7 +42,7 @@ export default function GettingStartedDemo() {
     scope: "openid profile email",
     responseType: "code",
     grantType: "authorization_code",
-    authEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/v1/authorizations`,
+    authEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/authorizations`,
     tokenEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/tokens`,
     userinfoEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/userinfo`,
     clientSecret: process.env.NEXT_IDP_ADMIN_DASHBOARD_CLIENT_SECRET,
@@ -64,7 +64,6 @@ export default function GettingStartedDemo() {
 
   const handleNext = () =>
     setActiveStep((prev) => Math.min(prev + 1, steps.length - 1));
-  // const handleBack = () => setActiveStep((prev) => Math.max(prev - 1, 0));
 
   const StepSection = ({ children }: { children: React.ReactNode }) => (
     <Box
@@ -119,9 +118,7 @@ export default function GettingStartedDemo() {
                   window.location.href = authUrl;
                   logMessage(`[Step 1] Request Authorization: ${authUrl}`);
                 }}
-                sx={{
-
-                }}
+                sx={{ textTransform: "none" }}
               >
                 Start Authorization
               </Button>
@@ -140,7 +137,7 @@ export default function GettingStartedDemo() {
               codeLanguage="bash"
             />
             <Box textAlign="right">
-              <Button variant="contained" onClick={handleNext}>
+              <Button variant="contained" onClick={handleNext} sx={{ textTransform: "none" }}>
                 Continue
               </Button>
             </Box>
@@ -183,6 +180,7 @@ export default function GettingStartedDemo() {
                   );
                   handleNext();
                 }}
+                sx={{ textTransform: "none" }}
               >
                 Request Token
               </Button>
@@ -199,7 +197,7 @@ export default function GettingStartedDemo() {
               codeLanguage="json"
             />
             <Box textAlign="right">
-              <Button variant="contained" onClick={handleNext}>
+              <Button variant="contained" onClick={handleNext} sx={{ textTransform: "none" }}>
                 Decode ID Token
               </Button>
             </Box>
@@ -230,6 +228,7 @@ export default function GettingStartedDemo() {
                   logMessage(`[Step 5] Userinfo: ${JSON.stringify(body)}`);
                   handleNext();
                 }}
+                sx={{ textTransform: "none" }}
               >
                 Fetch Userinfo
               </Button>
@@ -248,7 +247,7 @@ export default function GettingStartedDemo() {
               codeLanguage="json"
             />
             <Box textAlign="right">
-              <Button variant="contained" onClick={() => setActiveStep(0)}>
+              <Button variant="contained" onClick={() => setActiveStep(0)} sx={{ textTransform: "none" }}>
                 Reset
               </Button>
             </Box>

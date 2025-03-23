@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "@/app/api/admin/users/route";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { Delete, Edit } from "@mui/icons-material";
-import { ConfirmationDialog } from "@/components/ConfirmationDialog";
+import { ConfirmationDialog } from "@/components/ui/ConfirmationDialog";
 import { useRouter } from "next/navigation";
 import { systemAlertAtom } from "@/state/SystemState";
 import { useAtom } from "jotai";
