@@ -57,7 +57,7 @@ const IdpServer = (options: any) => ({
     },
     userinfo: {
       async request(context: any) {
-        console.log("--------------- userinfo ------------------------")
+        console.log("--------------- userinfo ------------------------");
         console.log(context.params);
         const { access_token, refresh_token, expires_at, id_token } =
           context.params;
@@ -87,9 +87,9 @@ const IdpServer = (options: any) => ({
       },
     },
     profile: (profile: any) => {
-      console.log("--------------- profile ------------------------")
+      console.log("--------------- profile ------------------------");
       const converted = convertToCamel(profile);
-      console.log(converted)
+      console.log(converted);
 
       return {
         id: profile.sub,
@@ -126,7 +126,7 @@ export const { handlers, auth } = NextAuth({
       }
 
       if (profile) {
-        token.picture = profile.picture
+        token.picture = profile.picture;
       }
 
       //FIXME consider logic
@@ -164,7 +164,7 @@ export const { handlers, auth } = NextAuth({
         session.accessToken = token.accessToken;
         session.tenantId = token.tenantId;
         session.organizationId = token.organizationId;
-        session.user.image = token.picture
+        session.user.image = token.picture;
       }
       return session;
     },

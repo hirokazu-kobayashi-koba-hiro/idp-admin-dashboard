@@ -10,6 +10,7 @@ import EncryptionSettingsSection from "@/components/applications/EncryptionSetti
 import ScopeSettingsSection from "@/components/applications/ScopeSettingsSection";
 import TlsClientAuthSection from "@/components/applications/TlsClientAuthSection";
 import SoftwareAndLegalSection from "@/components/applications/SoftwareAndLegalSection";
+import { convertToSnake } from "@/functions/convertToSnake";
 
 export const initialValues = {
   clientId: "",
@@ -91,9 +92,23 @@ export const ApplicationForm = ({
   return (
     <Formik
       initialValues={initialApplication}
-      onSubmit={(values) => {
-        console.log("Submitting", values);
+      onSubmit={async (values) => {
+        const convertedValues = convertToSnake(values);
+        console.log("Submitting", convertedValues);
         // Send to backend
+        const response = await fetch(
+          `/api/admin/applications/${initialApplication.clientId}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(convertedValues),
+          },
+        );
+
+        console.log(response.status);
+
+        if (!response.ok) {
+          console.error("error");
+        }
       }}
     >
       {() => (

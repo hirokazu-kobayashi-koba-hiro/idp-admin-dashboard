@@ -25,18 +25,19 @@ export function FormField({
       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
         {label}
       </Typography>
-      {description && (
+      <Box minHeight={description ? undefined : 24}>
         <Typography
           variant="body2"
           sx={{
             fontSize: "0.75rem",
             color: "text.secondary",
             mb: 1,
+            visibility: description ? "visible" : "hidden",
           }}
         >
-          {description}
+          {description || "placeholder"}
         </Typography>
-      )}
+      </Box>
       <TextField
         fullWidth
         size="small"

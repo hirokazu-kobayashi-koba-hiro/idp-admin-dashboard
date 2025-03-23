@@ -69,7 +69,6 @@ export default function RootLayout({
     },
   ];
 
-
   const resetSystemAlertState = () => {
     setSystemAlert({
       open: false,
@@ -82,7 +81,9 @@ export default function RootLayout({
 
   return (
     <>
-      <DashboardLayout sidebarSections={sidebarSections}>{children}</DashboardLayout>
+      <DashboardLayout sidebarSections={sidebarSections}>
+        {children}
+      </DashboardLayout>
       {systemAlert.open && (
         <SystemAlertDialog
           open={systemAlert.open}

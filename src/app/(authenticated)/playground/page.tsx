@@ -91,8 +91,9 @@ export default function GettingStartedDemo() {
         OpenID Connect Playground
       </Typography>
       <Typography variant="body1" color="text.secondary" mb={3}>
-        Use this playground to simulate OpenID Connect authorization flows, inspect tokens,
-        and test client configurations in a sandboxed environment.
+        Use this playground to simulate OpenID Connect authorization flows,
+        inspect tokens, and test client configurations in a sandboxed
+        environment.
       </Typography>
 
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -141,7 +142,11 @@ export default function GettingStartedDemo() {
               codeLanguage="bash"
             />
             <Box textAlign="right">
-              <Button variant="contained" onClick={handleNext} sx={{ textTransform: "none" }}>
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                sx={{ textTransform: "none" }}
+              >
                 Continue
               </Button>
             </Box>
@@ -201,7 +206,11 @@ export default function GettingStartedDemo() {
               codeLanguage="json"
             />
             <Box textAlign="right">
-              <Button variant="contained" onClick={handleNext} sx={{ textTransform: "none" }}>
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                sx={{ textTransform: "none" }}
+              >
                 Decode ID Token
               </Button>
             </Box>
@@ -251,7 +260,11 @@ export default function GettingStartedDemo() {
               codeLanguage="json"
             />
             <Box textAlign="right">
-              <Button variant="contained" onClick={() => setActiveStep(0)} sx={{ textTransform: "none" }}>
+              <Button
+                variant="contained"
+                onClick={() => setActiveStep(0)}
+                sx={{ textTransform: "none" }}
+              >
                 Reset
               </Button>
             </Box>

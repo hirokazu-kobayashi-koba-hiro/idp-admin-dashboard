@@ -16,7 +16,7 @@ import { tenantConfigTemplate } from "@/app/onboarding/tenantConfigTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { backendUrl } from "@/app/auth";
 import DashboardAppBar from "@/components/ui/DashboardAppBar";
-import {useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();

@@ -39,19 +39,24 @@ export default function BasicInfoSection() {
         </Typography>
 
         <Grid container spacing={2}>
-          {/* Client info */}
+          {/* Identifiers (Read-only) */}
           <Grid item xs={12} sm={6}>
-            <FormField
-              label="Client ID Alias"
-              name="clientIdAlias"
-              description="An alternate human-readable name for this client."
-            />
+            <FormField label="Client ID" name="clientId" />
           </Grid>
+
+          {/* Basic display info */}
           <Grid item xs={12} sm={6}>
             <FormField
               label="Client Name"
               name="clientName"
               description="Displayed to users on the consent screen and admin interfaces."
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormField
+              label="Client ID Alias"
+              name="clientIdAlias"
+              description="An alternate human-readable name for this client."
             />
           </Grid>
 
@@ -80,17 +85,6 @@ export default function BasicInfoSection() {
               name="contacts"
               description="Comma-separated email addresses for notifications and support."
             />
-          </Grid>
-
-          {/* Read-only / metadata */}
-          <Grid item xs={12} sm={4}>
-            <FormField label="Client ID" name="clientId" />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormField label="Tenant ID" name="tenantId" />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormField label="Issuer" name="issuer" />
           </Grid>
         </Grid>
       </Box>

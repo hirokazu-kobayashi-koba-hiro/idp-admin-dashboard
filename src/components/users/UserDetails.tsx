@@ -2,9 +2,7 @@ import { Grid } from "@mui/material";
 import { SettingCardGrid } from "@/components/ui/SettingCardGrid";
 import { FormField } from "@/components/ui/FormField";
 
-
 export const UserDetails = () => {
-
   return (
     <>
       <SettingCardGrid title={"detail"}>
