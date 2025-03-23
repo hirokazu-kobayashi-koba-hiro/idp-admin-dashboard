@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -7,9 +8,10 @@ import {
   StepLabel,
   Stepper,
   Typography,
-  Paper,
   Container,
-  Grid,
+  Stack,
+  useTheme,
+  alpha,
 } from "@mui/material";
 import { CodeSnippet } from "@/components/CodeSnippet";
 import { decodeJwt } from "@/functions/oauth";
@@ -24,9 +26,17 @@ const steps = [
   "Getting Userinfo",
 ];
 
-function OidcPlayground() {
+export default function GettingStartedDemo() {
   const [activeStep, setActiveStep] = useState(0);
-  const [oidcParams] = useState({
+  const [logs, setLogs] = useState<string[]>([]);
+  const [authCode, setAuthCode] = useState("");
+  const [tokenResponse, setTokenResponse] = useState<any>(null);
+  const [decodedIdToken, setDecodedIdToken] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<any>(null);
+
+  const theme = useTheme();
+
+  const oidcParams = {
     clientId: "clientSecretBasic2",
     redirectUri: `${frontendUrl}/playground`,
     scope: "openid profile email",
@@ -36,262 +46,223 @@ function OidcPlayground() {
     tokenEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/tokens`,
     userinfoEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/userinfo`,
     clientSecret: process.env.NEXT_IDP_ADMIN_DASHBOARD_CLIENT_SECRET,
-  });
-
-  const [logs, setLogs] = useState([]);
-  const [authCode, setAuthCode] = useState("");
-  const [tokenResponse, setTokenResponse] = useState<any>(null);
-  const [decodedIdToken, setDecodedIdToken] = useState<any>(null);
-  const [userInfo, setUserInfo] = useState(null);
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     if (code) {
       setAuthCode(code);
-      // @ts-ignore
-      setLogs([`[Step 2] authorization code: ${code}`]);
+      setLogs([`[Step 2] Authorization Code: ${code}`]);
       setActiveStep(2);
     }
-  }, [logs.length]);
+  }, []);
 
-  const handleBack = () => {
-    if (activeStep > 0) {
-      setActiveStep(activeStep - 1);
-    }
-  };
-
-  const gotoNext = () => {
-    if (activeStep === 5) {
-      setActiveStep(0);
-    } else {
-      setActiveStep(activeStep + 1);
-    }
-  };
-
-  const logMessage = (message: any) => {
-    // @ts-ignore
+  const logMessage = (message: string) => {
     setLogs((prev) => [...prev, message]);
   };
 
+  const handleNext = () =>
+    setActiveStep((prev) => Math.min(prev + 1, steps.length - 1));
+  // const handleBack = () => setActiveStep((prev) => Math.max(prev - 1, 0));
+
+  const StepSection = ({ children }: { children: React.ReactNode }) => (
+    <Box
+      sx={{
+        p: 4,
+        borderRadius: 4,
+        backgroundColor:
+          theme.palette.mode === "light"
+            ? "#fcfcfd"
+            : alpha(theme.palette.common.white, 0.03),
+        border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+        boxShadow:
+          theme.palette.mode === "light"
+            ? "0 4px 12px rgba(0,0,0,0.02)"
+            : "0 0 0 1px rgba(255,255,255,0.05)",
+      }}
+    >
+      <Stack spacing={3}>{children}</Stack>
+    </Box>
+  );
+
   return (
-    <Container maxWidth="lg" sx={{ mt: 1 }}>
-      <Typography variant="h4" gutterBottom>
+    <Container maxWidth="md" sx={{ py: 6 }}>
+      <Typography variant="h5" fontWeight={600} mb={4}>
         OpenID Connect Playground
       </Typography>
+
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => (
-          <Step key={index}>
+        {steps.map((label) => (
+          <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            {activeStep === 0 && (
-              <>
-                <Box>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      const authUrl = `${oidcParams.authEndpoint}?client_id=${oidcParams.clientId}&redirect_uri=${encodeURIComponent(oidcParams.redirectUri)}&response_type=${oidcParams.responseType}&scope=${encodeURIComponent(oidcParams.scope)}`;
-                      window.location.href = authUrl;
-                      logMessage(`[Step 1] request authorization: ${authUrl}`);
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <CodeSnippet
-                  title={"AuthorizationEndpoint"}
-                  code={oidcParams.authEndpoint}
-                  codeLanguage={"javascript"}
-                />
-              </>
-            )}
-            {activeStep === 1 && (
-              <>
-                <Box>
-                  <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      gotoNext();
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <CodeSnippet
-                  title={"AuthorizationCode"}
-                  code={authCode}
-                  codeLanguage={"javascript"}
-                />
-              </>
-            )}
-            {activeStep === 2 && (
-              <>
-                <Box>
-                  <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={async () => {
-                      const response = await fetch("/api/playground/token", {
-                        method: "POST",
-                        body: JSON.stringify({
-                          url: oidcParams.tokenEndpoint,
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                          },
-                          body: {
-                            client_id: oidcParams.clientId,
-                            code: authCode || "",
-                            redirect_uri: oidcParams.redirectUri,
-                            grant_type: oidcParams.grantType,
-                          },
-                        }),
-                      });
-                      if (!response.ok) {
-                        console.log(response);
-                        return;
-                      }
-                      const body = await response.json();
-                      console.log(body);
-                      logMessage(`[Step 3] Token : ${JSON.stringify(body)}`);
-                      setTokenResponse(body);
-                      const idToken = body.id_token;
-                      const decodedIdToken = decodeJwt(idToken);
-                      setDecodedIdToken(decodedIdToken);
-                      gotoNext();
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <CodeSnippet
-                  title={"TokenEndpoint"}
-                  code={oidcParams.tokenEndpoint}
-                  codeLanguage={"json"}
-                />
-              </>
-            )}
-            {activeStep === 3 && (
-              <>
-                <Box>
-                  <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      logMessage(
-                        `[Step 4] Decoded IDToken : ${JSON.stringify(decodedIdToken)}`,
-                      );
-                      gotoNext();
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <CodeSnippet
-                  title={"TokenResponse"}
-                  code={JSON.stringify(tokenResponse, null, 2)}
-                  codeLanguage={"json"}
-                />
-              </>
-            )}
-            {activeStep === 4 && (
-              <>
-                <Box>
-                  <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={async () => {
-                      const response = await fetch("/api/playground/userinfo", {
-                        method: "POST",
-                        body: JSON.stringify({
-                          url: oidcParams.userinfoEndpoint,
-                          accessToken: tokenResponse?.access_token,
-                        }),
-                      });
-                      if (!response.ok) {
-                        console.log(response);
-                        return;
-                      }
-                      const body = await response.json();
-                      setUserInfo(body);
-                      logMessage(`[Step 5] Userinfo : ${JSON.stringify(body)}`);
-                      gotoNext();
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <CodeSnippet
-                  title={"Decoded IDToken"}
-                  code={JSON.stringify(decodedIdToken, null, 2)}
-                  codeLanguage={"json"}
-                />
-              </>
-            )}
-            {activeStep === 5 && (
-              <>
-                <Box>
-                  <Button onClick={handleBack} sx={{ mr: 1 }}>
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={async () => {
-                      gotoNext();
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <CodeSnippet
-                  title={"Userinfo"}
-                  code={JSON.stringify(userInfo, null, 2)}
-                  codeLanguage={"json"}
-                />
-              </>
-            )}
-            <Box mt={2}>
-              <CodeSnippet
-                title={"logs"}
-                code={logs.map((log) => log).join("\n")}
-                codeLanguage={"array"}
-              />
+
+      <Box mt={4}>
+        {activeStep === 0 && (
+          <StepSection>
+            <Typography variant="subtitle1">
+              Step 1: Authorization Request
+            </Typography>
+            <CodeSnippet
+              title="Authorization Endpoint"
+              code={oidcParams.authEndpoint}
+              codeLanguage="bash"
+            />
+            <Box textAlign="right">
+              <Button
+                variant="contained"
+                onClick={() => {
+                  const authUrl = `${oidcParams.authEndpoint}?client_id=${oidcParams.clientId}&redirect_uri=${encodeURIComponent(oidcParams.redirectUri)}&response_type=${oidcParams.responseType}&scope=${encodeURIComponent(oidcParams.scope)}`;
+                  window.location.href = authUrl;
+                  logMessage(`[Step 1] Request Authorization: ${authUrl}`);
+                }}
+                sx={{
+
+                }}
+              >
+                Start Authorization
+              </Button>
             </Box>
-          </Paper>
-        </Grid>
-      </Grid>
+          </StepSection>
+        )}
+
+        {activeStep === 1 && (
+          <StepSection>
+            <Typography variant="subtitle1">
+              Step 2: Authorization Code
+            </Typography>
+            <CodeSnippet
+              title="Authorization Code"
+              code={authCode}
+              codeLanguage="bash"
+            />
+            <Box textAlign="right">
+              <Button variant="contained" onClick={handleNext}>
+                Continue
+              </Button>
+            </Box>
+          </StepSection>
+        )}
+
+        {activeStep === 2 && (
+          <StepSection>
+            <Typography variant="subtitle1">Step 3: Token Request</Typography>
+            <CodeSnippet
+              title="Token Endpoint"
+              code={oidcParams.tokenEndpoint}
+              codeLanguage="bash"
+            />
+            <Box textAlign="right">
+              <Button
+                variant="contained"
+                onClick={async () => {
+                  const response = await fetch("/api/playground/token", {
+                    method: "POST",
+                    body: JSON.stringify({
+                      url: oidcParams.tokenEndpoint,
+                      headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                      },
+                      body: {
+                        client_id: oidcParams.clientId,
+                        code: authCode,
+                        redirect_uri: oidcParams.redirectUri,
+                        grant_type: oidcParams.grantType,
+                      },
+                    }),
+                  });
+                  const body = await response.json();
+                  setTokenResponse(body);
+                  const decoded = decodeJwt(body.id_token);
+                  setDecodedIdToken(decoded);
+                  logMessage(
+                    `[Step 3] Token Response: ${JSON.stringify(body)}`,
+                  );
+                  handleNext();
+                }}
+              >
+                Request Token
+              </Button>
+            </Box>
+          </StepSection>
+        )}
+
+        {activeStep === 3 && tokenResponse && (
+          <StepSection>
+            <Typography variant="subtitle1">Step 4: Token Response</Typography>
+            <CodeSnippet
+              title="Token Response"
+              code={JSON.stringify(tokenResponse, null, 2)}
+              codeLanguage="json"
+            />
+            <Box textAlign="right">
+              <Button variant="contained" onClick={handleNext}>
+                Decode ID Token
+              </Button>
+            </Box>
+          </StepSection>
+        )}
+
+        {activeStep === 4 && decodedIdToken && (
+          <StepSection>
+            <Typography variant="subtitle1">Step 5: Decoded IDToken</Typography>
+            <CodeSnippet
+              title="Decoded IDToken"
+              code={JSON.stringify(decodedIdToken, null, 2)}
+              codeLanguage="json"
+            />
+            <Box textAlign="right">
+              <Button
+                variant="contained"
+                onClick={async () => {
+                  const response = await fetch("/api/playground/userinfo", {
+                    method: "POST",
+                    body: JSON.stringify({
+                      url: oidcParams.userinfoEndpoint,
+                      accessToken: tokenResponse?.access_token,
+                    }),
+                  });
+                  const body = await response.json();
+                  setUserInfo(body);
+                  logMessage(`[Step 5] Userinfo: ${JSON.stringify(body)}`);
+                  handleNext();
+                }}
+              >
+                Fetch Userinfo
+              </Button>
+            </Box>
+          </StepSection>
+        )}
+
+        {activeStep === 5 && userInfo && (
+          <StepSection>
+            <Typography variant="subtitle1">
+              Step 6: Userinfo Response
+            </Typography>
+            <CodeSnippet
+              title="Userinfo"
+              code={JSON.stringify(userInfo, null, 2)}
+              codeLanguage="json"
+            />
+            <Box textAlign="right">
+              <Button variant="contained" onClick={() => setActiveStep(0)}>
+                Reset
+              </Button>
+            </Box>
+          </StepSection>
+        )}
+
+        <Box mt={4}>
+          <CodeSnippet
+            title="Logs"
+            code={logs.join("\n")}
+            codeLanguage="text"
+          />
+        </Box>
+      </Box>
     </Container>
   );
 }
-
-const GettingStartedDemo = () => {
-  return (
-    <>
-      <Container maxWidth="md" style={{ marginTop: "2rem" }}>
-        <OidcPlayground />
-      </Container>
-    </>
-  );
-};
-
-export default GettingStartedDemo;

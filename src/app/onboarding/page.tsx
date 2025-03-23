@@ -10,6 +10,8 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useTheme,
+  alpha,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -17,20 +19,25 @@ import { tenantConfigTemplate } from "@/app/onboarding/tenantConfigTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { signOut, useSession } from "next-auth/react";
 import { Logout } from "@mui/icons-material";
+import { backendUrl } from "@/app/auth";
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();
   const router = useRouter();
-  const [tenantName, setTenantName] = useState("");
+  const [name, setName] = useState("");
   const { postRegistration } = useOnboarding();
+  const theme = useTheme();
 
   const handleNext = async () => {
     const requestBody = {
-      tenant_name: "test",
-      organization_name: "test",
-      server_config: JSON.stringify(tenantConfigTemplate),
+      tenant_name: name,
+      organization_name: name,
+      server_domain: backendUrl,
+      server_configuration: JSON.stringify(tenantConfigTemplate),
     };
+
     const { payload, error } = await postRegistration(requestBody);
+
     if (payload && !error) {
       const newSession = await update({
         ...session,
@@ -40,6 +47,7 @@ const InitialSetting = () => {
             ? payload.assignedTenants[0].id
             : undefined,
       });
+
       console.log("newSession", newSession);
       router.push("/activity");
       return;
@@ -51,78 +59,91 @@ const InitialSetting = () => {
     <>
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          <Box display="flex" alignItems="center">
-            <Typography variant="h6" noWrap>
-              Dashboard
-            </Typography>
-            <IconButton
-              onClick={async () => {
-                await signOut();
-                const logoutResponse = await fetch("/api/auth/logout");
-
-                if (logoutResponse.ok) {
-                  const { redirectUri } = await logoutResponse.json();
-                  console.log(redirectUri);
-                  if (redirectUri) {
-                    window.location.href = redirectUri;
-                  }
-                }
-              }}
-            >
-              <Logout />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Container
-        maxWidth="sm"
+        elevation={0}
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          mt: 4,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor:
+            theme.palette.mode === "light"
+              ? "#ffffff"
+              : alpha(theme.palette.common.white, 0.04),
+          color: "text.primary",
+          borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
         }}
       >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Typography variant="h6" fontWeight={600}>
+            Dashboard
+          </Typography>
+          <IconButton
+            onClick={async () => {
+              await signOut();
+              const logoutResponse = await fetch("/api/auth/logout");
+              if (logoutResponse.ok) {
+                const { redirectUri } = await logoutResponse.json();
+                if (redirectUri) {
+                  window.location.href = redirectUri;
+                }
+              }
+            }}
+          >
+            <Logout />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="sm" sx={{ pt: 14 }}>
         <Paper
+          elevation={0}
           sx={{
-            mt: 6,
-            p: 6,
+            px: 6,
+            py: 6,
             borderRadius: 4,
-            boxShadow: 3,
             textAlign: "center",
-            maxWidth: 500,
+            backgroundColor:
+              theme.palette.mode === "light"
+                ? "#fcfcfd"
+                : alpha(theme.palette.common.white, 0.035),
+            border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+            boxShadow:
+              theme.palette.mode === "light"
+                ? "0 6px 24px rgba(0,0,0,0.025)"
+                : "0 0 0 1px rgba(255,255,255,0.06)",
           }}
         >
-          <Box mb={3}>
-            <Typography variant="h4" fontWeight={600} gutterBottom>
-              Initial Setting
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Once your tenant registration is complete, you will unlock
-              seamless access to your dedicated IdP service, ensuring secure and
-              efficient authentication for your users.
-            </Typography>
-          </Box>
-          <Box mt={4} sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
+          <Typography variant="h5" fontWeight={600} gutterBottom>
+            Initial Setting
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
+            Once your tenant registration is complete, you will unlock seamless
+            access to your dedicated IdP service, ensuring secure and efficient
+            authentication for your users.
+          </Typography>
+
+          <Box
+            sx={{
+              gap: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <TextField
               label="Tenant Name"
               name="tenantName"
               placeholder="Enter your tenant name"
-              value={tenantName}
-              inputMode="text"
-              onChange={(e) => setTenantName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               fullWidth
-              variant="outlined"
+              size="small"
+              sx={{ maxWidth: 400 }}
             />
             <Button
               variant="contained"
               color="primary"
               size="large"
               onClick={handleNext}
-              sx={{ borderRadius: 2, fontWeight: "bold" }}
+              disabled={!name.trim()}
+              sx={{ borderRadius: 2, fontWeight: 600, px: 4 }}
             >
               Next
             </Button>
