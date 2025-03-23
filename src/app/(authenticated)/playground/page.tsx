@@ -90,6 +90,10 @@ export default function GettingStartedDemo() {
       <Typography variant="h5" fontWeight={600} mb={4}>
         OpenID Connect Playground
       </Typography>
+      <Typography variant="body1" color="text.secondary" mb={3}>
+        Use this playground to simulate OpenID Connect authorization flows, inspect tokens,
+        and test client configurations in a sandboxed environment.
+      </Typography>
 
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
