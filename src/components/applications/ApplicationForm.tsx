@@ -1,4 +1,4 @@
-import { Formik, Form, FieldArray } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Button } from "@mui/material";
 import BasicInfoSection from "@/components/applications/BasicInfoSection";
@@ -11,7 +11,7 @@ import ScopeSettingsSection from "@/components/applications/ScopeSettingsSection
 import TlsClientAuthSection from "@/components/applications/TlsClientAuthSection";
 import SoftwareAndLegalSection from "@/components/applications/SoftwareAndLegalSection";
 
-const initialValues = {
+export const initialValues = {
   clientId: "",
   clientIdAlias: "",
   clientName: "",
@@ -40,7 +40,7 @@ const initialValues = {
   issuer: "",
 };
 
-const validationSchema = Yup.object({
+export const validationSchema = Yup.object({
   clientIdAlias: Yup.string().required(),
   clientName: Yup.string().required(),
   redirectUris: Yup.array().of(Yup.string().url().required()),

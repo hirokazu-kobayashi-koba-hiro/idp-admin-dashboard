@@ -1,13 +1,10 @@
 import { Grid } from "@mui/material";
-import { User } from "@/app/api/admin/users/route";
 import { SettingCardGrid } from "@/components/ui/SettingCardGrid";
 import { FormField } from "@/components/ui/FormField";
 
-type UserDetailsProps = {
-  user: User;
-};
 
-export const UserDetails = (props: UserDetailsProps) => {
+export const UserDetails = () => {
+
   return (
     <>
       <SettingCardGrid title={"detail"}>

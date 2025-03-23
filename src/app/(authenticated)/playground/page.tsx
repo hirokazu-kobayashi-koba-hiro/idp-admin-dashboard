@@ -8,9 +8,7 @@ import {
   StepLabel,
   Stepper,
   Typography,
-  Paper,
   Container,
-  Grid,
   Stack,
   useTheme,
   alpha,
@@ -66,7 +64,7 @@ export default function GettingStartedDemo() {
 
   const handleNext = () =>
     setActiveStep((prev) => Math.min(prev + 1, steps.length - 1));
-  const handleBack = () => setActiveStep((prev) => Math.max(prev - 1, 0));
+  // const handleBack = () => setActiveStep((prev) => Math.max(prev - 1, 0));
 
   const StepSection = ({ children }: { children: React.ReactNode }) => (
     <Box
