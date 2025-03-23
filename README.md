@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# idp-admin-dashboard
+
+## overview
+
+* idp-admin-dashboard
+
+
+## backend-server
+
+https://github.com/hirokazu-kobayashi-koba-hiro/idp-server
 
 ## Getting Started
 
