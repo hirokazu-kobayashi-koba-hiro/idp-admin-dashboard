@@ -3,7 +3,7 @@
 import { signIn, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/components/ui/Loading";
 
 export default function AuthHandler({
   children,

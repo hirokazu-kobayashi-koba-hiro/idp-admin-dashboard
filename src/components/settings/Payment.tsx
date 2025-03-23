@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { useQueries } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { systemAlertAtom } from "@/state/SystemState";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/components/ui/Loading";
 
 export const Payment = () => {
   const [, setSystemAlert] = useAtom(systemAlertAtom);

@@ -2,14 +2,17 @@
 
 import DashboardLayout from "@/components/DashboardLayout";
 import React from "react";
-import EqualizerIcon from "@mui/icons-material/Equalizer";
-import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AppSettingsAltIcon from "@mui/icons-material/AppSettingsAlt";
 import { systemAlertAtom } from "@/state/SystemState";
-import { SystemAlertDialog } from "@/components/SystemAlertDialog";
+import { SystemAlertDialog } from "@/components/ui/SystemAlertDialog";
 import { useAtom } from "jotai";
-import { Start, PlayCircleOutline } from "@mui/icons-material";
+import {
+  PlayCircle,
+  Rocket,
+  BarChart2,
+  AppWindow,
+  Users,
+  Settings,
+} from "lucide-react";
 
 export default function RootLayout({
   children,
@@ -18,18 +21,55 @@ export default function RootLayout({
 }>) {
   const [systemAlert, setSystemAlert] = useAtom(systemAlertAtom);
 
-  const menuItems = [
-    { text: "Getting Started", icon: <Start />, path: "/getting-started" },
-    { text: "Playground", icon: <PlayCircleOutline />, path: "/playground" },
-    { text: "Activity", icon: <EqualizerIcon />, path: "/activity" },
+  const sidebarSections = [
     {
-      text: "Applications",
-      icon: <AppSettingsAltIcon />,
-      path: "/applications",
+      title: "Overview",
+      items: [
+        {
+          text: "Getting Started",
+          icon: <Rocket size={18} color="#0070f3" />, // Blue
+          path: "/getting-started",
+        },
+        {
+          text: "Playground",
+          icon: <PlayCircle size={18} color="#10b981" />, // Green
+          path: "/playground",
+        },
+        {
+          text: "Activity",
+          icon: <BarChart2 size={18} color="#6366f1" />, // Purple
+          path: "/activity",
+        },
+      ],
     },
-    { text: "Users", icon: <PeopleIcon />, path: "/users" },
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
+    {
+      title: "Management",
+      items: [
+        {
+          text: "Applications",
+          icon: <AppWindow size={18} color="#ec4899" />, // Pink
+          path: "/applications",
+        },
+        {
+          text: "Users",
+          icon: <Users size={18} color="#f59e0b" />, // Orange
+          path: "/users",
+        },
+      ],
+    },
+    {
+      title: "System",
+      items: [
+        {
+          text: "Settings",
+          icon: <Settings size={18} color="#6b7280" />, // Gray
+          path: "/settings",
+        },
+      ],
+    },
   ];
+
+
   const resetSystemAlertState = () => {
     setSystemAlert({
       open: false,
@@ -42,7 +82,7 @@ export default function RootLayout({
 
   return (
     <>
-      <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>
+      <DashboardLayout sidebarSections={sidebarSections}>{children}</DashboardLayout>
       {systemAlert.open && (
         <SystemAlertDialog
           open={systemAlert.open}

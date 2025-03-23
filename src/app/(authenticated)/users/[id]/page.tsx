@@ -13,8 +13,8 @@ import {
   alpha,
   Button,
 } from "@mui/material";
-import { Loading } from "@/components/Loading";
-import { TabPanels } from "@/components/TabPanels";
+import { Loading } from "@/components/ui/Loading";
+import { TabPanels } from "@/components/ui/TabPanels";
 import { UserDetails } from "@/components/users/UserDetails";
 import { Form, Formik } from "formik";
 

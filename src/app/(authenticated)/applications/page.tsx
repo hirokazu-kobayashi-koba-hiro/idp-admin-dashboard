@@ -11,7 +11,7 @@ import {
   alpha,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { useApplications } from "@/hooks/useApplications";
 import { Edit, Delete } from "@mui/icons-material";
 import React from "react";

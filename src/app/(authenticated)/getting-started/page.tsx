@@ -15,7 +15,7 @@ import {
   alpha,
 } from "@mui/material";
 import { SiReact, SiAndroid, SiApple } from "react-icons/si";
-import { CodeSnippet } from "@/components/CodeSnippet";
+import { CodeSnippet } from "@/components/ui/CodeSnippet";
 import { ReactTemplate } from "@/app/(authenticated)/applications/new/templates/react";
 import { AndroidTemplate } from "@/app/(authenticated)/applications/new/templates/android";
 import { iOSTemplate } from "@/app/(authenticated)/applications/new/templates/ios";

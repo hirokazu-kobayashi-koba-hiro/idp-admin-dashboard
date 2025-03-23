@@ -17,7 +17,7 @@ import {
   ShoppingCart,
 } from "@mui/icons-material";
 import React from "react";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/components/ui/Loading";
 
 export const SubscriptionDetail = (props: any) => {
   const { subscription } = props;
