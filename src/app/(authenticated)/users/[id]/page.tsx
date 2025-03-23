@@ -50,7 +50,7 @@ const UserEditionPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const elements = [
     {
       label: "Details",
-      node: <UserDetails user={user} />,
+      node: <UserDetails />,
     },
     {
       label: "Devices",
