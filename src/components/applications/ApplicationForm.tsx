@@ -10,11 +10,10 @@ import EncryptionSettingsSection from "@/components/applications/EncryptionSetti
 import ScopeSettingsSection from "@/components/applications/ScopeSettingsSection";
 import TlsClientAuthSection from "@/components/applications/TlsClientAuthSection";
 import SoftwareAndLegalSection from "@/components/applications/SoftwareAndLegalSection";
-import { convertToSnake } from "@/functions/convertToSnake";
-import {useApplications} from "@/hooks/useApplications";
-import {systemAlertAtom} from "@/state/SystemState";
-import {useAtom} from "jotai";
-import {useRouter} from "next/navigation";
+import { useApplications } from "@/hooks/useApplications";
+import { systemAlertAtom } from "@/state/SystemState";
+import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 
 export const initialValues = {
   clientId: "",
@@ -58,10 +57,9 @@ export const ApplicationForm = ({
 }: {
   initialApplication: any;
 }) => {
-  const { putApplication } = useApplications()
+  const { putApplication } = useApplications();
   const [, setSystemAlert] = useAtom(systemAlertAtom);
   const router = useRouter();
-
 
   const elements = [
     {
@@ -101,8 +99,12 @@ export const ApplicationForm = ({
   return (
     <Formik
       initialValues={initialApplication}
-      onSubmit={async (values) => {// Send to backend
-        const { payload, error} = await putApplication(initialApplication.clientId, values)
+      onSubmit={async (values) => {
+        // Send to backend
+        const { payload, error } = await putApplication(
+          initialApplication.clientId,
+          values,
+        );
 
         if (!payload && error) {
           setSystemAlert({
@@ -115,11 +117,11 @@ export const ApplicationForm = ({
             onClickNegativeButton: () => {
               console.log("onClickNegativeButton");
             },
-          })
-          return
+          });
+          return;
         }
 
-        router.push("/applications")
+        router.push("/applications");
       }}
     >
       {() => (

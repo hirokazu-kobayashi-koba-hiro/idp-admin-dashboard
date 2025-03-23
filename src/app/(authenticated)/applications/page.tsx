@@ -10,14 +10,14 @@ import {
   Paper,
   alpha,
 } from "@mui/material";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/ui/Loading";
 import { useApplications } from "@/hooks/useApplications";
 import { Edit, Delete } from "@mui/icons-material";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataGrid } from "@mui/x-data-grid";
-import {ConfirmationDialog} from "@/components/ui/ConfirmationDialog";
+import { ConfirmationDialog } from "@/components/ui/ConfirmationDialog";
 
 const Applications = () => {
   const theme = useTheme();
@@ -54,8 +54,6 @@ const Applications = () => {
     return <Typography>Error: {(error || deletionError).message}</Typography>;
   }
 
-
-
   const columns = [
     { field: "clientId", headerName: "Client ID", flex: 1 },
     { field: "clientName", headerName: "Client Name", flex: 1 },
@@ -85,15 +83,15 @@ const Applications = () => {
       sortable: false,
       width: 60,
       renderCell: (params: any) => (
-          <IconButton
-              onClick={() => {
-                setSelectedApplication(params.row.clientId);
-                setShowDialog(true);
-              }}
-              sx={{ color: theme.palette.error.main }}
-          >
-            <Delete />
-          </IconButton>
+        <IconButton
+          onClick={() => {
+            setSelectedApplication(params.row.clientId);
+            setShowDialog(true);
+          }}
+          sx={{ color: theme.palette.error.main }}
+        >
+          <Delete />
+        </IconButton>
       ),
     },
   ];
@@ -102,7 +100,6 @@ const Applications = () => {
     id: index,
     ...item,
   }));
-
 
   return (
     <Container maxWidth="lg" sx={{ pt: 4, pb: 10 }}>
@@ -168,22 +165,23 @@ const Applications = () => {
         </Box>
       </Paper>
       {showDialog && (
-          <ConfirmationDialog
-              open={showDialog}
-              title="Confirm deletion application"
-              body={
-                <Box mx={2} my={1}>
-                  <Typography variant="body2">
-                    When you delete a application, the application data is permanently deleted.
-                  </Typography>
-                </Box>
-              }
-              onClickPositiveButton={() => {
-                setShowDialog(false);
-                mutate(selectedApplication);
-              }}
-              onClickNegativeButton={() => setShowDialog(false)}
-          />
+        <ConfirmationDialog
+          open={showDialog}
+          title="Confirm deletion application"
+          body={
+            <Box mx={2} my={1}>
+              <Typography variant="body2">
+                When you delete a application, the application data is
+                permanently deleted.
+              </Typography>
+            </Box>
+          }
+          onClickPositiveButton={() => {
+            setShowDialog(false);
+            mutate(selectedApplication);
+          }}
+          onClickNegativeButton={() => setShowDialog(false)}
+        />
       )}
     </Container>
   );

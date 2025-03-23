@@ -1,5 +1,5 @@
 import { convertToCamel } from "@/functions/convertToCamel";
-import {convertToSnake} from "@/functions/convertToSnake";
+import { convertToSnake } from "@/functions/convertToSnake";
 
 export const useApplications = () => {
   const postApplication = async (request: any) => {
@@ -50,8 +50,8 @@ export const useApplications = () => {
     };
   };
 
-  const putApplication = async (id: string, request: any, ) => {
-    const convertedRequest = convertToSnake(request)
+  const putApplication = async (id: string, request: any) => {
+    const convertedRequest = convertToSnake(request);
 
     const response = await fetch(`/api/admin/applications/${id}`, {
       method: "PUT",
@@ -79,6 +79,6 @@ export const useApplications = () => {
     postApplication,
     fetchApplications,
     fetchApplication,
-    putApplication
+    putApplication,
   };
 };
