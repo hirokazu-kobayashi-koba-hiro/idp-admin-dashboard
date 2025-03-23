@@ -1,14 +1,11 @@
 "use client";
 
 import {
-  AppBar,
   Box,
   Button,
   Container,
-  IconButton,
   Paper,
   TextField,
-  Toolbar,
   Typography,
   useTheme,
   alpha,
@@ -17,9 +14,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { tenantConfigTemplate } from "@/app/onboarding/tenantConfigTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
-import { signOut, useSession } from "next-auth/react";
-import { Logout } from "@mui/icons-material";
 import { backendUrl } from "@/app/auth";
+import DashboardAppBar from "@/components/ui/DashboardAppBar";
+import {useSession} from "next-auth/react";
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();
@@ -57,40 +54,7 @@ const InitialSetting = () => {
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          backgroundColor:
-            theme.palette.mode === "light"
-              ? "#ffffff"
-              : alpha(theme.palette.common.white, 0.04),
-          color: "text.primary",
-          borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-        }}
-      >
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Typography variant="h6" fontWeight={600}>
-            Dashboard
-          </Typography>
-          <IconButton
-            onClick={async () => {
-              await signOut();
-              const logoutResponse = await fetch("/api/auth/logout");
-              if (logoutResponse.ok) {
-                const { redirectUri } = await logoutResponse.json();
-                if (redirectUri) {
-                  window.location.href = redirectUri;
-                }
-              }
-            }}
-          >
-            <Logout />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-
+      <DashboardAppBar sidebarWidth={0} />
       <Container maxWidth="sm" sx={{ pt: 14 }}>
         <Paper
           elevation={0}
