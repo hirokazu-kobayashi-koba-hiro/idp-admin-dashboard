@@ -57,6 +57,7 @@ const IdpServer = (options: any) => ({
     },
     userinfo: {
       async request(context: any) {
+        console.log("--------------- userinfo ------------------------")
         console.log(context.params);
         const { access_token, refresh_token, expires_at, id_token } =
           context.params;
@@ -86,7 +87,10 @@ const IdpServer = (options: any) => ({
       },
     },
     profile: (profile: any) => {
+      console.log("--------------- profile ------------------------")
       const converted = convertToCamel(profile);
+      console.log(converted)
+
       return {
         id: profile.sub,
         ...converted,
@@ -111,7 +115,7 @@ export const { handlers, auth } = NextAuth({
   ],
   // debug: true,
   callbacks: {
-    async jwt({ token, account, trigger, session }) {
+    async jwt({ token, account, trigger, session, profile }) {
       console.log("--------------- jwt ----------------");
       console.log(token);
       console.log(account);
@@ -119,6 +123,10 @@ export const { handlers, auth } = NextAuth({
       console.log(session);
       if (account) {
         token.accessToken = account.access_token;
+      }
+
+      if (profile) {
+        token.picture = profile.picture
       }
 
       //FIXME consider logic
@@ -156,6 +164,7 @@ export const { handlers, auth } = NextAuth({
         session.accessToken = token.accessToken;
         session.tenantId = token.tenantId;
         session.organizationId = token.organizationId;
+        session.user.image = token.picture
       }
       return session;
     },
