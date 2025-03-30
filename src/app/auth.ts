@@ -16,7 +16,7 @@ const IdpServer = (options: any) => ({
     wellKnown: `${issuer}/.well-known/openid-configuration`,
     idToken: false,
     authorization: {
-      url: `${issuer}/api/v1/authorizations`,
+      url: `${issuer}/v1/authorizations`,
       params: {
         scope: "openid profile phone email address",
         client_id: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
