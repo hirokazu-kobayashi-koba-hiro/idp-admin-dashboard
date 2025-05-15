@@ -1,7 +1,7 @@
 export const iOSTemplate = {
-  issuer: "${ISSUER}",
-  client_id: "${CLIENT_ID}",
-  client_secret: "${CLIENT_SECRET}",
+  issuer: "$ISSUER",
+  client_id: "$CLIENT_ID",
+  client_secret: "$CLIENT_SECRET",
   redirect_uris: [],
   response_types: [
     "code",
@@ -11,9 +11,7 @@ export const iOSTemplate = {
     "code token id_token",
     "token id_token",
     "code id_token",
-    "none",
-    "vp_token",
-    "vp_token id_token",
+    "none"
   ],
   grant_types: [
     "authorization_code",

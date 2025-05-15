@@ -45,6 +45,7 @@ export async function PUT(
     {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(requestBody),

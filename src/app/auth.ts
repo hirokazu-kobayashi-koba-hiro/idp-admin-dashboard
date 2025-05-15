@@ -133,12 +133,15 @@ export const { handlers, auth } = NextAuth({
       if (account?.id_token) {
         const decodedIdToken = decodeJwt(account.id_token);
         if (decodedIdToken) {
+          console.log("decodedIdToken", decodedIdToken);
+
           const { payload } = decodedIdToken;
           token.tenantId =
-            payload.organization?.assigned_tenants?.length > 0
-              ? payload.organization.assigned_tenants[0].id
+            payload?.assigned_tenants?.length > 0
+              ? payload.assigned_tenants[0]
               : undefined;
-          token.organizationId = payload.organization?.id;
+
+          console.log("tenantId", token.tenantId);
         }
       }
 

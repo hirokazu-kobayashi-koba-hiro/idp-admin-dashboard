@@ -1,7 +1,7 @@
 export const ReactTemplate = {
-  issuer: "${ISSUER}",
-  client_id: "${CLIENT_ID}",
-  client_secret: "${CLIENT_SECRET}",
+  issuer: "$ISSUER",
+  client_id: "$CLIENT_ID",
+  client_secret: "$CLIENT_SECRET",
   redirect_uris: [
     "http://localhost:3000/api/auth/callback/idp-server",
     "http://localhost:4000/api/auth/callback/idp-server",
@@ -14,9 +14,7 @@ export const ReactTemplate = {
     "code token id_token",
     "token id_token",
     "code id_token",
-    "none",
-    "vp_token",
-    "vp_token id_token",
+    "none"
   ],
   grant_types: [
     "authorization_code",

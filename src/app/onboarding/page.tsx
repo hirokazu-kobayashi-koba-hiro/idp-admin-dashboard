@@ -49,11 +49,7 @@ const InitialSetting = () => {
     if (payload && !error) {
       const newSession = await update({
         ...session,
-        organizationId: payload.id,
-        tenantId:
-          payload.assignedTenants?.length > 0
-            ? payload.assignedTenants[0].id
-            : undefined,
+        tenantId: payload.tenant.id
       });
 
       console.log("newSession", newSession);

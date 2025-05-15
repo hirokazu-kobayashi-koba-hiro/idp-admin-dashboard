@@ -5,6 +5,9 @@ export const useApplications = () => {
   const postApplication = async (request: any) => {
     const response = await fetch("/api/admin/applications", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(request),
     });
     if (!response.ok) {
@@ -16,7 +19,7 @@ export const useApplications = () => {
     const body = await response.json();
     const converted = convertToCamel(body);
     return {
-      payload: converted,
+      payload: converted.result,
     };
   };
 
@@ -55,6 +58,9 @@ export const useApplications = () => {
 
     const response = await fetch(`/api/admin/applications/${id}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(convertedRequest),
     });
     if (!response.ok) {

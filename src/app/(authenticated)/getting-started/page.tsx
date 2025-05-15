@@ -20,6 +20,7 @@ import { ReactTemplate } from "@/app/(authenticated)/applications/new/templates/
 import { AndroidTemplate } from "@/app/(authenticated)/applications/new/templates/android";
 import { iOSTemplate } from "@/app/(authenticated)/applications/new/templates/ios";
 import { useApplications } from "@/hooks/useApplications";
+import { v4 as uuidv4 } from 'uuid';
 
 const platforms = [
   {
@@ -92,9 +93,14 @@ export default function GettingStarted() {
 
   const handleCreationApplication = async () => {
     if (selectedPlatform) {
+      const requestBodyJson = JSON.stringify(selectedPlatform.template)
+          .replace("$CLIENT_ID", uuidv4())
+          .replace("$CLIENT_SECRET", uuidv4())
+
       const { payload, error } = await postApplication(
-        selectedPlatform.template,
+        JSON.parse(requestBodyJson),
       );
+
       if (payload && !error) {
         setApplication({
           issuer: payload.issuer,
