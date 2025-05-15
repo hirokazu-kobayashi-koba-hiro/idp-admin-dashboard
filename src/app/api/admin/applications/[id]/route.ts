@@ -12,7 +12,7 @@ export async function GET(
   const id = params.id;
 
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients/${id}`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/clients/${id}`,
     {
       method: "GET",
       headers: {
@@ -41,7 +41,7 @@ export async function PUT(
   const requestBody = await request.json();
 
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients/${id}`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/clients/${id}`,
     {
       method: "PUT",
       headers: {
@@ -67,7 +67,7 @@ export async function DELETE(
   const id = params.id;
 
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients/${id}`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/clients/${id}`,
     {
       method: "DELETE",
       headers: {

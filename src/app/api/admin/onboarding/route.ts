@@ -7,7 +7,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   const accessToken = session?.accessToken;
   const requestBody = await request.json();
 
-  const response = await fetch(`${backendUrl}/api/v1/management/onboarding`, {
+  const response = await fetch(`${backendUrl}/v1/management/onboarding`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,

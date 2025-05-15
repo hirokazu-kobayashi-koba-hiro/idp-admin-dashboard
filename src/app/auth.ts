@@ -18,7 +18,7 @@ const IdpServer = (options: any) => ({
     authorization: {
       url: `${issuer}/v1/authorizations`,
       params: {
-        scope: "openid profile phone email address",
+        scope: "openid profile phone email address management",
         client_id: process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID,
         response_type: "code",
       },
@@ -35,7 +35,7 @@ const IdpServer = (options: any) => ({
           client_id: process.env
             .NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID as string,
         });
-        const response = await fetch(`${issuer}/api/v1/tokens`, {
+        const response = await fetch(`${issuer}/v1/tokens`, {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -62,7 +62,7 @@ const IdpServer = (options: any) => ({
         const { access_token, refresh_token, expires_at, id_token } =
           context.params;
 
-        const response = await fetch(`${issuer}/api/v1/userinfo`, {
+        const response = await fetch(`${issuer}/v1/userinfo`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

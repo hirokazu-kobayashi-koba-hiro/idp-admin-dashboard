@@ -2,7 +2,7 @@ import { issuer } from "@/app/auth";
 
 export async function GET(): Promise<Response> {
   const response = await fetch(
-    `${issuer}/api/v1/logout?client_id=${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`,
+    `${issuer}/v1/logout?client_id=${process.env.NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID}`,
   );
 
   if (response.status === 302) {

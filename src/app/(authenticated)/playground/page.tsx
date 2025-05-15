@@ -42,9 +42,9 @@ export default function GettingStartedDemo() {
     scope: "openid profile email",
     responseType: "code",
     grantType: "authorization_code",
-    authEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/authorizations`,
-    tokenEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/tokens`,
-    userinfoEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/api/v1/userinfo`,
+    authEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/v1/authorizations`,
+    tokenEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/v1/tokens`,
+    userinfoEndpoint: `${process.env.NEXT_PUBLIC_IDP_SERVER_ISSUER}/v1/userinfo`,
     clientSecret: process.env.NEXT_IDP_ADMIN_DASHBOARD_CLIENT_SECRET,
   };
 

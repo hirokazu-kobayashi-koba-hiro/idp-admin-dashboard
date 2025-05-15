@@ -13,7 +13,7 @@ export async function GET(
   const tenantId = session?.tenantId;
   const userId = params.userId;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/users/${userId}`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/users/${userId}`,
     {
       method: "GET",
       headers: {
@@ -38,7 +38,7 @@ export async function DELETE(
   const tenantId = session?.tenantId;
   const userId = params.userId;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/users/${userId}`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/users/${userId}`,
     {
       method: "DELETE",
       headers: {

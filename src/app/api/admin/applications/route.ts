@@ -9,7 +9,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   const requestBody = await request.json();
 
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/clients`,
     {
       method: "POST",
       headers: {
@@ -27,7 +27,7 @@ export async function GET(): Promise<Response> {
   const accessToken = session?.accessToken;
   const tenantId = session?.tenantId;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/clients`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/clients`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

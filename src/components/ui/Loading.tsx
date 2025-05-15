@@ -26,7 +26,7 @@ export const Loading = () => {
         size={48}
         thickness={4}
         sx={{
-          color: "#007aff", // Appleブルー
+          color: "#007aff",
           mb: 2,
         }}
       />

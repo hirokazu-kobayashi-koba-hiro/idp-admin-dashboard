@@ -26,7 +26,7 @@ export async function GET(): Promise<Response> {
   const accessToken = session?.accessToken;
   const tenantId = session?.tenantId;
   const response = await fetch(
-    `${backendUrl}/api/v1/management/tenants/${tenantId}/users`,
+    `${backendUrl}/v1/management/tenants/${tenantId}/users`,
     {
       method: "GET",
       headers: {
