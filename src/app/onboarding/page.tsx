@@ -12,11 +12,12 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { tenantConfigTemplate } from "@/app/onboarding/tenantConfigTemplate";
+import { onboardingRequestTemplate } from "@/app/onboarding/onboardingRequestTemplate";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { backendUrl } from "@/app/auth";
 import DashboardAppBar from "@/components/ui/DashboardAppBar";
 import { useSession } from "next-auth/react";
+import { v4 as uuidv4 } from 'uuid';
 
 const InitialSetting = () => {
   const { data: session, update } = useSession();
@@ -25,13 +26,23 @@ const InitialSetting = () => {
   const { postRegistration } = useOnboarding();
   const theme = useTheme();
 
+  const createRequestBody = ( template: string, name: string, ) => {
+    const organizationId = uuidv4();
+    const tenantId = uuidv4();
+    const issuer = backendUrl + "/" + tenantId;
+    const clientId = uuidv4();
+    const clientSecret = uuidv4()
+    return JSON.parse(template.replaceAll("$NAME", name)
+        .replaceAll("$ORGANIZATION_ID", organizationId)
+        .replaceAll("$TENANT_ID", tenantId)
+        .replaceAll("$ISSUER", issuer)
+        .replaceAll("$CLIENT_ID", clientId)
+        .replaceAll("$CLIENT_SECRET", clientSecret));
+  }
+
   const handleNext = async () => {
-    const requestBody = {
-      tenant_name: name,
-      organization_name: name,
-      server_domain: backendUrl,
-      server_configuration: JSON.stringify(tenantConfigTemplate),
-    };
+
+    const requestBody = createRequestBody(JSON.stringify(onboardingRequestTemplate), name);
 
     const { payload, error } = await postRegistration(requestBody);
 
