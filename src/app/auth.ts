@@ -148,7 +148,6 @@ export const { handlers, auth } = NextAuth({
       if (trigger === "update") {
         console.log("--------------- update jwt ----------------");
         token.tenantId = session?.tenantId;
-        token.organizationId = session?.organizationId;
       }
 
       return token;
@@ -166,7 +165,6 @@ export const { handlers, auth } = NextAuth({
         session.user.customerId = "cus_RgYcKnMlSxoaHs";
         session.accessToken = token.accessToken;
         session.tenantId = token.tenantId;
-        session.organizationId = token.organizationId;
         session.user.image = token.picture;
       }
       return session;

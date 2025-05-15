@@ -13,6 +13,13 @@ export const useOnboarding = () => {
     }
     const body = await response.json();
     const converted = convertToCamel(body);
+    console.log("onboarding-response", converted);
+
+    if (converted.error) {
+      return {
+        error: converted.error,
+      };
+    }
 
     return {
       payload: converted,
