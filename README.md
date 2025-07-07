@@ -5,10 +5,14 @@
 - idp-admin-dashboard
 
 ## backend-server
-
+x
 https://github.com/hirokazu-kobayashi-koba-hiro/idp-server
 
 ## Getting Started
+
+rename env-template to .env
+
+and set AUTH_SECRET
 
 First, run the development server:
 
@@ -17,6 +21,13 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+debug
+```shell
+http://localhost:3000/invitation/?invitation_id=123&invitation_tenant_id=123
+
+http://localhost:3000/invitation/?invitation_id=41614722-b8d6-46d1-811c-2c084848c3d2&invitation_tenant_id=67e7eae6-62b0-4500-9eff-87459f63fc66
+```
 
 ### Libraries
 

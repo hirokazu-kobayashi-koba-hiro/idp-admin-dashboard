@@ -1,0 +1,10 @@
+AUTH_SECRET="xxx" # Added by `npx auth`. Read more: https://cli.authjs.dev
+
+NEXT_PUBLIC_IDP_SERVER_ISSUER=http://localhost:8080/67e7eae6-62b0-4500-9eff-87459f63fc66
+NEXT_PUBLIC_IDP_SERVER_BACKEND_URL=http://localhost:8080
+
+NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_URL=http://localhost:3000
+NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_CLIENT_ID=clientSecretBasic2
+NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_INITIAL_CALLBACK=http://localhost:3000/initial/setting
+NEXT_PUBLIC_IDP_ADMIN_DASHBOARD_INVITATION_CALLBACK=http://localhost:3000/activity
+NEXT_IDP_ADMIN_DASHBOARD_CLIENT_SECRET=clientSecretBasic2cf136dc3c1fc93f31185e5885805d1222333gogoggubaoaugaladufal2cf136dc3c1fc93f31185e5885805d1222333gogoggubaoaugaladufal
